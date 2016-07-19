@@ -1,0 +1,35 @@
+#version 400 core
+
+/*
+ * Tessellation Evaluation Shader, after Tessellation process (after TCS)
+ */
+
+//layout(triangles, equal_spacing, cw) in;
+layout(quads, equal_spacing, cw) in;
+
+in vec3 tcPosition[];
+
+out vec3 tePosition;
+out vec3 tePatchDistance;
+
+uniform mat4 ModelMatrix;
+uniform mat4 ViewMatrix;
+uniform mat4 ProjectionMatrix;
+
+void main(){
+    // Interpolate along bottom edge using x component of the
+    // tessellation coordinate
+    vec3 p1 = mix(tcPosition[0],
+                  tcPosition[3],
+                  gl_TessCoord.x);
+    // Interpolate along top edge using x component of the
+    // tessellation coordinate
+    vec3 p2 = mix(tcPosition[1],
+                  tcPosition[2],
+                  gl_TessCoord.x);
+    // Now interpolate those two results using the y component
+    // of tessellation coordinate
+    vec3 final = mix(p1, p2, gl_TessCoord.y);
+    gl_Position
+        = ProjectionMatrix * ViewMatrix * ModelMatrix * vec4(final, 1.0f);
+}

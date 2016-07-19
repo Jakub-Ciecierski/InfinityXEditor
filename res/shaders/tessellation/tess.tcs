@@ -1,0 +1,36 @@
+#version 400 core
+
+/*
+ * Tessellation Control Shader, second after Vertex Shader
+ */
+
+// Produces 3 vertices of output
+layout (vertices = 4) out;
+
+in vec3 vLocalPos[];
+
+out vec3 tcPosition[];
+
+uniform float TessLevelInner;
+uniform float TessLevelOuter;
+
+/*
+ * From opengl doc:
+ * "In the tessellation control language, gl_InvocationID contains the index of
+ * the output patch vertex assigned to the shader invocation. It is assigned
+ * an integer value in the range [0, N-1] where N is the number of output
+ * patch vertices."
+ */
+#define ID gl_InvocationID
+
+void main(){
+    tcPosition[ID] = vLocalPos[ID];
+    if (ID == 0){
+        gl_TessLevelInner[0] = TessLevelInner;
+        gl_TessLevelInner[1] = TessLevelInner;
+        gl_TessLevelOuter[0] = TessLevelOuter;
+        gl_TessLevelOuter[1] = TessLevelOuter;
+        gl_TessLevelOuter[2] = TessLevelOuter;
+        gl_TessLevelOuter[3] = TessLevelOuter;
+    }
+}

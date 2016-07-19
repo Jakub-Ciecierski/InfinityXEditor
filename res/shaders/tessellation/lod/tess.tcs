@@ -1,0 +1,106 @@
+#version 400 core
+
+/*
+ * Tessellation Control Shader, second after Vertex Shader
+ */
+
+// Produces 3 vertices of output
+layout (vertices = 16) out;
+
+in vec3 vLocalPos[];
+
+out vec3 tcPosition[];
+
+uniform float TessLevelInner;
+uniform float TessLevelOuter;
+
+uniform mat4 ModelMatrix;
+uniform mat4 ViewMatrix;
+
+uniform vec3 viewPos;
+
+/*
+ * From opengl doc:
+ * "In the tessellation control language, gl_InvocationID contains the index of
+ * the output patch vertex assigned to the shader invocation. It is assigned
+ * an integer value in the range [0, N-1] where N is the number of output
+ * patch vertices."
+ */
+#define ID gl_InvocationID
+
+const float log10 = 1.0f / log(10);
+
+float factor(float z);
+
+float computeCurveDistance(vec3 positions0, vec3 positions1,
+                           vec3 positions2, vec3 positions3, mat4 VP);
+
+void main(){
+    tcPosition[ID] = vLocalPos[ID];
+    if (ID == 0){
+        mat4 VP = ViewMatrix * ModelMatrix;
+
+        vec3 posView = vec3(VP * vec4(tcPosition[ID], 1.0f));
+        float distance = -posView.z;
+        float tessLevel = factor(distance);
+
+        float leftCurveDist = computeCurveDistance(vLocalPos[0], vLocalPos[4],
+                                                   vLocalPos[8], vLocalPos[12],
+                                                   VP);
+        float leftCurveTessLevel = factor(leftCurveDist);
+
+        float rightCurveDist = computeCurveDistance(vLocalPos[3], vLocalPos[7],
+                                                   vLocalPos[11], vLocalPos[15],
+                                                   VP);
+        float rightCurveTessLevel = factor(rightCurveDist);
+
+        float topCurveDist = computeCurveDistance(vLocalPos[0], vLocalPos[1],
+                                                  vLocalPos[2], vLocalPos[3],
+                                                  VP);
+        float topCurveTessLevel = factor(topCurveDist);
+
+        float bottomCurveDist = computeCurveDistance(vLocalPos[12],
+                                                     vLocalPos[13],
+                                                     vLocalPos[14],
+                                                     vLocalPos[15], VP);
+        float bottomCurveTessLevel = factor(bottomCurveDist);
+
+        gl_TessLevelInner[0] = tessLevel + TessLevelInner;
+        gl_TessLevelInner[1] = tessLevel + TessLevelInner;
+
+        gl_TessLevelOuter[2] = rightCurveTessLevel + TessLevelOuter;
+        gl_TessLevelOuter[3] = bottomCurveTessLevel + TessLevelOuter;
+        gl_TessLevelOuter[0] = leftCurveTessLevel + TessLevelOuter;
+        gl_TessLevelOuter[1] = topCurveTessLevel + TessLevelOuter;
+
+    }
+}
+
+float factor(float z){
+    z = clamp(z, 0.01f, 100f);
+    float val = (-16 * log(z * 0.01f) * log10);
+    if(val < 2) val = 2;
+    return val;
+}
+
+float computeCurveDistance(vec3 positions0, vec3 positions1,
+                           vec3 positions2, vec3 positions3, mat4 VP){
+    vec3 posView0 = vec3(VP * vec4(positions0, 1.0f));
+    vec3 posView1 = vec3(VP * vec4(positions1, 1.0f));
+    vec3 posView2 = vec3(VP * vec4(positions2, 1.0f));
+    vec3 posView3 = vec3(VP * vec4(positions3, 1.0f));
+/*
+    float distance0 = distance(posView0, viewPos);
+    float distance1 = distance(posView1, viewPos);
+    float distance2 = distance(posView2, viewPos);
+    float distance3 = distance(posView3, viewPos);
+*/
+    float distance0 = -posView0.z;
+    float distance1 = -posView1.z;
+    float distance2 = -posView2.z;
+    float distance3 = -posView3.z;
+    float avg = (distance0 + distance1 + distance2 + distance3) / 4;
+
+    return avg;
+
+}

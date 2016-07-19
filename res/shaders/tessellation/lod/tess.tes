@@ -1,0 +1,172 @@
+#version 400 core
+
+/*
+ * Tessellation Evaluation Shader, after Tessellation process (after TCS)
+ *
+ * TODO add Bezier Polygon display
+ */
+
+//layout(triangles, equal_spacing, cw) in;
+layout(quads, equal_spacing, cw) in;
+
+
+struct Material {
+    sampler2D diffuse; // ambient == diffuse
+    sampler2D specular;
+    sampler2D normal;
+    sampler2D displacement;
+
+    float shininess;
+};
+
+in vec3 tcPosition[];
+
+out vec3 tePosition;
+out vec3 teNormal;
+out vec3 teTangent;
+out vec3 teBinormal;
+out vec3 teFragPos;
+out vec2 teTexCoords;
+
+uniform mat4 ModelMatrix;
+uniform mat4 ViewMatrix;
+uniform mat4 ProjectionMatrix;
+uniform int patchIDI;
+uniform int patchIDJ;
+uniform Material material;
+
+const float DISP_SCALE = 0.1f;
+const float log10 = 1.0f / log(10);
+
+float computeMipLevel(float z);
+float factor(float z);
+
+vec4 computeBezierBasis(float u);
+vec4 computeBezierTangentBasis(float u);
+
+void main(){
+    // ---------- TEXCOORDS -------------- //
+
+    float u = gl_TessCoord.x;
+    float v = gl_TessCoord.y;
+
+    float minJ = patchIDJ / 4.0f;
+    float maxJ = (patchIDJ + 1) / 4.0f;
+    float rJ = maxJ - minJ;
+
+    float minI = patchIDI / 4.0f;
+    float maxI = (patchIDI + 1) / 4.0f;
+    float rI = maxI - minI;
+
+    float texU = rJ * u + minJ;
+    float texV = rI * v + minI;
+
+    teTexCoords = vec2(texU, texV);
+
+    // ---------- POSITION -------------- //
+
+    mat4 pX = mat4(
+        tcPosition[0].x, tcPosition[1].x, tcPosition[2].x, tcPosition[3].x,
+        tcPosition[4].x, tcPosition[5].x, tcPosition[6].x, tcPosition[7].x,
+        tcPosition[8].x, tcPosition[9].x, tcPosition[10].x, tcPosition[11].x,
+        tcPosition[12].x, tcPosition[13].x, tcPosition[14].x, tcPosition[15].x
+    );
+    mat4 pY = mat4(
+        tcPosition[0].y, tcPosition[1].y, tcPosition[2].y, tcPosition[3].y,
+        tcPosition[4].y, tcPosition[5].y, tcPosition[6].y, tcPosition[7].y,
+        tcPosition[8].y, tcPosition[9].y, tcPosition[10].y, tcPosition[11].y,
+        tcPosition[12].y, tcPosition[13].y, tcPosition[14].y, tcPosition[15].y
+    );
+    mat4 pZ = mat4(
+        tcPosition[0].z, tcPosition[1].z, tcPosition[2].z, tcPosition[3].z,
+        tcPosition[4].z, tcPosition[5].z, tcPosition[6].z, tcPosition[7].z,
+        tcPosition[8].z, tcPosition[9].z, tcPosition[10].z, tcPosition[11].z,
+        tcPosition[12].z, tcPosition[13].z, tcPosition[14].z, tcPosition[15].z
+    );
+
+    vec4 bezierU = computeBezierBasis(u);
+    vec4 bezierV = computeBezierBasis(v);
+
+    float x = dot(bezierU, pX * bezierV);
+    float y = dot(bezierU, pY * bezierV);
+    float z = dot(bezierU, pZ * bezierV);
+
+    vec3 pointPosition3 = vec3(x, y, z);
+    vec4 pointPosition4 = vec4(x, y, z, 1.0f);
+
+    // ---------- NORMAL -------------- //
+
+    vec4 bezierTanU = computeBezierTangentBasis(u);
+    vec4 bezierTanV = computeBezierTangentBasis(v);
+
+    float xU = dot(bezierTanU, pX * bezierV);
+    float yU = dot(bezierTanU, pY * bezierV);
+    float zU = dot(bezierTanU, pZ * bezierV);
+
+    float xV = dot(bezierU, pX * bezierTanV);
+    float yV = dot(bezierU, pY * bezierTanV);
+    float zV = dot(bezierU, pZ * bezierTanV);
+
+    vec3 tanU = normalize(vec3(xU, yU, zU));
+    vec3 tanV = normalize(vec3(xV, yV, zV));
+
+    teNormal  = normalize(cross(tanV, tanU));
+
+    // ---------- DISPLACEMENT -------------- //
+
+    vec4 pointPosViewSpace =  ViewMatrix * ModelMatrix * pointPosition4;
+    float mipLevel = computeMipLevel(pointPosViewSpace.z);
+    float h = texture(material.displacement, teTexCoords, mipLevel).x;
+    h = h * DISP_SCALE;
+    pointPosition3 += h * teNormal;
+
+    gl_Position
+        = ProjectionMatrix * ViewMatrix * ModelMatrix *
+        vec4(pointPosition3, 1.0f);
+
+    teFragPos = vec3(ModelMatrix * vec4(pointPosition3, 1.0f));
+
+    // ---------- TBN -------------- //
+
+    teNormal = mat3(transpose(inverse(ModelMatrix))) * teNormal;
+    teNormal = normalize(teNormal);
+
+    teTangent = mat3(transpose(inverse(ModelMatrix))) * tanU;
+    teTangent = normalize(teTangent);
+
+    teBinormal = mat3(transpose(inverse(ModelMatrix))) * tanV;
+    teBinormal = normalize(teBinormal);
+}
+
+float computeMipLevel(float z){
+    float val = 6 - log(factor(z));
+    return val;
+}
+
+float factor(float z){
+    float val = (-16 * log(z * 0.01f) * log10);
+    if(val < 2) val = 2;
+    return val;
+}
+
+vec4 computeBezierBasis(float u){
+    // TODO unwind the calculations
+    vec4 bezierBasis = vec4(pow(1-u, 3),
+                            3*u* pow(1-u, 2),
+                            3*pow(u, 2)*(1-u),
+                            pow(u, 3));
+
+    return bezierBasis;
+}
+
+vec4 computeBezierTangentBasis(float u){
+    // TODO unwind the calculations
+    float u2 = pow(u, 2);
+
+    vec4 bezierBasis = vec4(-3 * pow(1-u, 2),
+                            3 * pow(1-u, 2) - 6*u*(1-u),
+                            6 * u*(1-u) - 3 * pow(u,2),
+                            3 * u2);
+
+    return bezierBasis;
+}

@@ -1,0 +1,101 @@
+#version 400 core
+
+/*
+ * Tessellation Evaluation Shader, after Tessellation process (after TCS)
+ *
+ * TODO add Bezier Polygon display
+ */
+
+//layout(triangles, equal_spacing, cw) in;
+layout(quads, equal_spacing, cw) in;
+
+in vec3 tcPosition[];
+
+out vec3 tePosition;
+out vec3 tePatchDistance;
+out vec3 teFragPos;
+out vec3 teNormal;
+
+uniform mat4 ModelMatrix;
+uniform mat4 ViewMatrix;
+uniform mat4 ProjectionMatrix;
+
+vec4 computeBezierBasis(float u);
+vec4 computeBezierTangentBasis(float u);
+
+void main(){
+    float u = gl_TessCoord.x;
+    float v = gl_TessCoord.y;
+
+    mat4 pX = mat4(
+        tcPosition[0].x, tcPosition[1].x, tcPosition[2].x, tcPosition[3].x,
+        tcPosition[4].x, tcPosition[5].x, tcPosition[6].x, tcPosition[7].x,
+        tcPosition[8].x, tcPosition[9].x, tcPosition[10].x, tcPosition[11].x,
+        tcPosition[12].x, tcPosition[13].x, tcPosition[14].x, tcPosition[15].x
+    );
+    mat4 pY = mat4(
+        tcPosition[0].y, tcPosition[1].y, tcPosition[2].y, tcPosition[3].y,
+        tcPosition[4].y, tcPosition[5].y, tcPosition[6].y, tcPosition[7].y,
+        tcPosition[8].y, tcPosition[9].y, tcPosition[10].y, tcPosition[11].y,
+        tcPosition[12].y, tcPosition[13].y, tcPosition[14].y, tcPosition[15].y
+    );
+    mat4 pZ = mat4(
+        tcPosition[0].z, tcPosition[1].z, tcPosition[2].z, tcPosition[3].z,
+        tcPosition[4].z, tcPosition[5].z, tcPosition[6].z, tcPosition[7].z,
+        tcPosition[8].z, tcPosition[9].z, tcPosition[10].z, tcPosition[11].z,
+        tcPosition[12].z, tcPosition[13].z, tcPosition[14].z, tcPosition[15].z
+    );
+
+    vec4 bezierU = computeBezierBasis(u);
+    vec4 bezierV = computeBezierBasis(v);
+
+    float x = dot(bezierU, pX * bezierV);
+    float y = dot(bezierU, pY * bezierV);
+    float z = dot(bezierU, pZ * bezierV);
+
+    vec4 final = vec4(x, y, z, 1.0f);
+    gl_Position
+        = ProjectionMatrix * ViewMatrix * ModelMatrix * final;
+    teFragPos = vec3(ModelMatrix * final);
+
+    // Compute Normal
+    vec4 bezierTanU = computeBezierTangentBasis(u);
+    vec4 bezierTanV = computeBezierTangentBasis(v);
+
+    float xU = dot(bezierTanU, pX * bezierV);
+    float yU = dot(bezierTanU, pY * bezierV);
+    float zU = dot(bezierTanU, pZ * bezierV);
+
+    float xV = dot(bezierU, pX * bezierTanV);
+    float yV = dot(bezierU, pY * bezierTanV);
+    float zV = dot(bezierU, pZ * bezierTanV);
+
+    vec3 tanU = normalize(vec3(xU, yU, zU));
+    vec3 tanV = normalize(vec3(xV, yV, zV));
+
+    teNormal  = normalize(cross(tanV, tanU));
+    teNormal = mat3(transpose(inverse(ModelMatrix))) * teNormal;
+    teNormal = normalize(teNormal);
+}
+
+vec4 computeBezierBasis(float u){
+    // TODO unwind the calculations
+    vec4 bezierBasis = vec4(pow(1-u, 3),
+                            3*u* pow(1-u, 2),
+                            3*pow(u, 2)*(1-u),
+                            pow(u, 3));
+
+    return bezierBasis;
+}
+
+vec4 computeBezierTangentBasis(float u){
+    // TODO unwind the calculations
+    float u2 = pow(u, 2);
+
+    vec4 bezierBasis = vec4(-3 * pow(1-u, 2),
+                            3 * pow(1-u, 2) - 6*u*(1-u),
+                            6 * u*(1-u) - 3 * pow(u,2),
+                            3 * u2);
+
+    return bezierBasis;
+}
