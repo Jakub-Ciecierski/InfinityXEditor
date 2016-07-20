@@ -1,4 +1,4 @@
-#include "rendering/shaders/vertex_shader.h"
+#include "shaders/vertex_shader.h"
 
 using namespace std;
 

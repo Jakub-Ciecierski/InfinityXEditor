@@ -1,4 +1,4 @@
-#include "rendering/shaders/tess_control_shader.h"
+#include "shaders/tess_control_shader.h"
 
 TessControlShader::TessControlShader(std::string shaderSource) :
     Shader(shaderSource){

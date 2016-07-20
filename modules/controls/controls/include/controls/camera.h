@@ -1,7 +1,7 @@
 #ifndef DUCK_CAMERA_H
 #define DUCK_CAMERA_H
 
-#include <rendering/shaders/program.h>
+#include <shaders/program.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 

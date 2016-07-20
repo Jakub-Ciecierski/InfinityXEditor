@@ -1,7 +1,7 @@
 #ifndef DUCK_FRAGMENT_SHADER_H
 #define DUCK_FRAGMENT_SHADER_H
 
-#include "rendering/shaders/shader.h"
+#include "shaders/shader.h"
 
 class FragmentShader : public Shader{
 private:

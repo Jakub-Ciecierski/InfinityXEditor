@@ -1,8 +1,8 @@
 #ifndef DUCK_PROGRAM_LOADER_H
 #define DUCK_PROGRAM_LOADER_H
 
-#include <rendering/shaders/program.h>
-#include <rendering/shaders/loaders/shader_loader.h>
+#include <shaders/program.h>
+#include <shaders/loaders/shader_loader.h>
 
 /*
  * Loads specific shaders compiled into Programs from resources

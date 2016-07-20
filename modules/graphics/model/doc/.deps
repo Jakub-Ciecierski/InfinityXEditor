@@ -1,4 +1,4 @@
-graphics/rendering
+graphics/shaders
 
 GL/glew
 assimp

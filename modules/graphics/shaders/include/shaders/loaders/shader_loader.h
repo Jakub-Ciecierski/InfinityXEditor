@@ -1,11 +1,11 @@
 #ifndef DUCK_SHADER_LOADER_H
 #define DUCK_SHADER_LOADER_H
 
-#include <rendering/shaders/shader.h>
-#include <rendering/shaders/fragment_shader.h>
-#include <rendering/shaders/vertex_shader.h>
-#include <rendering/shaders/tess_control_shader.h>
-#include <rendering/shaders/tess_eval_shader.h>
+#include <shaders/shader.h>
+#include <shaders/fragment_shader.h>
+#include <shaders/vertex_shader.h>
+#include <shaders/tess_control_shader.h>
+#include <shaders/tess_eval_shader.h>
 
 /*
  * Logic behind loading Shaders from files

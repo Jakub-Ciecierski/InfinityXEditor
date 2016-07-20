@@ -1,7 +1,7 @@
 #ifndef DUCK_VERTEX_SHADER_H
 #define DUCK_VERTEX_SHADER_H
 
-#include "rendering/shaders/shader.h"
+#include "shaders/shader.h"
 
 class VertexShader : public Shader{
 private:

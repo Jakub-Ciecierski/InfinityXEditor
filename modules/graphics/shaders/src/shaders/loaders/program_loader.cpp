@@ -1,4 +1,4 @@
-#include "rendering/shaders/loaders/program_loader.h"
+#include "shaders/loaders/program_loader.h"
 
 ProgramLoader::ProgramLoader(){
 

@@ -1,7 +1,7 @@
-#include "rendering/shaders/loaders/shader_loader.h"
+#include "shaders/loaders/shader_loader.h"
 
-#include <rendering/shaders/vertex_shader.h>
-#include <rendering/shaders/fragment_shader.h>
+#include <shaders/vertex_shader.h>
+#include <shaders/fragment_shader.h>
 
 #include <string>
 #include <fstream>

@@ -1,4 +1,4 @@
-#include "rendering/shaders/tess_eval_shader.h"
+#include "shaders/tess_eval_shader.h"
 
 TessEvalShader::TessEvalShader(std::string shaderSource) :
         Shader(shaderSource){

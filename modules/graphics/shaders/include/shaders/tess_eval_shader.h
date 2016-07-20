@@ -1,7 +1,7 @@
 #ifndef TESELATION_TESS_EVAL_SHADER_H
 #define TESELATION_TESS_EVAL_SHADER_H
 
-#include <rendering/shaders/shader.h>
+#include <shaders/shader.h>
 
 class TessEvalShader : public Shader{
 private:
