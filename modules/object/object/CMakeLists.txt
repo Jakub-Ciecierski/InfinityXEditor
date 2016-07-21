@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.3)
-set(LIB_NAME "objects_ifx")
+set(LIB_NAME "libobjects_ifx.a")
 project(${LIB_NAME})
 
 #---------------------------------

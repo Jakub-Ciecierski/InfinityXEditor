@@ -1,3 +1,7 @@
+cmake_minimum_required(VERSION 3.3)
+set(APP_NAME "ifx")
+project(${APP_NAME})
+
 
 add_custom_command(
         TARGET ${PROJECT_NAME} PRE_BUILD
@@ -24,7 +28,6 @@ add_subdirectory(
         dependencies/glm)
 add_subdirectory(dependencies/SOIL)
 
-
 link_directories(dependencies/soil/lib)
 include_directories(
         dependencies/glfw-3.1.2/include
@@ -41,4 +44,4 @@ find_package(GLEW REQUIRED)
 
 include_directories(${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
 
-target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
+target_link_libraries(${APP_NAME} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
