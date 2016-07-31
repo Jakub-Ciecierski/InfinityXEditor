@@ -1,5 +1,7 @@
 #include "shaders/loaders/program_loader.h"
 
+#include "resources/resources.h"
+
 ProgramLoader::ProgramLoader(){
 
 }
@@ -8,59 +10,32 @@ ProgramLoader::~ProgramLoader() {
 
 }
 
-Program* ProgramLoader::loadTessellationLODProgram(){
+Program* ProgramLoader::CreateProgram(std::string vertex_path,
+                                      std::string fragment_path){
     VertexShader vertexShader =
-            shaderLoader.loadVertexShader
-                    ("res/shaders/tessellation/lod/tess.vs");
+            shaderLoader.loadVertexShader(vertex_path.c_str());
     FragmentShader fragmentShader =
-            shaderLoader.loadFragmentShader
-                    ("res/shaders/tessellation/lod/tess.fs");
-    TessControlShader tessControlShader =
-            shaderLoader.loadTessControlShader
-                    ("res/shaders/tessellation/lod/tess.tcs");
-    TessEvalShader tessEvalShader =
-            shaderLoader.loadTessEvalShader
-                    ("res/shaders/tessellation/lod/tess.tes");
-
-    vertexShader.compile();
-    fragmentShader.compile();
-    tessControlShader.compile();
-    tessEvalShader.compile();
-
-    Program* program = new Program(vertexShader, fragmentShader,
-                                   tessControlShader,
-                                   tessEvalShader);
-    return program;
-}
-
-Program* ProgramLoader::loadTessellationBicubicBezierPolygonProgram(){
-    VertexShader vertexShader =
-            shaderLoader.loadVertexShader
-                    ("res/shaders/tessellation/bicubic_bezier/polygon/tess.vs");
-    FragmentShader fragmentShader =
-            shaderLoader.loadFragmentShader
-                    ("res/shaders/tessellation/bicubic_bezier/polygon/tess.fs");
+            shaderLoader.loadFragmentShader(fragment_path.c_str());
 
     vertexShader.compile();
     fragmentShader.compile();
 
     Program* program = new Program(vertexShader, fragmentShader);
+
     return program;
 }
-
-Program* ProgramLoader::loadTessellationBicubicBezierProgram(){
+Program* ProgramLoader::CreateProgram(std::string vertex_path,
+                                      std::string fragment_path,
+                                      std::string tcs_path,
+                                      std::string tes_path){
     VertexShader vertexShader =
-            shaderLoader.loadVertexShader
-                    ("res/shaders/tessellation/bicubic_bezier/tess.vs");
+            shaderLoader.loadVertexShader(vertex_path.c_str());
     FragmentShader fragmentShader =
-            shaderLoader.loadFragmentShader
-                    ("res/shaders/tessellation/bicubic_bezier/tess.fs");
+            shaderLoader.loadFragmentShader(fragment_path.c_str());
     TessControlShader tessControlShader =
-            shaderLoader.loadTessControlShader
-                    ("res/shaders/tessellation/bicubic_bezier/tess.tcs");
+            shaderLoader.loadTessControlShader(tcs_path.c_str());
     TessEvalShader tessEvalShader =
-            shaderLoader.loadTessEvalShader
-                    ("res/shaders/tessellation/bicubic_bezier/tess.tes");
+            shaderLoader.loadTessEvalShader(tes_path.c_str());
 
     vertexShader.compile();
     fragmentShader.compile();
@@ -70,105 +45,158 @@ Program* ProgramLoader::loadTessellationBicubicBezierProgram(){
     Program* program = new Program(vertexShader, fragmentShader,
                                    tessControlShader,
                                    tessEvalShader);
+
+    return program;
+}
+
+Program* ProgramLoader::loadTessellationLODProgram(){
+    ifx::Resources& resources = ifx::Resources::GetInstance();
+    std::string vertex_path =
+            resources.GetResourcePath("tessellation/lod/tess.vs",
+                                      ifx::ResourceType::SHADER);
+    std::string fragment_path =
+            resources.GetResourcePath("tessellation/lod/tess.fs",
+                                      ifx::ResourceType::SHADER);
+    std::string tcs_path =
+            resources.GetResourcePath("tessellation/lod/tess.tcs",
+                                      ifx::ResourceType::SHADER);
+    std::string tes_path =
+            resources.GetResourcePath("tessellation/lod/tess.tes",
+                                      ifx::ResourceType::SHADER);
+
+    Program* program = CreateProgram(vertex_path, fragment_path,
+                                     tcs_path, tes_path);
+    return program;
+}
+
+Program* ProgramLoader::loadTessellationBicubicBezierPolygonProgram(){
+    ifx::Resources& resources = ifx::Resources::GetInstance();
+
+    std::string vertex_path =
+            resources.GetResourcePath
+                    ("tessellation/bicubic_bezier/polygon/tess.vs",
+                     ifx::ResourceType::SHADER);
+    std::string fragment_path =
+            resources.GetResourcePath
+                    ("tessellation/bicubic_bezier/polygon/tess.fs",
+                     ifx::ResourceType::SHADER);
+
+    Program* program = CreateProgram(vertex_path, fragment_path);
+
+    return program;
+}
+
+Program* ProgramLoader::loadTessellationBicubicBezierProgram(){
+    ifx::Resources& resources = ifx::Resources::GetInstance();
+    std::string vertex_path =
+            resources.GetResourcePath("tessellation/bicubic_bezier/tess.vs",
+                                      ifx::ResourceType::SHADER);
+    std::string fragment_path =
+            resources.GetResourcePath("tessellation/bicubic_bezier/tess.fs",
+                                      ifx::ResourceType::SHADER);
+    std::string tcs_path =
+            resources.GetResourcePath("tessellation/bicubic_bezier/tess.tcs",
+                                      ifx::ResourceType::SHADER);
+    std::string tes_path =
+            resources.GetResourcePath("tessellation/bicubic_bezier/tess.tes",
+                                      ifx::ResourceType::SHADER);
+
+    Program* program = CreateProgram(vertex_path, fragment_path,
+                                     tcs_path, tes_path);
     return program;
 }
 
 Program* ProgramLoader::loadTessellationProgram(){
-    VertexShader vertexShader =
-            shaderLoader.loadVertexShader
-                    ("res/shaders/tessellation/tess.vs");
-    FragmentShader fragmentShader =
-            shaderLoader.loadFragmentShader
-                    ("res/shaders/tessellation/tess.fs");
-    TessControlShader tessControlShader =
-            shaderLoader.loadTessControlShader
-                    ("res/shaders/tessellation/tess.tcs");
-    TessEvalShader tessEvalShader =
-            shaderLoader.loadTessEvalShader
-                    ("res/shaders/tessellation/tess.tes");
+    ifx::Resources& resources = ifx::Resources::GetInstance();
+    std::string vertex_path =
+            resources.GetResourcePath("tessellation/tess.vs",
+                                      ifx::ResourceType::SHADER);
+    std::string fragment_path =
+            resources.GetResourcePath("tessellation/tess.fs",
+                                      ifx::ResourceType::SHADER);
+    std::string tcs_path =
+            resources.GetResourcePath("tessellation/tess.tcs",
+                                      ifx::ResourceType::SHADER);
+    std::string tes_path =
+            resources.GetResourcePath("tessellation/tess.tes",
+                                      ifx::ResourceType::SHADER);
 
-    vertexShader.compile();
-    fragmentShader.compile();
-    tessControlShader.compile();
-    tessEvalShader.compile();
-
-    Program* program = new Program(vertexShader, fragmentShader,
-                                              tessControlShader,
-                                              tessEvalShader);
+    Program* program = CreateProgram(vertex_path, fragment_path,
+                                     tcs_path, tes_path);
     return program;
 }
 
 Program* ProgramLoader::loadAllLightProgram(){
-    VertexShader vertexShader =
-            shaderLoader.loadVertexShader
-                    ("res/shaders/lighting/light_all_vert.glsl");
-    FragmentShader fragmentShader =
-            shaderLoader.loadFragmentShader
-                    ("res/shaders/lighting/light_all_frag.glsl");
+    ifx::Resources& resources = ifx::Resources::GetInstance();
 
-    vertexShader.compile();
-    fragmentShader.compile();
+    std::string vertex_path =
+            resources.GetResourcePath("lighting/light_all_vert.glsl",
+                                      ifx::ResourceType::SHADER);
+    std::string fragment_path =
+            resources.GetResourcePath("lighting/light_all_frag.glsl",
+                                      ifx::ResourceType::SHADER);
 
-    Program* programGlobalLight = new Program(vertexShader, fragmentShader);
-    return programGlobalLight;
+    Program* program = CreateProgram(vertex_path, fragment_path);
+
+    return program;
 }
 
 Program* ProgramLoader::loadAnisotropicLightProgram(){
-    VertexShader vertexShader =
-            shaderLoader.loadVertexShader
-                    ("res/shaders/lighting/anis_light_vert.glsl");
-    FragmentShader fragmentShader =
-            shaderLoader.loadFragmentShader
-                    ("res/shaders/lighting/anis_light_frag.glsl");
+    ifx::Resources& resources = ifx::Resources::GetInstance();
 
-    vertexShader.compile();
-    fragmentShader.compile();
+    std::string vertex_path =
+            resources.GetResourcePath("lighting/anis_light_vert.glsl",
+                                      ifx::ResourceType::SHADER);
+    std::string fragment_path =
+            resources.GetResourcePath("lighting/anis_light_frag.glsl",
+                                      ifx::ResourceType::SHADER);
 
-    Program* programGlobalLight = new Program(vertexShader, fragmentShader);
-    return programGlobalLight;
+    Program* program = CreateProgram(vertex_path, fragment_path);
+
+    return program;
 }
 
 Program* ProgramLoader::loadCubemapProgram(){
-    VertexShader vertexShader =
-            shaderLoader.loadVertexShader
-                    ("res/shaders/lighting/cubemap_vert.glsl");
-    FragmentShader fragmentShader =
-            shaderLoader.loadFragmentShader
-                    ("res/shaders/lighting/cubemap_frag.glsl");
+    ifx::Resources& resources = ifx::Resources::GetInstance();
 
-    vertexShader.compile();
-    fragmentShader.compile();
+    std::string vertex_path =
+            resources.GetResourcePath("lighting/cubemap_vert.glsl",
+                                      ifx::ResourceType::SHADER);
+    std::string fragment_path =
+            resources.GetResourcePath("lighting/cubemap_frag.glsl",
+                                      ifx::ResourceType::SHADER);
 
-    Program* programGlobalLight = new Program(vertexShader, fragmentShader);
-    return programGlobalLight;
+    Program* program = CreateProgram(vertex_path, fragment_path);
+
+    return program;
 }
 
 Program* ProgramLoader::loadBumpMappingProgram(){
-    VertexShader vertexShader =
-            shaderLoader.loadVertexShader
-                    ("res/shaders/lighting/bump_vert.glsl");
-    FragmentShader fragmentShader =
-            shaderLoader.loadFragmentShader
-                    ("res/shaders/lighting/bump_frag.glsl");
+    ifx::Resources& resources = ifx::Resources::GetInstance();
 
-    vertexShader.compile();
-    fragmentShader.compile();
+    std::string vertex_path =
+            resources.GetResourcePath("lighting/bump_vert.glsl",
+                                      ifx::ResourceType::SHADER);
+    std::string fragment_path =
+            resources.GetResourcePath("lighting/bump_frag.glsl",
+                                      ifx::ResourceType::SHADER);
 
-    Program* programGlobalLight = new Program(vertexShader, fragmentShader);
-    return programGlobalLight;
+    Program* program = CreateProgram(vertex_path, fragment_path);
+
+    return program;
 }
 
 Program *ProgramLoader::loadLampProgram() {
-    VertexShader vertexShaderLight =
-            shaderLoader.loadVertexShader
-                    ("res/shaders/lighting/lamp_vert.glsl");
-    FragmentShader fragmentShaderLight =
-            shaderLoader.loadFragmentShader
-                    ("res/shaders/lighting/lamp_frag.glsl");
-    vertexShaderLight.compile();
-    fragmentShaderLight.compile();
+    ifx::Resources& resources = ifx::Resources::GetInstance();
 
-    Program* programLamp = new Program(vertexShaderLight, fragmentShaderLight);
+    std::string vertex_path =
+            resources.GetResourcePath("lighting/lamp_vert.glsl",
+                                      ifx::ResourceType::SHADER);
+    std::string fragment_path =
+            resources.GetResourcePath("lighting/lamp_frag.glsl",
+                                      ifx::ResourceType::SHADER);
 
-    return programLamp;
+    Program* program = CreateProgram(vertex_path, fragment_path);
+
+    return program;
 }

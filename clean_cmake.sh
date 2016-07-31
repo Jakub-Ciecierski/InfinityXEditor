@@ -1,4 +1,4 @@
-make clean 2> /dev/null
+#make clean 2> /dev/null
 
 find . -name "Makefile" -not -path "./dependencies/*" \
         -exec rm -rf 2> /dev/null {} \;

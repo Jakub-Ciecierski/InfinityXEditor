@@ -7,6 +7,8 @@ set(SRC_DIR src)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ./bin)
+
 #---------------------------------
 # MACROS
 #---------------------------------
@@ -70,31 +72,33 @@ include_directories($ENV{IFX_ROOT}/modules/libs/graphics/lighting/${INC_DIR})
 add_subdirectory(../../libs/object/object ./build/object/object)
 include_directories($ENV{IFX_ROOT}/modules/libs/object/object/${INC_DIR})
 
+add_subdirectory(../../libs/common/resources ./build/common/resources)
+include_directories($ENV{IFX_ROOT}/modules/libs/common/resources/${INC_DIR})
+
 target_link_libraries(${APP_NAME}
         rendering_ifx model_ifx shaders_ifx
-        lighting_ifx controls_ifx object_ifx)
+        lighting_ifx controls_ifx object_ifx resources_ifx)
 
 #----------------------------------
 
 # EXTERNAL
 add_subdirectory(../../../dependencies/assimp-3.1.1 ./build/assimp-3.1.1)
-include_directories(../../../dependencies/assimp-3.1.1/include)
+include_directories($ENV{IFX_ROOT}/dependencies/assimp-3.1.1/${INC_DIR})
 
 add_subdirectory(../../../dependencies/glfw-3.1.2 ./build/glfw-3.1.2)
-include_directories(../../../dependencies/glfw-3.1.2/include)
+include_directories($ENV{IFX_ROOT}/dependencies/glfw-3.1.2/${INC_DIR})
 
 #
-include_directories(../../../dependencies/glm/include)
+include_directories($ENV{IFX_ROOT}/dependencies/glm/${INC_DIR})
 
 add_subdirectory(../../../dependencies/SOIL ./build/SOIL)
-include_directories(../../../dependencies/SOIL/src)
+include_directories($ENV{IFX_ROOT}/dependencies/SOIL/src)
 
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
 
 find_package(GLEW REQUIRED)
 include_directories(${GLEW_INCLUDE_DIRS})
-
 
 target_link_libraries(${APP_NAME} glfw SOIL assimp ${GLFW_LIBRARIES})
 target_link_libraries(${APP_NAME} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})

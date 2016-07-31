@@ -1,4 +1,5 @@
 graphics/shaders
+common/resources
 
 glm
 GL/glew

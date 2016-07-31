@@ -53,5 +53,5 @@ set(SPAM )
 
 #---------------------------------
 
-add_library(${LIB_NAME} STATIC ${SRC_FILES})
+add_library(${LIB_NAME} STATIC ${SRC_FILES} )
 set_target_properties(${LIB_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY lib)

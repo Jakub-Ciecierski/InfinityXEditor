@@ -11,7 +11,6 @@
 #include <GL/glew.h>
 #include <stdexcept>
 
-
 using namespace std;
 
 ShaderLoader::ShaderLoader(){

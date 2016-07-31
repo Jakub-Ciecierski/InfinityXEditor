@@ -1,11 +1,11 @@
-//
-// Created by jakub on 5/25/16.
-//
+#include <GL/glew.h>
+
+#include "model/textures/texture_loader.h"
+
+#include "resources/resources.h"
 
 #include <SOIL.h>
-#include <GL/glew.h>
 #include <stdexcept>
-#include "texture_loader.h"
 
 using namespace std;
 
@@ -16,7 +16,6 @@ TextureLoader::TextureLoader(){
 TextureLoader::~TextureLoader() {
 
 }
-
 
 Texture TextureLoader::loadFromData(TextureTypes type, unsigned char* data,
                                     int width, int height){
@@ -125,8 +124,9 @@ Texture TextureLoader::loadCubemap(vector<string> filepathFaces){
 }
 
 Texture TextureLoader::LoadExampleCubemap(){
-
-    string filepathBase = "res/textures/cubemap/sor_sea/sea_";
+    ifx::Resources& resources = ifx::Resources::GetInstance();
+    string filepathBase= resources.GetResourcePath("cubemap/sor_sea/sea_",
+                                                   ifx::ResourceType::TEXTURE);
     std::vector<std::string> filepathFaces = {
             filepathBase+"rt.JPG",
             filepathBase+"lf.JPG",
@@ -209,7 +209,10 @@ Texture TextureLoader::LoadDynamicBlueSpecularTexture() {
 }
 
 Texture TextureLoader::LoadTesselationDiffuse() {
-    GLuint id = loadFromFile("res/textures/teselation/diffuse.jpg");
+    ifx::Resources& resources = ifx::Resources::GetInstance();
+    string filepath = resources.GetResourcePath("teselation/diffuse.jpg",
+                                                ifx::ResourceType::TEXTURE);
+    GLuint id = loadFromFile(filepath.c_str());
     Texture texture = contructTexture(id, GL_TEXTURE_2D);
     texture.texType = TextureTypes::DIFFUSE;
 
@@ -217,7 +220,11 @@ Texture TextureLoader::LoadTesselationDiffuse() {
 }
 
 Texture TextureLoader::LoadTesselationSpecular() {
-    GLuint id = loadFromFile("res/textures/teselation/diffuse.jpg");
+    ifx::Resources& resources = ifx::Resources::GetInstance();
+    string filepath = resources.GetResourcePath("teselation/diffuse.jpg",
+                                                ifx::ResourceType::TEXTURE);
+    GLuint id = loadFromFile(filepath.c_str());
+
     Texture texture = contructTexture(id, GL_TEXTURE_2D);
     texture.texType = TextureTypes::SPECULAR;
 
@@ -225,7 +232,11 @@ Texture TextureLoader::LoadTesselationSpecular() {
 }
 
 Texture TextureLoader::LoadTesselationNormals() {
-    GLuint id = loadFromFile("res/textures/teselation/normals.jpg");
+    ifx::Resources& resources = ifx::Resources::GetInstance();
+    string filepath = resources.GetResourcePath("teselation/normals.jpg",
+                                                ifx::ResourceType::TEXTURE);
+    GLuint id = loadFromFile(filepath.c_str());
+
     Texture texture = contructTexture(id, GL_TEXTURE_2D);
     texture.texType = TextureTypes::NORMAL;
 
@@ -233,7 +244,11 @@ Texture TextureLoader::LoadTesselationNormals() {
 }
 
 Texture TextureLoader::LoadTesselationHeight() {
-    GLuint id = loadFromFile("res/textures/teselation/height.jpg");
+    ifx::Resources& resources = ifx::Resources::GetInstance();
+    string filepath = resources.GetResourcePath("teselation/height.jpg",
+                                                ifx::ResourceType::TEXTURE);
+    GLuint id = loadFromFile(filepath.c_str());
+
     Texture texture = contructTexture(id, GL_TEXTURE_2D);
     texture.texType = TextureTypes::DISPLACEMENT;
 
@@ -241,14 +256,22 @@ Texture TextureLoader::LoadTesselationHeight() {
 }
 
 Texture TextureLoader::LoadContainer() {
-    GLuint id = loadFromFile("res/textures/container.jpg");
+    ifx::Resources& resources = ifx::Resources::GetInstance();
+    string filepath = resources.GetResourcePath("container.png",
+                                                ifx::ResourceType::TEXTURE);
+    GLuint id = loadFromFile(filepath.c_str());
+
     Texture texture = contructTexture(id, GL_TEXTURE_2D);
 
     return texture;
 }
 
 Texture TextureLoader::LoadContainerDiffuse(){
-    GLuint id = loadFromFile("res/textures/container_diff.png");
+    ifx::Resources& resources = ifx::Resources::GetInstance();
+    string filepath = resources.GetResourcePath("container_diff.png",
+                                                ifx::ResourceType::TEXTURE);
+    GLuint id = loadFromFile(filepath.c_str());
+
     Texture texture = contructTexture(id, GL_TEXTURE_2D);
     texture.texType = TextureTypes::DIFFUSE;
 
@@ -256,7 +279,11 @@ Texture TextureLoader::LoadContainerDiffuse(){
 }
 
 Texture TextureLoader::LoadContainerSpecular(){
-    GLuint id = loadFromFile("res/textures/container_specular.png");
+    ifx::Resources& resources = ifx::Resources::GetInstance();
+    string filepath = resources.GetResourcePath("container_specular.png",
+                                                ifx::ResourceType::TEXTURE);
+    GLuint id = loadFromFile(filepath.c_str());
+
     Texture texture = contructTexture(id, GL_TEXTURE_2D);
     texture.texType = TextureTypes::SPECULAR;
 
@@ -264,7 +291,11 @@ Texture TextureLoader::LoadContainerSpecular(){
 }
 
 Texture TextureLoader::LoadAwesomeFace() {
-    GLuint id = loadFromFile("res/textures/awesomeface.png");
+    ifx::Resources& resources = ifx::Resources::GetInstance();
+    string filepath = resources.GetResourcePath("awesomeface.png",
+                                                ifx::ResourceType::TEXTURE);
+    GLuint id = loadFromFile(filepath.c_str());
+
     Texture texture = contructTexture(id, GL_TEXTURE_2D);
 
     return texture;

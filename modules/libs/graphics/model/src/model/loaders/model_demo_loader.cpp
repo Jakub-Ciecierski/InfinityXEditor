@@ -5,6 +5,8 @@
 #include <model/textures/texture_loader.h>
 #include <model/patch/patch.h>
 
+#include <resources/resources.h>
+
 using namespace glm;
 using namespace std;
 
@@ -17,7 +19,9 @@ ModelDemoLoader::~ModelDemoLoader() {
 }
 
 Model ModelDemoLoader::LoadNanoSuitModel() {
-    std::string path = "res/models/nanosuit/nanosuit.obj";
+    ifx::Resources& resources = ifx::Resources::GetInstance();
+    std::string path = resources.GetResourcePath("nanosuit/nanosuit.obj",
+                                                 ifx::ResourceType::MODEL);
 
     //ModelLoader loader(path);
     //return loader.loadModel();
