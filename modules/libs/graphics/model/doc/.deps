@@ -1,6 +1,4 @@
 graphics/shaders
-common/resources
 
-glm
 GL/glew
-assimp
+SOIL

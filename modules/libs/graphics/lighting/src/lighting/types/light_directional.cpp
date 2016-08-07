@@ -7,7 +7,7 @@ LightDirectional::LightDirectional() : LightSource(){
 
 }
 
-LightDirectional::LightDirectional(RenderObject *object) :
+LightDirectional::LightDirectional(MovableObject *object) :
         LightSource(object){
 
 }
@@ -17,8 +17,8 @@ LightDirectional::~LightDirectional() {
 }
 
 const glm::vec3 LightDirectional::getDirection() {
-    if(isFollow && followedCamera != NULL){
-        return followedCamera->getDirection();
+    if(isFollow && movableObject != NULL){
+        return movableObject->getDirection();
     }else{
         const glm::vec3& pos = getPosition();
         glm::vec3 dir = lookAt - pos;

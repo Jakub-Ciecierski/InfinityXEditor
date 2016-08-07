@@ -2,12 +2,12 @@
 #define DUCK_MESH_H
 
 #include "shaders/program.h"
+#include "shaders/data/shader_data.h"
 
 #include "model/buffers/vbo.h"
 #include "model/buffers/vao.h"
-#include "model/mesh_data.h"
 
-#include <GL/gl.h>
+#include <GL/glew.h>
 #include <vector>
 
 #include <iostream>

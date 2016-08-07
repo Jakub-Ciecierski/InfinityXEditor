@@ -33,19 +33,29 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 # DEPENDENCIES
 #---------------------------------
 
-# MODEL
-#add_subdirectory(../model/ ../model/)
-include_directories($ENV{IFX_ROOT}/modules/libs/graphics/model/${INC_DIR})
-
-# OBJECT
-#add_subdirectory(../../object ../../object)
-include_directories($ENV{IFX_ROOT}/modules/libs/object/object/${INC_DIR})
-#include_directories(../../object/object/${INC_DIR})
-
-# FROM MODEL
+include_directories($ENV{IFX_ROOT}/modules/libs/common/math/${INC_DIR})
 include_directories($ENV{IFX_ROOT}/modules/libs/graphics/shaders/${INC_DIR})
+include_directories($ENV{IFX_ROOT}/modules/libs/graphics/model/${INC_DIR})
+include_directories($ENV{IFX_ROOT}/modules/libs/object/object/${INC_DIR})
+
+# MATH
 include_directories($ENV{IFX_ROOT}/dependencies/glm/${INC_DIR})
 
+# SHADERS
+find_package(OpenGL REQUIRED)
+find_package(GLEW REQUIRED)
+include_directories(${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
+
+# MODEL
+find_package(OpenGL REQUIRED)
+find_package(GLEW REQUIRED)
+include_directories(${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
+include_directories($ENV{IFX_ROOT}/dependencies/SOIL/src)
+include_directories($ENV{IFX_ROOT}/modules/libs/graphics/shaders/${INC_DIR})
+
+# OBJECT
+include_directories($ENV{IFX_ROOT}/modules/libs/common/math/${INC_DIR})
+include_directories($ENV{IFX_ROOT}/dependencies/glm/${INC_DIR})
 
 #---------------------------------
 # PROJECT
@@ -61,7 +71,7 @@ set(SPAM )
 
 #---------------------------------
 
-add_library(${LIB_NAME} STATIC ${SRC_FILES})
+add_library(${LIB_NAME} STATIC ${SRC_FILES} ${SPAM})
 set_target_properties(${LIB_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY lib)
 
 

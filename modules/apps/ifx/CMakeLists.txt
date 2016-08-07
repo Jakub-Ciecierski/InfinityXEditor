@@ -25,19 +25,6 @@ MACRO(FIND_INCLUDE_DIR return_list regex)
     SET(${return_list} ${dir_list})
 ENDMACRO()
 
-#add_custom_command(
-#        TARGET ${PROJECT_NAME} PRE_BUILD
-#        COMMAND ${CMAKE_COMMAND} -E remove_directory
-#        $<TARGET_FILE_DIR:${PROJECT_NAME}>/res/shaders
-#)
-
-# COPY RESOURCES
-#add_custom_command(
-#        TARGET ${PROJECT_NAME} POST_BUILD
-#        COMMAND ${CMAKE_COMMAND} -E copy_directory
-#        ${CMAKE_SOURCE_DIR}/res $<TARGET_FILE_DIR:${PROJECT_NAME}>/res
-#)
-
 # INCLUDE AUTOMATIC SEARCH
 FIND_INCLUDE_DIR(INC_DIRS ./include/*.h)
 include_directories(${INC_DIRS} $ENV{IFX_ROOT}/res/)
@@ -46,19 +33,20 @@ include_directories(${INC_DIRS} $ENV{IFX_ROOT}/res/)
 file(GLOB_RECURSE SRC_FILES src/*.cpp)
 set(SOURCE_FILES )
 
-#add_executable(${APP_NAME} ${SOURCE_FILES} ${SRC_FILES} $ENV{IFX_ROOT}/res)
 add_executable(${APP_NAME} ${SOURCE_FILES} ${SRC_FILES})
 
 #---------------------------------
-# LIBS
+# IFX LIBS
 #---------------------------------
 
-# IFX
 add_subdirectory(../../libs/controls/controls ./build/controls/controls)
 include_directories($ENV{IFX_ROOT}/modules/libs/controls/controls/${INC_DIR})
 
 add_subdirectory(../../libs/graphics/model ./build/graphics/model)
 include_directories($ENV{IFX_ROOT}/modules/libs/graphics/model/${INC_DIR})
+
+add_subdirectory(../../libs/graphics/model_loader ./build/graphics/model_loader)
+include_directories($ENV{IFX_ROOT}/modules/libs/graphics/model_loader/${INC_DIR})
 
 add_subdirectory(../../libs/graphics/rendering ./build/graphics/rendering)
 include_directories($ENV{IFX_ROOT}/modules/libs/graphics/rendering/${INC_DIR})
@@ -75,24 +63,30 @@ include_directories($ENV{IFX_ROOT}/modules/libs/object/object/${INC_DIR})
 add_subdirectory(../../libs/common/resources ./build/common/resources)
 include_directories($ENV{IFX_ROOT}/modules/libs/common/resources/${INC_DIR})
 
-target_link_libraries(${APP_NAME}
-        rendering_ifx model_ifx shaders_ifx
-        lighting_ifx controls_ifx object_ifx resources_ifx)
+add_subdirectory(../../libs/graphics/scene ./build/graphics/scene)
+include_directories($ENV{IFX_ROOT}/modules/libs/graphics/scene/${INC_DIR})
+
+add_subdirectory(../../libs/common/math ./build/common/math)
+include_directories($ENV{IFX_ROOT}/modules/libs/common/math/${INC_DIR})
+
+add_subdirectory(../../libs/graphics/factory ./build/graphics/factory)
+include_directories($ENV{IFX_ROOT}/modules/libs/graphics/factory/${INC_DIR})
 
 #----------------------------------
-
 # EXTERNAL
+#----------------------------------
+
 add_subdirectory(../../../dependencies/assimp-3.1.1 ./build/assimp-3.1.1)
 include_directories($ENV{IFX_ROOT}/dependencies/assimp-3.1.1/${INC_DIR})
 
 add_subdirectory(../../../dependencies/glfw-3.1.2 ./build/glfw-3.1.2)
 include_directories($ENV{IFX_ROOT}/dependencies/glfw-3.1.2/${INC_DIR})
 
-#
-include_directories($ENV{IFX_ROOT}/dependencies/glm/${INC_DIR})
-
 add_subdirectory(../../../dependencies/SOIL ./build/SOIL)
 include_directories($ENV{IFX_ROOT}/dependencies/SOIL/src)
+
+#
+include_directories($ENV{IFX_ROOT}/dependencies/glm/${INC_DIR})
 
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
@@ -100,12 +94,19 @@ include_directories(${OPENGL_INCLUDE_DIRS})
 find_package(GLEW REQUIRED)
 include_directories(${GLEW_INCLUDE_DIRS})
 
-target_link_libraries(${APP_NAME} glfw SOIL assimp ${GLFW_LIBRARIES})
-target_link_libraries(${APP_NAME} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
-
 #---------------------------------
 # LINK
 #---------------------------------
+
+target_link_libraries(${APP_NAME}
+        factory_ifx model_loader_ifx
+        rendering_ifx shaders_ifx math_ifx  model_ifx
+        lighting_ifx controls_ifx object_ifx resources_ifx)
+target_link_libraries(${APP_NAME}
+        glfw SOIL assimp ${GLFW_LIBRARIES})
+target_link_libraries(${APP_NAME}
+        ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
+
 
 
 

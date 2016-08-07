@@ -1,10 +1,10 @@
 #ifndef DUCK_PROGRAM_H
 #define DUCK_PROGRAM_H
 
-#include "shaders/fragment_shader.h"
-#include "shaders/vertex_shader.h"
-#include "shaders/tess_control_shader.h"
-#include "shaders/tess_eval_shader.h"
+#include "shaders/shaders/fragment_shader.h"
+#include "shaders/shaders/vertex_shader.h"
+#include "shaders/shaders/tess_control_shader.h"
+#include "shaders/shaders/tess_eval_shader.h"
 
 /*
  * This class encapsulates all shaders and is used to draw Meshes

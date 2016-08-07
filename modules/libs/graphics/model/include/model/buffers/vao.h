@@ -1,7 +1,7 @@
 #ifndef DUCK_VAO_H
 #define DUCK_VAO_H
 
-#include <GL/gl.h>
+#include <GL/glew.h>
 #include "model/buffers/vbo.h"
 #include "model/buffers/ebo.h"
 

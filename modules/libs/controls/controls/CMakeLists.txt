@@ -32,11 +32,47 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 # DEPENDENCIES
 #---------------------------------
 
-# IFX
-include_directories($ENV{IFX_ROOT}/modules/libs/graphics/shaders/${INC_DIR})
+include_directories($ENV{IFX_ROOT}/modules/libs/graphics/rendering/${INC_DIR})
 include_directories($ENV{IFX_ROOT}/modules/libs/graphics/model/${INC_DIR})
 
+# MODEL
+find_package(OpenGL REQUIRED)
+find_package(GLEW REQUIRED)
+include_directories(${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
+include_directories($ENV{IFX_ROOT}/dependencies/SOIL/src)
+include_directories($ENV{IFX_ROOT}/modules/libs/graphics/shaders/${INC_DIR})
+# MODEL::SHADERS
+find_package(OpenGL REQUIRED)
+find_package(GLEW REQUIRED)
+include_directories(${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
+include_directories($ENV{IFX_ROOT}/modules/libs/common/math/${INC_DIR})
+
+# MODEL::SHADERS::MATH
+include_directories($ENV{IFX_ROOT}/dependencies/glm/${INC_DIR})
+
+# RENDERING
+include_directories($ENV{IFX_ROOT}/modules/libs/common/math/${INC_DIR})
+include_directories($ENV{IFX_ROOT}/modules/libs/graphics/shaders/${INC_DIR})
+include_directories($ENV{IFX_ROOT}/modules/libs/graphics/model/${INC_DIR})
 include_directories($ENV{IFX_ROOT}/modules/libs/object/object/${INC_DIR})
+
+# RENDERING::MATH
+include_directories($ENV{IFX_ROOT}/dependencies/glm/${INC_DIR})
+
+# RENDERING::SHADERS
+find_package(OpenGL REQUIRED)
+find_package(GLEW REQUIRED)
+include_directories(${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
+
+# RENDERING::MODEL
+find_package(OpenGL REQUIRED)
+find_package(GLEW REQUIRED)
+include_directories(${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
+include_directories($ENV{IFX_ROOT}/dependencies/SOIL/src)
+include_directories($ENV{IFX_ROOT}/modules/libs/graphics/shaders/${INC_DIR})
+
+# RENDERING::OBJECT
+include_directories($ENV{IFX_ROOT}/modules/libs/common/math/${INC_DIR})
 include_directories($ENV{IFX_ROOT}/dependencies/glm/${INC_DIR})
 
 #---------------------------------

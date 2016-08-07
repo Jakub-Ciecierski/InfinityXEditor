@@ -1,4 +1,3 @@
-controls/controls
-graphics/rendering
-
-glm
+graphics/shaders
+object/object
+common/math

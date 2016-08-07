@@ -1,14 +1,14 @@
 #include <lighting/types/light_spotlight.h>
 #include <lighting/builders/spotlight_shader_builder.h>
 
-using namespace ifx;
+namespace ifx {
 
-LightSpotlight::LightSpotlight() : LightDirectional(){
+LightSpotlight::LightSpotlight() : LightDirectional() {
 
 }
 
-LightSpotlight::LightSpotlight(RenderObject *object) :
-        LightDirectional(object){
+LightSpotlight::LightSpotlight(MovableObject *object) :
+        LightDirectional(object) {
 
 }
 
@@ -17,7 +17,7 @@ LightSpotlight::~LightSpotlight() {
 }
 
 void LightSpotlight::bind(const Program &program, int id) {
-    const glm::vec3& pos = getPosition();
+    const glm::vec3 &pos = getPosition();
     const glm::vec3 dir = getDirection();
 
     ifx::SpotLightShaderBuilder builder(id);
@@ -30,19 +30,19 @@ void LightSpotlight::bind(const Program &program, int id) {
     GLint lightDirLoc = glGetUniformLocation(program.getID(),
                                              builder.DIRECTION.c_str());
 
-    GLint lightAmbientLoc  = glGetUniformLocation(program.getID(),
-                                                  builder.AMBIENT.c_str());
-    GLint lightDiffuseLoc  = glGetUniformLocation(program.getID(),
-                                                  builder.DIFFUSE.c_str());
+    GLint lightAmbientLoc = glGetUniformLocation(program.getID(),
+                                                 builder.AMBIENT.c_str());
+    GLint lightDiffuseLoc = glGetUniformLocation(program.getID(),
+                                                 builder.DIFFUSE.c_str());
     GLint lightSpecularLoc = glGetUniformLocation(program.getID(),
                                                   builder.SPECULAR.c_str());
 
-    GLint attenConstLoc= glGetUniformLocation(program.getID(),
-                                              builder.ATTEN_CONSTANT.c_str());
-    GLint attenLineLoc= glGetUniformLocation(program.getID(),
-                                             builder.ATTEN_LINEAR.c_str());
-    GLint attenQuadLoc= glGetUniformLocation(program.getID(),
-                                             builder.ATTEN_QUAD.c_str());
+    GLint attenConstLoc = glGetUniformLocation(program.getID(),
+                                               builder.ATTEN_CONSTANT.c_str());
+    GLint attenLineLoc = glGetUniformLocation(program.getID(),
+                                              builder.ATTEN_LINEAR.c_str());
+    GLint attenQuadLoc = glGetUniformLocation(program.getID(),
+                                              builder.ATTEN_QUAD.c_str());
 
     // Light Cutoff
     GLint lightCutoffLoc = glGetUniformLocation(program.getID(),
@@ -67,4 +67,5 @@ void LightSpotlight::bind(const Program &program, int id) {
 
     glUniform1f(lightOuterCutoffLoc, glm::cos(glm::radians(light.outerCutOff)));
     glUniform1f(lightCutoffLoc, glm::cos(glm::radians(light.cutOff)));
+}
 }

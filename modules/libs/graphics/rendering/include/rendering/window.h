@@ -4,7 +4,7 @@
 #include <string>
 #include <GLFW/glfw3.h>
 
-namespace ifc {
+namespace ifx {
     /*
      * Windows Context, encapsulating the GLFW handle
      */

@@ -3,7 +3,7 @@
 
 #include <GL/gl.h>
 #include <vector>
-#include <model/mesh_data.h>
+#include <shaders/data/shader_data.h>
 
 class VBO {
 private:

@@ -2,10 +2,10 @@
 
 #include <stdexcept>
 
-using namespace ifc;
+namespace ifx {
 
-Window::Window(int width, int height, std::string name):
-    width(width), height(height), name(name){
+Window::Window(int width, int height, std::string name) :
+        width(width), height(height), name(name) {
 
     init();
     setViewport();
@@ -17,8 +17,8 @@ Window::~Window() {
 
 void Window::init() {
     glfwWindow = glfwCreateWindow(width, height,
-                                          name.c_str(), nullptr, nullptr);
-    if (glfwWindow == nullptr){
+                                  name.c_str(), nullptr, nullptr);
+    if (glfwWindow == nullptr) {
         throw new std::invalid_argument("Failed to create GLFW window");
     }
     glfwMakeContextCurrent(glfwWindow);
@@ -40,4 +40,5 @@ void Window::update() {
 
 GLFWwindow *Window::getHandle() {
     return glfwWindow;
+}
 }

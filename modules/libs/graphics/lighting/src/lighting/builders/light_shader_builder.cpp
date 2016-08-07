@@ -1,5 +1,5 @@
 #include "lighting/builders/light_shader_builder.h"
-#include "lighting/builders/light_shader_common_data.h"
+#include <shaders/data/shader_data.h>
 
 using namespace std;
 

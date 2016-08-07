@@ -144,20 +144,20 @@ vec3 computeDirLight(DirLight light, vec3 norm, vec3 viewDir){
     vec3 lightDir = normalize(-light.direction);
 
     // ---- Ambient ----- //
-    vec3 ambient = diffColor * light.ambient;
-    //vec3 ambient = vec3(texture(material.diffuse, TexCoords)) * light.ambient;
+    //vec3 ambient = //diffColor * light.ambient;
+    vec3 ambient = vec3(texture(material.diffuse, teTexCoords)) * light.ambient;
 
     // ---- Diffuse ----- //
     float diffuseFactor = max(dot(norm, lightDir), 0.0f);
-    vec3 diffuse = diffuseFactor * diffColor * light.diffuse;
-    //diffuseFactor * vec3(texture(material.diffuse, TexCoords)) * light.diffuse;
+    vec3 diffuse = //diffuseFactor * diffColor * light.diffuse;
+    diffuseFactor * vec3(texture(material.diffuse, teTexCoords)) * light.diffuse;
 
 
     // ---- Specular----- //
     vec3 reflectDir = reflect(-lightDir, norm);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-    vec3 specular = specColor * spec * light.specular;
-    //vec3(texture(material.specular, TexCoords)) * spec * light.specular;
+    vec3 specular = //specColor * spec * light.specular;
+    vec3(texture(material.specular, teTexCoords)) * spec * light.specular;
 
     vec3 result = (ambient + diffuse + specular);
     return result;

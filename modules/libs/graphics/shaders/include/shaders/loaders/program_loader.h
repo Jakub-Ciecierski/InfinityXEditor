@@ -9,28 +9,18 @@
  */
 class ProgramLoader {
 private:
-    ShaderLoader shaderLoader;
 
-    Program* CreateProgram(std::string vertex_path, std::string fragment_path);
-    Program* CreateProgram(std::string vertex_path, std::string fragment_path,
-                           std::string tcs_path, std::string tes_path);
 public:
 
     ProgramLoader();
 
     ~ProgramLoader();
 
-    Program* loadTessellationLODProgram();
-    Program* loadTessellationBicubicBezierPolygonProgram();
-    Program* loadTessellationBicubicBezierProgram();
-    Program* loadTessellationProgram();
-    Program* loadCubemapProgram();
-    Program* loadAllLightProgram();
-    Program* loadAnisotropicLightProgram();
-    Program* loadBumpMappingProgram();
+    ShaderLoader shaderLoader;
 
-    Program* loadLampProgram();
-
+    Program* CreateProgram(std::string vertex_path, std::string fragment_path);
+    Program* CreateProgram(std::string vertex_path, std::string fragment_path,
+                           std::string tcs_path, std::string tes_path);
 };
 
 

@@ -1,14 +1,14 @@
 #include <lighting/types/light_point.h>
 #include <lighting/builders/pointlight_shader_builder.h>
 
-using namespace ifx;
+namespace ifx {
 
-LightPoint::LightPoint() : LightSource(){
+LightPoint::LightPoint() : LightSource() {
 
 }
 
-LightPoint::LightPoint(RenderObject *renderObject) :
-        LightSource(renderObject){
+LightPoint::LightPoint(MovableObject *renderObject) :
+        LightSource(renderObject) {
 
 }
 
@@ -17,7 +17,7 @@ LightPoint::~LightPoint() {
 }
 
 void LightPoint::bind(const Program &program, int id) {
-    const glm::vec3& pos = getPosition();
+    const glm::vec3 &pos = getPosition();
 
     ifx::PointlightShaderBuilder builder(id);
     builder.build();
@@ -26,18 +26,18 @@ void LightPoint::bind(const Program &program, int id) {
     GLint lightPosLoc = glGetUniformLocation(program.getID(),
                                              builder.POSITION.c_str());
 
-    GLint lightAmbientLoc  = glGetUniformLocation(program.getID(),
-                                                  builder.AMBIENT.c_str());
-    GLint lightDiffuseLoc  = glGetUniformLocation(program.getID(),
-                                                  builder.DIFFUSE.c_str());
+    GLint lightAmbientLoc = glGetUniformLocation(program.getID(),
+                                                 builder.AMBIENT.c_str());
+    GLint lightDiffuseLoc = glGetUniformLocation(program.getID(),
+                                                 builder.DIFFUSE.c_str());
     GLint lightSpecularLoc = glGetUniformLocation(program.getID(),
                                                   builder.SPECULAR.c_str());
 
-    GLint attenConstLoc= glGetUniformLocation(program.getID(),
-                                              builder.ATTEN_CONSTANT.c_str());
-    GLint attenLineLoc= glGetUniformLocation(program.getID(),
+    GLint attenConstLoc = glGetUniformLocation(program.getID(),
+                                               builder.ATTEN_CONSTANT.c_str());
+    GLint attenLineLoc = glGetUniformLocation(program.getID(),
                                               builder.ATTEN_LINEAR.c_str());
-    GLint attenQuadLoc= glGetUniformLocation(program.getID(),
+    GLint attenQuadLoc = glGetUniformLocation(program.getID(),
                                               builder.ATTEN_QUAD.c_str());
 
     glUniform3f(lightPosLoc, pos.x, pos.y, pos.z);
@@ -52,4 +52,5 @@ void LightPoint::bind(const Program &program, int id) {
     glUniform1f(attenConstLoc, light.constant);
     glUniform1f(attenLineLoc, light.linear);
     glUniform1f(attenQuadLoc, light.quadratic);
+}
 }

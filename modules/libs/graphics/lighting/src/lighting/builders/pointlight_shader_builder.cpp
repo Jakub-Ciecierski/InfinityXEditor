@@ -1,5 +1,5 @@
-#include <lighting/builders/light_shader_common_data.h>
 #include "lighting/builders/pointlight_shader_builder.h"
+#include <shaders/data/shader_data.h>
 
 using namespace ifx;
 

@@ -1,30 +1,32 @@
 #define GLEW_STATIC
 
-#include <shaders/program.h>
 #include <rendering/render_object.h>
-#include <rendering/loaders/render_object_loader.h>
-#include "rendering/window.h"
-#include "shaders/loaders/program_loader.h"
+#include <rendering/window.h>
+#include <rendering/camera/camera.h>
+
+#include <shaders/loaders/program_loader.h>
+#include <shaders/program.h>
 
 #include <lighting/light_source.h>
-#include <lighting/loaders/light_loader.h>
 #include <lighting/light_group.h>
+
+#include <factory/lighting_factory.h>
+#include <factory/render_object_factory.h>
+#include <factory/program_factory.h>
 
 #include <model/patch/patch.h>
 
-#include <controls/camera.h>
-#include "controls/camera_controls.h"
+#include <controls/camera_controls.h>
+
+#include <math/math_ifx.h>
 
 #include <iostream>
-
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <glm/gtc/type_ptr.hpp>
-
 #include <stdexcept>
+#include <factory/program_factory.h>
 
 
 using namespace std;
+using namespace ifx;
 
 // ------------------------------
 
@@ -35,12 +37,12 @@ int height;
 
 bool drawPolygon = false;
 
-ifc::Window* window;
+ifx::Window* window;
 
 Camera* camera;
 CameraControls * controls;
 
-RenderObjectLoader* renderObjectLoader;
+RenderObjectFactory* renderObjectLoader;
 RenderObject* squareObjectPointLight;
 RenderObject* squareObjectPointLight2;
 RenderObject* squareObjectDirLight;
@@ -54,14 +56,14 @@ RenderObject* bezierPatchObject;
 RenderObject* bezierBowlPatchObject;
 RenderObject* bezierAsymmetricPatchObject;
 
-LightLoader lightLoader;
+LightingFactory lightLoader;
 LightGroup lightGroup;
 LightPoint* lightPoint1;
 LightPoint* lightPoint2;
 LightDirectional* lightDirectional;
 LightSpotlight* lightSpotlight;
 
-ProgramLoader programLoader;
+ProgramFactory programFactory;
 
 Program* programBumpMap;
 Program* programLight;
@@ -112,7 +114,7 @@ void initContext(){
 
     width = 800;
     height = 600;
-    window = new ifc::Window(width, height, "Tessellation");
+    window = new ifx::Window(width, height, "Tessellation");
 
     initOpenGLContext();
     initCallbacks();
@@ -144,7 +146,7 @@ void initCallbacks(){
 
 
 void initScene(){
-    camera = new Camera(&width, &height);
+    camera = new Camera(ObjectID(1), "camera", &width, &height);
     camera->moveTo(glm::vec3(-1.5f, 0.8f, 0.0f));
 
     controls = new CameraControls(camera);
@@ -156,7 +158,7 @@ void initScene(){
 }
 
 void initExampleMeshes(){
-    renderObjectLoader = new RenderObjectLoader();
+    renderObjectLoader = new RenderObjectFactory();
     boxObject = renderObjectLoader->loadCubeObject();
 
     squareObjectPointLight = renderObjectLoader->loadLampObject();
@@ -187,14 +189,14 @@ void initExampleMeshes(){
     lightDirectional = lightLoader.loadDirLight();
     lightSpotlight = lightLoader.loadSpotlight();
 
-    lightPoint1->setRenderObject(squareObjectPointLight);
-    lightPoint2->setRenderObject(squareObjectPointLight2);
-    lightDirectional->setRenderObject(squareObjectDirLight);
-    lightSpotlight->setCamera(camera);
+    lightPoint1->setMovableObject(squareObjectPointLight);
+    lightPoint2->setMovableObject(squareObjectPointLight2);
+    lightDirectional->setMovableObject(squareObjectDirLight);
+    lightSpotlight->setMovableObject(camera);
     // -------
 
     //lightGroup.addLightDirectional(lightDirectional);
-    //lightGroup.addLightSpotlight(lightSpotlight);
+    lightGroup.addLightSpotlight(lightSpotlight);
     lightGroup.addLightPoint(lightPoint1);
     lightGroup.addLightPoint(lightPoint2);
 
@@ -206,14 +208,14 @@ void initExampleMeshes(){
 }
 
 void initShaders(){
-    programBumpMap = programLoader.loadBumpMappingProgram();
-    programLight = programLoader.loadAllLightProgram();
-    programLamp = programLoader.loadLampProgram();
-    programTess = programLoader.loadTessellationProgram();
-    programTessBezier = programLoader.loadTessellationBicubicBezierProgram();
-    programTessLOD = programLoader.loadTessellationLODProgram();
+    programBumpMap = programFactory.loadBumpMappingProgram();
+    programLight = programFactory.loadAllLightProgram();
+    programLamp = programFactory.loadLampProgram();
+    programTess = programFactory.loadTessellationProgram();
+    programTessBezier = programFactory.loadTessellationBicubicBezierProgram();
+    programTessLOD = programFactory.loadTessellationLODProgram();
     programTessBezierPolygon
-            = programLoader.loadTessellationBicubicBezierPolygonProgram();
+            = programFactory.loadTessellationBicubicBezierPolygonProgram();
 }
 
 void releaseResources(){
@@ -395,7 +397,8 @@ void render(){
 
     // Draw Lamp
     camera->use(*programLamp);
-    lightGroup.render(*programLamp);
+    squareObjectPointLight->render(*programLamp);
+    squareObjectPointLight2->render(*programLamp);
 }
 
 void mainLoop(){

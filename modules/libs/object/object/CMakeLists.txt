@@ -26,6 +26,13 @@ ENDMACRO()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 #---------------------------------
+# DEPENDENCIES
+#---------------------------------
+
+include_directories($ENV{IFX_ROOT}/modules/libs/common/math/${INC_DIR})
+include_directories($ENV{IFX_ROOT}/dependencies/glm/${INC_DIR})
+
+#---------------------------------
 # PROJECT
 #---------------------------------
 

@@ -21,6 +21,8 @@ public:
 
     virtual ~Object();
 
+    virtual void update() = 0;
+
 };
 
 

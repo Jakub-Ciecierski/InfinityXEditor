@@ -1,7 +1,7 @@
 #ifndef DUCK_CONTROLS_H
 #define DUCK_CONTROLS_H
 
-#include <controls/camera.h>
+#include <rendering/camera/camera.h>
 
 /*
  * Controls the Mouse and Keyboard input

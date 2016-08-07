@@ -1,6 +1,6 @@
 #include <GL/glew.h>
 
-#include <model/mesh_data.h>
+#include "shaders/data/shader_data.h"
 #include "model/buffers/vbo.h"
 
 #include <iostream>

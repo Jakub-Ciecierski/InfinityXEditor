@@ -1,22 +1,19 @@
 #ifndef DUCK_TEXTURE_LOADER_H
 #define DUCK_TEXTURE_LOADER_H
 
-#include <model/mesh_data.h>
+#include "shaders/data/shader_data.h"
 #include <vector>
 
 /*
- * Class loads textures saved in resource files
+ * Class loads textures.
  */
 class TextureLoader {
-private:
-    GLuint loadFromFile(std::string filepath);
-    Texture contructTexture(GLuint id, GLenum Type);
-
 public:
 
     TextureLoader();
 
     ~TextureLoader();
+
     Texture loadFromData(TextureTypes type, unsigned char* data,
                          int width, int height);
 
@@ -25,21 +22,9 @@ public:
                         GLenum glType = GL_TEXTURE_2D);
     Texture loadCubemap(std::vector<std::string> filepath);
 
-    Texture LoadExampleCubemap();
+    GLuint loadFromFile(std::string filepath);
+    Texture contructTexture(GLuint id, GLenum Type);
 
-    Texture LoadDynamicBlueDiffuseTexture();
-    Texture LoadDynamicBlueSpecularTexture();
-
-    Texture LoadTesselationDiffuse();
-    Texture LoadTesselationSpecular();
-    Texture LoadTesselationNormals();
-    Texture LoadTesselationHeight();
-
-    Texture LoadContainer();
-    Texture LoadContainerDiffuse();
-    Texture LoadContainerSpecular();
-
-    Texture LoadAwesomeFace();
 };
 
 

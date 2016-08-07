@@ -1,4 +1,7 @@
+graphics/shaders
 graphics/model
+
 object/object
+common/math
 
 GLFW

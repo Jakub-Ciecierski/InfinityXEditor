@@ -3,6 +3,8 @@
 
 #include <lighting/types/light_directional.h>
 
+namespace ifx{
+
 /*
  * Represents Flashlight
  * Binds the cutOff angle with the shader
@@ -14,11 +16,11 @@ protected:
 public:
 
     LightSpotlight();
-    LightSpotlight(RenderObject *object);
+    LightSpotlight(MovableObject *object);
 
     ~LightSpotlight();
 
 };
-
+}
 
 #endif //DUCK_LIGHT_SPOTLIGHT_H

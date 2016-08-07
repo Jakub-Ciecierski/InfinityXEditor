@@ -3,25 +3,26 @@
 
 #include "lighting/light_source.h"
 
+namespace ifx {
 /*
  * Directional Light has a lookAt position which is used
  * to compute a direction.
  *
  * It binds the position and the direction with the shader.
  */
-class LightDirectional : public LightSource{
+class LightDirectional : public LightSource {
 protected:
     // Defines the direction of the light.
     // Will be used if light is not set on follow with camera
     glm::vec3 lookAt;
 
-    virtual void bind(const Program& program, int id = -1) override;
+    virtual void bind(const Program &program, int id = -1) override;
 
 public:
 
     LightDirectional();
 
-    LightDirectional(RenderObject* object);
+    LightDirectional(MovableObject *object);
 
     ~LightDirectional();
 
@@ -31,8 +32,8 @@ public:
      */
     const glm::vec3 getDirection();
 
-    void setLookAt(const glm::vec3& lookAt);
+    void setLookAt(const glm::vec3 &lookAt);
 };
-
+}
 
 #endif //DUCK_LIGHT_DIRECTIONAL_H
