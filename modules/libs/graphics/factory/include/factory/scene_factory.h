@@ -1,7 +1,7 @@
 #ifndef PROJECT_SCENE_FACTORY_H
 #define PROJECT_SCENE_FACTORY_H
 
-#include <scene/scene.h>
+#include <rendering/scene/scene.h>
 
 namespace ifx {
 

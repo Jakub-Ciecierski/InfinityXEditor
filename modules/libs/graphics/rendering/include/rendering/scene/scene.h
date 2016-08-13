@@ -10,7 +10,7 @@
 namespace ifx {
 
 /**
- * Takes ownership of render_objects, light_group, camera
+ * Takes ownership of render_objects, light_group and latest set camera.
  */
 class Scene {
 public:
@@ -20,6 +20,11 @@ public:
     ~Scene();
 
     void ReloadProgams();
+
+    /**
+     * Sets new camera, returns pointer to the previous.
+     */
+    Camera* SetCamera(Camera* camera);
 
     void render();
     void update();

@@ -5,8 +5,7 @@
 namespace ifx {
 
 Window::Window(int width, int height, std::string name) :
-        width(width), height(height), name(name) {
-
+        width_(width), height_(height), name(name) {
     init();
     setViewport();
 }
@@ -16,7 +15,7 @@ Window::~Window() {
 }
 
 void Window::init() {
-    glfwWindow = glfwCreateWindow(width, height,
+    glfwWindow = glfwCreateWindow(width_, height_,
                                   name.c_str(), nullptr, nullptr);
     if (glfwWindow == nullptr) {
         throw new std::invalid_argument("Failed to create GLFW window");
@@ -25,9 +24,9 @@ void Window::init() {
 }
 
 void Window::setViewport() {
-    glfwGetFramebufferSize(glfwWindow, &width, &height);
+    glfwGetFramebufferSize(glfwWindow, &width_, &height_);
 
-    glViewport(0, 0, width, height);
+    glViewport(0, 0, width_, height_);
 }
 
 int Window::shouldClose() {

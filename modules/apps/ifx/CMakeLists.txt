@@ -39,9 +39,6 @@ add_executable(${APP_NAME} ${SOURCE_FILES} ${SRC_FILES})
 # IFX LIBS
 #---------------------------------
 
-add_subdirectory(../../libs/controls/controls ./build/controls/controls)
-include_directories($ENV{IFX_ROOT}/modules/libs/controls/controls/${INC_DIR})
-
 add_subdirectory(../../libs/graphics/model ./build/graphics/model)
 include_directories($ENV{IFX_ROOT}/modules/libs/graphics/model/${INC_DIR})
 
@@ -62,9 +59,6 @@ include_directories($ENV{IFX_ROOT}/modules/libs/object/object/${INC_DIR})
 
 add_subdirectory(../../libs/common/resources ./build/common/resources)
 include_directories($ENV{IFX_ROOT}/modules/libs/common/resources/${INC_DIR})
-
-add_subdirectory(../../libs/graphics/scene ./build/graphics/scene)
-include_directories($ENV{IFX_ROOT}/modules/libs/graphics/scene/${INC_DIR})
 
 add_subdirectory(../../libs/common/math ./build/common/math)
 include_directories($ENV{IFX_ROOT}/modules/libs/common/math/${INC_DIR})
@@ -99,9 +93,9 @@ include_directories(${GLEW_INCLUDE_DIRS})
 #---------------------------------
 
 target_link_libraries(${APP_NAME}
-        scene_ifx factory_ifx model_loader_ifx
+        factory_ifx model_loader_ifx
         rendering_ifx shaders_ifx math_ifx  model_ifx
-        lighting_ifx controls_ifx object_ifx resources_ifx)
+        lighting_ifx object_ifx resources_ifx)
 target_link_libraries(${APP_NAME}
         glfw SOIL assimp ${GLFW_LIBRARIES})
 target_link_libraries(${APP_NAME}

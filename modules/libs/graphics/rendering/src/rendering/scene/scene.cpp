@@ -14,14 +14,21 @@ Scene::~Scene(){
     for(unsigned int i = 0; i < render_objects_.size(); i++){
         delete render_objects_[i];
     }
-    delete camera_;
     delete light_group_;
+    delete camera_;
 }
 
 void Scene::ReloadProgams(){
     for(unsigned int i = 0; i < render_objects_.size(); i++){
         render_objects_[i]->getProgram()->Reload();
     }
+}
+
+Camera* Scene::SetCamera(Camera* camera){
+    Camera* prev_camera = camera_;
+    camera_ = camera;
+
+    return prev_camera;
 }
 
 void Scene::render(){

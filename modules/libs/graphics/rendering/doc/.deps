@@ -1,5 +1,6 @@
 graphics/shaders
 graphics/model
+graphics/lighting
 
 object/object
 common/math

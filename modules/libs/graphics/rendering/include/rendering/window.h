@@ -5,31 +5,33 @@
 #include <GLFW/glfw3.h>
 
 namespace ifx {
-    /*
-     * Windows Context, encapsulating the GLFW handle
-     */
-    class Window {
-    private:
-        GLFWwindow *glfwWindow;
+/*
+ * Windows Context, encapsulating the GLFW handle
+ */
+class Window {
 
-        int width;
-        int height;
-        std::string name;
+public:
+    Window(int width, int height, std::string name);
+    ~Window();
 
-        void init();
-        void setViewport();
+    int* width() {return &width_;}
+    int* height() {return &height_;}
 
-    public:
+    int shouldClose();
+    void update();
 
-        Window(int width, int height, std::string name);
-        ~Window();
+    GLFWwindow* getHandle();
 
-        int shouldClose();
-        void update();
+private:
+    GLFWwindow* glfwWindow;
 
-        GLFWwindow* getHandle();
+    int width_;
+    int height_;
+    std::string name;
 
-    };
+    void init();
+    void setViewport();
+};
 }
 
 #endif //DUCK_WINDOW_H

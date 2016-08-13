@@ -2,12 +2,14 @@
 
 #include "shaders/data/shader_data.h"
 
+namespace ifx {
+
 Camera::Camera(ObjectID id, std::string name,
-               int* width, int* height,
+               int *width, int *height,
                float FOV, float near, float far) :
         MovableObject(id, name),
         width(width), height(height),
-        FOV(FOV), near(near), far(far){
+        FOV(FOV), near(near), far(far) {
     WorldUp = glm::vec3(0.0f, 1.0f, 0.0f);
     position = glm::vec3(1.0f, 1.0f, 1.0f);
     update();
@@ -29,7 +31,7 @@ void Camera::rotateTo(const glm::vec3 &rotation) {
 
 void Camera::update() {
     ProjectionMatrix = glm::perspective(FOV,
-                                        (float)(*width)/(float)(*height),
+                                        (float) (*width) / (float) (*height),
                                         near, far);
 
     direction.x = cos(glm::radians(rotation.x))
@@ -39,7 +41,7 @@ void Camera::update() {
 
     direction = glm::normalize(direction);
     right = glm::normalize(glm::cross(direction, this->WorldUp));
-    up    = glm::normalize(glm::cross(right, direction));
+    up = glm::normalize(glm::cross(right, direction));
 
     ViewMatrix = glm::lookAt(position, position + direction, up);
 }
@@ -79,7 +81,8 @@ void Camera::use(const Program &program) {
     // Projection Matrix
     GLint projLoc = glGetUniformLocation(program.getID(),
                                          PROJECTION_MATRIX_NAME.c_str());
-    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(getProjectionMatrix()));
+    glUniformMatrix4fv(projLoc, 1, GL_FALSE,
+                       glm::value_ptr(getProjectionMatrix()));
 
     // View Position
     GLint viewPosLoc = glGetUniformLocation(program.getID(),
@@ -95,11 +98,13 @@ const glm::mat4 &Camera::getProjectionMatrix() {
     return this->ProjectionMatrix;
 }
 
-void Camera::clampRotation(){
-    if(rotation.y < - 89){
+void Camera::clampRotation() {
+    if (rotation.y < -89) {
         rotation.y = -89;
     }
-    if(rotation.y > 89){
+    if (rotation.y > 89) {
         rotation.y = 89;
     }
+}
+
 }

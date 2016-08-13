@@ -25,6 +25,7 @@ private:
 
     Models models;
 };
+
 }
 
 #endif //PROJECT_MODEL_MEMORY_MANAGER_H

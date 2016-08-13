@@ -3,12 +3,14 @@
 
 #include <rendering/camera/camera.h>
 
+namespace ifx {
+
 /*
  * Controls the Mouse and Keyboard input
  */
 class CameraControls {
 private:
-    Camera* camera;
+    Camera *camera;
 
     float movementSpeed;
     float rotationSpeed;
@@ -20,7 +22,7 @@ private:
 
 public:
 
-    CameraControls(Camera* camera,
+    CameraControls(Camera *camera,
                    float movementSpeed = 0.005f,
                    float rotationSpeed = 0.1f);
 
@@ -29,13 +31,15 @@ public:
     bool isKeyPress(int key);
 
     void setMousePress(bool value);
+
     bool doMovement();
 
     void setPressedPosition(float x, float y);
 
     void onMouseAction(float dx, float dy);
+
     void onKeyboardAction(int action, int key);
 };
-
+}
 
 #endif //DUCK_CONTROLS_H

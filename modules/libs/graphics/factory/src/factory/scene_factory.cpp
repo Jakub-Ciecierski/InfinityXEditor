@@ -22,7 +22,8 @@ Scene* SceneFactory::CreateScene(Camera* camera){
 
     LightGroup* group_light = lighting_factory.createGroupLight(camera);
 
-    Scene* scene = new Scene(render_objects, group_light, camera);
+    Scene* scene = new Scene(render_objects,
+                             group_light, camera);
 
     return scene;
 }
