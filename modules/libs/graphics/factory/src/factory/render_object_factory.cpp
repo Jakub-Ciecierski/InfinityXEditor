@@ -1,7 +1,8 @@
 #include "factory/render_object_factory.h"
 
-#include <factory/model_factory.h>
 #include <math/math_ifx.h>
+#include <factory/model_factory.h>
+#include <factory/program_factory.h>
 
 namespace ifx{
 
@@ -11,7 +12,6 @@ RenderObjectFactory::RenderObjectFactory(){
 }
 
 RenderObjectFactory::~RenderObjectFactory() {
-    delete nanosuitModel;
     delete cubeModel;
     delete cubeMapModel;
     delete lampModel;
@@ -24,7 +24,7 @@ RenderObjectFactory::~RenderObjectFactory() {
 
 void RenderObjectFactory::initModels() {
     squareModel = new Model(ModelFactory::LoadSquareModel());
-    nanosuitModel = new Model(ModelFactory::LoadNanoSuitModel());
+
     cubeMapModel = new Model(ModelFactory::LoadCubemapModel());
     cubeModel = new Model(ModelFactory::LoadCubeModel());
     lampModel = new Model(ModelFactory::LoadLampModel());
@@ -126,9 +126,16 @@ RenderObject *RenderObjectFactory::loadLampObject() {
     return renderObject;
 }
 
-RenderObject* RenderObjectFactory::loadnanosuitObject(){
+RenderObject* RenderObjectFactory::loadNanosuitObject(){
+    ProgramFactory program_factory;
+
+    Program* nano_program = program_factory.loadBumpMappingProgram();
+    Model* nanosuitModel = ModelFactory::LoadNanoSuitModel();
+
     RenderObject* renderObject
             = new RenderObject(ObjectID(0), "NanoSuit", nanosuitModel);
+    renderObject->setProgram(nano_program);
+
     float scaleFactor = 0.005f;
     renderObject->scale(glm::vec3(scaleFactor, scaleFactor, scaleFactor));
 

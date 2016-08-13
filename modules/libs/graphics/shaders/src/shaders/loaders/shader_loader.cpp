@@ -23,7 +23,7 @@ ShaderLoader::~ShaderLoader() {
 
 VertexShader ShaderLoader::loadVertexShader(const GLchar *path) {
     std::string shaderCode = getShaderCode(path);
-    VertexShader vertexShader(shaderCode.c_str());
+    VertexShader vertexShader(shaderCode.c_str(), std::string(path));
 
     return vertexShader;
 }
@@ -31,7 +31,7 @@ VertexShader ShaderLoader::loadVertexShader(const GLchar *path) {
 FragmentShader ShaderLoader::loadFragmentShader(const GLchar *path) {
     std::string shaderCode = getShaderCode(path);
 
-    FragmentShader fragmentShader(shaderCode.c_str());
+    FragmentShader fragmentShader(shaderCode.c_str(), std::string(path));
 
     return fragmentShader;
 }
@@ -39,7 +39,7 @@ FragmentShader ShaderLoader::loadFragmentShader(const GLchar *path) {
 TessControlShader ShaderLoader::loadTessControlShader(const GLchar *path) {
     std::string shaderCode = getShaderCode(path);
 
-    TessControlShader shader(shaderCode.c_str());
+    TessControlShader shader(shaderCode.c_str(), std::string(path));
 
     return shader;
 }
@@ -47,7 +47,7 @@ TessControlShader ShaderLoader::loadTessControlShader(const GLchar *path) {
 TessEvalShader ShaderLoader::loadTessEvalShader(const GLchar *path) {
     std::string shaderCode = getShaderCode(path);
 
-    TessEvalShader shader(shaderCode.c_str());
+    TessEvalShader shader(shaderCode.c_str(),std::string(path));
 
     return shader;
 }

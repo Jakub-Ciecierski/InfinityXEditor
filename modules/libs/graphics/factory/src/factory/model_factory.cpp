@@ -3,6 +3,7 @@
 #include <factory/mesh_factory.h>
 #include <model_loader/model_loader.h>
 #include <resources/resources.h>
+#include <model/model_memory_manager.h>
 
 namespace ifx {
 
@@ -17,13 +18,21 @@ ModelFactory::~ModelFactory() {
 
 }
 
-Model ModelFactory::LoadNanoSuitModel() {
-    ifx::Resources &resources = ifx::Resources::GetInstance();
+Model* ModelFactory::LoadNanoSuitModel() {
+    ModelMemoryManager& model_manager = ModelMemoryManager::GetInstance();
+    Model* cached_model = model_manager.GetNanosuit();
+    if(cached_model != nullptr)
+        return cached_model;
+
+    Resources &resources = Resources::GetInstance();
     std::string path = resources.GetResourcePath("nanosuit/nanosuit.obj",
-                                                 ifx::ResourceType::MODEL);
+                                                 ResourceType::MODEL);
 
     ModelLoader loader(path);
-    return loader.loadModel();
+    Model* model = loader.loadModel();
+    model_manager.SetNanosuit(model);
+
+    return model;
 }
 
 Model ModelFactory::LoadBicubicBezierSurfaceC0() {

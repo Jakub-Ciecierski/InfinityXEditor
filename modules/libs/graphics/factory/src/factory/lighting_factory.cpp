@@ -1,3 +1,4 @@
+#include <lighting/light_group.h>
 #include "factory/lighting_factory.h"
 
 namespace ifx {
@@ -78,4 +79,16 @@ LightSpotlight *LightingFactory::loadSpotlight() {
     lightSource->setLookAt(glm::vec3(0.0f, 0.0f, 0.0f));
     return lightSource;
 }
+
+LightGroup* LightingFactory::createGroupLight(Camera* camera){
+    LightGroup* light_group = new LightGroup();
+
+    LightSpotlight* light_spotlight = loadSpotlight();
+    light_spotlight->setMovableObject(camera);
+
+    light_group->addLightSpotlight(light_spotlight);
+
+    return light_group;
+}
+
 }

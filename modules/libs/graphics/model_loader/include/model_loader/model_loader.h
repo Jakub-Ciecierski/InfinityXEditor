@@ -65,7 +65,7 @@ public:
 
     ~ModelLoader();
 
-    Model loadModel();
+    Model* loadModel();
 };
 
 

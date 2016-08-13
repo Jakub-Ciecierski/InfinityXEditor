@@ -1,7 +1,12 @@
 #include "shaders/shaders/tess_control_shader.h"
 
-TessControlShader::TessControlShader(std::string shaderSource) :
-    Shader(shaderSource){
+TessControlShader::TessControlShader(std::string shaderSource,
+                                     std::string file_path) :
+    Shader(shaderSource, file_path){
+}
+
+TessControlShader::TessControlShader(const TessControlShader& other) :
+    Shader(other){
 
 }
 

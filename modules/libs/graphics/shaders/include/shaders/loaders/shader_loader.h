@@ -11,14 +11,13 @@
  * Logic behind loading Shaders from files
  */
 class ShaderLoader {
-private:
-
-    std::string getShaderCode(const GLchar* path);
 public:
 
     ShaderLoader();
 
     ~ShaderLoader();
+
+    std::string getShaderCode(const GLchar* path);
 
     VertexShader loadVertexShader(const GLchar* path);
     FragmentShader loadFragmentShader(const GLchar* path);

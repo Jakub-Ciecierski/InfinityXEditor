@@ -1,1 +1,55 @@
-#include "scene.h"
+#include "scene/scene.h"
+
+namespace ifx {
+
+Scene::Scene(std::vector<RenderObject *>& render_objects,
+             LightGroup* light_group, Camera* camera) :
+        render_objects_(render_objects),
+        light_group_(light_group),
+        camera_(camera) {
+
+}
+
+Scene::~Scene(){
+    for(unsigned int i = 0; i < render_objects_.size(); i++){
+        delete render_objects_[i];
+    }
+    delete camera_;
+    delete light_group_;
+}
+
+void Scene::ReloadProgams(){
+    for(unsigned int i = 0; i < render_objects_.size(); i++){
+        render_objects_[i]->getProgram()->Reload();
+    }
+}
+
+void Scene::render(){
+    renderObjects();
+}
+
+void Scene::update(){
+    updateObjects();
+    camera_->update();
+}
+
+void Scene::renderObjects(){
+    for(unsigned int i = 0; i < render_objects_.size(); i++){
+        RenderObject* object = render_objects_[i];
+        Program* program = object->getProgram();
+        if(program == nullptr)
+            continue;
+
+        camera_->use(*program);
+        light_group_->use(*program);
+        object->render();
+    }
+}
+
+void Scene::updateObjects(){
+    for(unsigned int i = 0; i < render_objects_.size(); i++){
+        render_objects_[i]->update();
+    }
+}
+
+}

@@ -99,7 +99,7 @@ include_directories(${GLEW_INCLUDE_DIRS})
 #---------------------------------
 
 target_link_libraries(${APP_NAME}
-        factory_ifx model_loader_ifx
+        scene_ifx factory_ifx model_loader_ifx
         rendering_ifx shaders_ifx math_ifx  model_ifx
         lighting_ifx controls_ifx object_ifx resources_ifx)
 target_link_libraries(${APP_NAME}

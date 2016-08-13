@@ -89,7 +89,7 @@ void main()
 {
     // Load normal from normal map and normalize to [-1. 1].
     vec3 norm = normalize(texture(material.normal, TexCoords).rgb * 2.0 - 1.0);
-    //vec3 norm = normalize(Normal);
+    norm = normalize(Normal);
 
     vec3 viewDir = normalize(viewPos - FragPos);
 
@@ -109,9 +109,8 @@ void main()
         result += computeSpotLight(spotLights[i], norm, FragPos, viewDir, TBN);
     }
 
-    //color = vec4(Tangent, 1.0f);
-    //color = vec4(Binormal, 1.0f);
     color = vec4(result, 1.0f);
+    //color = vec4(norm, 1.0f);
 }
 
 vec3 computePointLight(PointLight light, vec3 norm, vec3 fragPos,

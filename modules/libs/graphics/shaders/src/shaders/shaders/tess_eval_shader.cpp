@@ -1,7 +1,12 @@
 #include "shaders/shaders/tess_eval_shader.h"
 
-TessEvalShader::TessEvalShader(std::string shaderSource) :
-        Shader(shaderSource){
+TessEvalShader::TessEvalShader(std::string shaderSource,
+                               std::string file_path) :
+        Shader(shaderSource, file_path){
+}
+
+TessEvalShader::TessEvalShader(const TessEvalShader& other) :
+    Shader(other){
 
 }
 

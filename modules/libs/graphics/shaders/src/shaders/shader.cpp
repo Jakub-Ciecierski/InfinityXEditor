@@ -2,12 +2,21 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <shaders/loaders/shader_loader.h>
 
 
 using namespace std;
 
-Shader::Shader(string shaderSource){
-    this->shaderSource = shaderSource;
+Shader::Shader(string shaderSource,
+               string file_path) :
+        shaderSource(shaderSource),
+        file_path_(file_path){
+}
+
+Shader::Shader(const Shader& other){
+    id = other.id;
+    shaderSource = other.shaderSource;
+    file_path_ = other.file_path_;
 }
 
 Shader::~Shader() {
@@ -36,6 +45,14 @@ void Shader::compile() {
 
 void Shader::deleteShader() {
     glDeleteShader(id);
+}
+
+void Shader::Reload(){
+    ShaderLoader shader_loader;
+    shaderSource = shader_loader.getShaderCode(file_path_.c_str());
+
+    deleteShader();
+    compile();
 }
 
 GLuint Shader::getKey() {

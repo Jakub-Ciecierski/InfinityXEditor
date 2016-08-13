@@ -26,7 +26,7 @@ void ModelLoader::checkError(const aiScene* scene,
     }
 }
 
-Model ModelLoader::loadModel() {
+Model* ModelLoader::loadModel() {
     Assimp::Importer importer;
     const aiScene* scene =
             importer.ReadFile(filepath,
@@ -40,8 +40,8 @@ Model ModelLoader::loadModel() {
     vector<Mesh*> meshes;
     processNode(scene->mRootNode, scene, meshes);
 
-    Model model(meshes);
-    printInfo(model);
+    Model* model = new Model(meshes);
+    printInfo(*model);
 
     return model;
 }

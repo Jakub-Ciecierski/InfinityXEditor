@@ -2,8 +2,13 @@
 
 using namespace std;
 
-FragmentShader::FragmentShader(string shaderSource) :
-        Shader(shaderSource){
+FragmentShader::FragmentShader(string shaderSource,
+                               std::string file_path) :
+        Shader(shaderSource, file_path){
+}
+
+FragmentShader::FragmentShader(const FragmentShader& other)
+        : Shader(other){
 
 }
 

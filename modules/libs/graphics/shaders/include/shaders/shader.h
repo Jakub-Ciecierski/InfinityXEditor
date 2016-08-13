@@ -5,20 +5,15 @@
 #include <GL/glew.h>
 
 class Shader {
-private:
-    GLuint id;
-    std::string shaderSource;
-
-protected:
-    /*
-     * Creates a shader: Vertex/Fragmet/Geometry
-     */
-    virtual GLuint createShader() = 0;
-
 public:
 
-    Shader(std::string vertexShaderSource);
+    Shader(std::string vertexShaderSource,
+           std::string file_path);
+    Shader(const Shader& other);
+
     virtual ~Shader();
+
+    std::string file_path() const {return file_path_;}
 
     /*
      * compile function has to be called before using shader
@@ -30,9 +25,21 @@ public:
      */
     void deleteShader();
 
+    void Reload();
+
     GLuint getKey();
 
     std::string getSource();
+protected:
+    /*
+     * Creates a shader: Vertex/Fragmet/Geometry
+     */
+    virtual GLuint createShader() = 0;
+
+private:
+    GLuint id;
+    std::string shaderSource;
+    std::string file_path_;
 };
 
 

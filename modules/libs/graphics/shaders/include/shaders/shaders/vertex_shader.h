@@ -11,7 +11,9 @@ protected:
 
 public:
 
-    VertexShader(std::string shaderSource);
+    VertexShader(std::string shaderSource,
+                 std::string file_path);
+    VertexShader(const VertexShader& other);
 
     ~VertexShader();
 

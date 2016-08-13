@@ -14,6 +14,7 @@ enum RenderModels{
 
 /*
  * RenderObject is used to render Meshes.
+ * Takes ownership over program.
  */
 class RenderObject : public ifx::MovableObject{
 private:
@@ -21,6 +22,7 @@ private:
 
     Model* model;
 
+    Program* program_;
 public:
     RenderObject(ObjectID id, std::string name,
                  Model* model);
@@ -29,9 +31,13 @@ public:
 
     Model* getModel();
 
+    void setProgram(Program* program);
+    Program* getProgram();
+
     /*
      * Binds the Model matrix and draws Mesh
      */
+    void render(RenderModels renderModel = RenderModels::MAIN_MODEL);
     void render(const Program& program,
                 RenderModels renderModel = RenderModels::MAIN_MODEL);
 

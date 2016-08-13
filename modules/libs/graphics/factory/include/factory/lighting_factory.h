@@ -4,6 +4,7 @@
 #include <lighting/types/light_directional.h>
 #include <lighting/types/light_point.h>
 #include <lighting/types/light_spotlight.h>
+#include <rendering/camera/camera.h>
 
 namespace ifx {
 /*
@@ -23,6 +24,8 @@ public:
     LightDirectional *loadDirLight();
 
     LightSpotlight *loadSpotlight();
+
+    LightGroup* createGroupLight(Camera* camera);
 
 };
 }

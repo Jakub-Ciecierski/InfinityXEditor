@@ -1,0 +1,22 @@
+#ifndef PROJECT_SCENE_FACTORY_H
+#define PROJECT_SCENE_FACTORY_H
+
+#include <scene/scene.h>
+
+namespace ifx {
+
+class SceneFactory {
+public:
+
+    SceneFactory();
+
+    ~SceneFactory();
+
+    Scene* CreateScene(Camera* camera);
+
+private:
+};
+
+}
+
+#endif //PROJECT_SCENE_FACTORY_H

@@ -18,7 +18,8 @@ Program* ProgramLoader::CreateProgram(std::string vertex_path,
     vertexShader.compile();
     fragmentShader.compile();
 
-    Program* program = new Program(vertexShader, fragmentShader);
+    Program* program = new Program(&vertexShader,
+                                   &fragmentShader);
 
     return program;
 }
@@ -40,9 +41,10 @@ Program* ProgramLoader::CreateProgram(std::string vertex_path,
     tessControlShader.compile();
     tessEvalShader.compile();
 
-    Program* program = new Program(vertexShader, fragmentShader,
-                                   tessControlShader,
-                                   tessEvalShader);
+    Program* program = new Program(&vertexShader,
+                                   &fragmentShader,
+                                   &tessControlShader,
+                                   &tessEvalShader);
 
     return program;
 }

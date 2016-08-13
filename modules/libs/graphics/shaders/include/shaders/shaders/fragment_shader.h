@@ -10,7 +10,9 @@ protected:
     virtual GLuint createShader();
 
 public:
-    FragmentShader(std::string shaderSource);
+    FragmentShader(std::string shaderSource,
+                   std::string file_path);
+    FragmentShader(const FragmentShader& other);
 
     ~FragmentShader();
 

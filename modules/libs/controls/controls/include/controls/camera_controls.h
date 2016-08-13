@@ -21,7 +21,7 @@ private:
 public:
 
     CameraControls(Camera* camera,
-                   float movementSpeed = 0.1f,
+                   float movementSpeed = 0.005f,
                    float rotationSpeed = 0.1f);
 
     ~CameraControls();

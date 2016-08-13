@@ -38,6 +38,7 @@ include_directories($ENV{IFX_ROOT}/modules/libs/graphics/shaders/${INC_DIR})
 include_directories($ENV{IFX_ROOT}/modules/libs/graphics/model/${INC_DIR})
 include_directories($ENV{IFX_ROOT}/modules/libs/graphics/model_loader/${INC_DIR})
 include_directories($ENV{IFX_ROOT}/modules/libs/graphics/rendering/${INC_DIR})
+include_directories($ENV{IFX_ROOT}/modules/libs/graphics/scene/${INC_DIR})
 include_directories($ENV{IFX_ROOT}/modules/libs/common/resources/${INC_DIR})
 include_directories($ENV{IFX_ROOT}/modules/libs/common/math/${INC_DIR})
 

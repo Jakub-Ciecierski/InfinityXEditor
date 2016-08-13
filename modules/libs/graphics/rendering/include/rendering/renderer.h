@@ -3,13 +3,14 @@
 
 
 class Renderer {
-private:
-
 public:
-
     Renderer();
 
     ~Renderer();
+
+    void startMainLoop();
+    void pauseMainLoop();
+private:
 
 };
 

@@ -4,12 +4,33 @@ using namespace glm;
 
 RenderObject::RenderObject(ObjectID id, std::string name,
                            Model* model) :
-        ifx::MovableObject(id, name), model(model){
+        ifx::MovableObject(id, name), model(model),
+        program_(nullptr){
 
 }
 
 RenderObject::~RenderObject(){
+    if(program_ != nullptr)
+        delete program_;
+}
 
+Model *RenderObject::getModel() {
+    return model;
+}
+
+void RenderObject::setProgram(Program* program){
+    if(program_ != nullptr) delete program_;
+    program_ = program;
+}
+
+Program* RenderObject::getProgram(){
+    return program_;
+}
+
+void RenderObject::render(RenderModels renderModel){
+    if(program_ == nullptr)
+        return;
+    render(*program_, renderModel);
 }
 
 void RenderObject::render(const Program& program,
@@ -49,8 +70,4 @@ void RenderObject::update(){
     glm::mat4 Rotate =  RotateZ * RotateY * RotateX;
 
     ModelMatrix = Translate * Rotate * Scale;
-}
-
-Model *RenderObject::getModel() {
-    return model;
 }

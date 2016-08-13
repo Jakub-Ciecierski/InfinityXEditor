@@ -14,7 +14,7 @@ public:
 
     ~ModelFactory();
 
-    static Model LoadNanoSuitModel();
+    static Model* LoadNanoSuitModel();
 
     static Model LoadBicubicBezierSurfaceC0();
     static Model LoadBicubicBezierPatch();

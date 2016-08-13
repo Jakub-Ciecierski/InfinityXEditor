@@ -21,12 +21,11 @@ public:
     RenderObject* loadCubeObject();
     RenderObject* loadCubemapObject();
     RenderObject* loadLampObject();
-    RenderObject* loadnanosuitObject();
+    RenderObject*loadNanosuitObject();
 
 private:
     void initModels();
 
-    Model* nanosuitModel;
     Model* squareModel;
     Model* cubeModel;
     Model* cubeMapModel;

@@ -11,7 +11,9 @@ protected:
 
 public:
 
-    TessControlShader(std::string shaderSource);
+    TessControlShader(std::string shaderSource,
+                      std::string file_path);
+    TessControlShader(const TessControlShader& other);
 
     ~TessControlShader();
 
