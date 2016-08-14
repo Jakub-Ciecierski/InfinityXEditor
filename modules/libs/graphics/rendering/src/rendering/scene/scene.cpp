@@ -1,5 +1,7 @@
 #include "scene/scene.h"
 
+#include <controls/controls.h>
+
 namespace ifx {
 
 Scene::Scene(std::vector<RenderObject *>& render_objects,
@@ -16,6 +18,15 @@ Scene::~Scene(){
     }
     delete light_group_;
     delete camera_;
+}
+
+void Scene::HandleEvents() {
+    Controls& controls = Controls::GetInstance();
+    const Keys& keys = controls.keyboard_keys();
+
+    if (keys[GLFW_KEY_R]){
+        ReloadProgams();
+    }
 }
 
 void Scene::ReloadProgams(){
@@ -36,6 +47,7 @@ void Scene::render(){
 }
 
 void Scene::update(){
+    HandleEvents();
     updateObjects();
     camera_->update();
 }
