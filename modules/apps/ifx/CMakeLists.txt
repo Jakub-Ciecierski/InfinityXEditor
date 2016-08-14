@@ -39,6 +39,9 @@ add_executable(${APP_NAME} ${SOURCE_FILES} ${SRC_FILES})
 # IFX LIBS
 #---------------------------------
 
+add_subdirectory(../../libs/controls/controls ./build/controls/controls)
+include_directories($ENV{IFX_ROOT}/modules/libs/controls/controls/${INC_DIR})
+
 add_subdirectory(../../libs/graphics/model ./build/graphics/model)
 include_directories($ENV{IFX_ROOT}/modules/libs/graphics/model/${INC_DIR})
 
@@ -92,18 +95,15 @@ include_directories(${GLEW_INCLUDE_DIRS})
 # LINK
 #---------------------------------
 
+
+
 target_link_libraries(${APP_NAME}
         factory_ifx model_loader_ifx
         rendering_ifx shaders_ifx math_ifx  model_ifx
-        lighting_ifx object_ifx resources_ifx)
+        lighting_ifx object_ifx resources_ifx controls_ifx)
+
 target_link_libraries(${APP_NAME}
         glfw SOIL assimp ${GLFW_LIBRARIES})
+
 target_link_libraries(${APP_NAME}
         ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
-
-
-
-
-
-
-

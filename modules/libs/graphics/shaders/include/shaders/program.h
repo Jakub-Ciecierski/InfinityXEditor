@@ -6,8 +6,6 @@
 #include "shaders/shaders/tess_control_shader.h"
 #include "shaders/shaders/tess_eval_shader.h"
 
-
-
 /*
  * This class encapsulates all shaders and is used to draw Meshes
  */

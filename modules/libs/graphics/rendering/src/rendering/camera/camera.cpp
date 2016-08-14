@@ -1,5 +1,6 @@
 #include "rendering/camera/camera.h"
 
+#include <controls/controls.h>
 #include "shaders/data/shader_data.h"
 
 namespace ifx {
@@ -19,6 +20,40 @@ Camera::~Camera() {
 
 }
 
+void Camera::HandleEvents() {
+    Controls& controls = Controls::GetInstance();
+    float movementSpeed = 0.005f;
+    float rotationSpeed = 0.1f;
+
+    const Keys& keys = controls.keyboard_keys();
+    const MouseEvents& mouse_events = controls.mouse_events();
+
+    float boost = movementSpeed;
+    if (keys[GLFW_KEY_SPACE])
+        boost *= 3.0f;
+    if (keys[GLFW_KEY_W])
+        moveForward(boost);
+    if (keys[GLFW_KEY_S])
+        moveBackward(boost);
+    if (keys[GLFW_KEY_A])
+        moveLeft(boost);
+    if (keys[GLFW_KEY_D])
+        moveRight(boost);
+    if (keys[GLFW_KEY_Q])
+        moveUp(boost);
+    if (keys[GLFW_KEY_E])
+        moveDown(boost);
+
+    MouseEvent* left_mouse = mouse_events.LeftMouse;
+    if(left_mouse->is_pressed()){
+        GLfloat xoffset = mouse_events.pos_x - mouse_events.prev_pos_x;
+        GLfloat yoffset = mouse_events.prev_pos_y - mouse_events.pos_y;
+
+        rotate(glm::vec3(xoffset * rotationSpeed,
+                         yoffset * rotationSpeed, 0));
+    }
+}
+
 void Camera::rotate(const glm::vec3 &rotation) {
     this->rotation += rotation;
     clampRotation();
@@ -30,6 +65,8 @@ void Camera::rotateTo(const glm::vec3 &rotation) {
 }
 
 void Camera::update() {
+    HandleEvents();
+
     ProjectionMatrix = glm::perspective(FOV,
                                         (float) (*width) / (float) (*height),
                                         near, far);

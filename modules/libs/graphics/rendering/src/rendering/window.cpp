@@ -1,6 +1,7 @@
 #include "rendering/window.h"
 
 #include <stdexcept>
+#include <controls/controls.h>
 
 namespace ifx {
 
@@ -12,6 +13,19 @@ Window::Window(int width, int height, std::string name) :
 
 Window::~Window() {
 
+}
+
+void Window::HandleEvents() {
+    Controls& controls = Controls::GetInstance();
+    const Keys& keys = controls.keyboard_keys();
+
+    if (keys[GLFW_KEY_ESCAPE]){
+        glfwSetWindowShouldClose(glfwWindow, GL_TRUE);
+    }
+    if (!keys[GLFW_KEY_LEFT_CONTROL])
+        ShowCursor();
+    else
+        HideCursor();
 }
 
 void Window::init() {
@@ -34,10 +48,21 @@ int Window::shouldClose() {
 }
 
 void Window::update() {
+    HandleEvents();
     glfwPollEvents();
 }
 
 GLFWwindow *Window::getHandle() {
     return glfwWindow;
 }
+
+
+void Window::ShowCursor(){
+    glfwSetInputMode(glfwWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+}
+
+void Window::HideCursor(){
+    glfwSetInputMode(glfwWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+}
+
 }

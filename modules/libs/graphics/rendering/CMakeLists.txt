@@ -38,6 +38,7 @@ include_directories($ENV{IFX_ROOT}/modules/libs/graphics/shaders/${INC_DIR})
 include_directories($ENV{IFX_ROOT}/modules/libs/graphics/model/${INC_DIR})
 include_directories($ENV{IFX_ROOT}/modules/libs/graphics/lighting/${INC_DIR})
 include_directories($ENV{IFX_ROOT}/modules/libs/object/object/${INC_DIR})
+include_directories($ENV{IFX_ROOT}/modules/libs/controls/controls/${INC_DIR})
 
 # MATH
 include_directories($ENV{IFX_ROOT}/dependencies/glm/${INC_DIR})

@@ -4,13 +4,15 @@
 #include <shaders/program.h>
 #include <object/movable_object.h>
 #include <math/math_ifx.h>
+#include <controls/event_handler.h>
+
 namespace ifx {
 
 /*
  * Camera represents the Projection and View Matrices.
  * Uses Eulor angles (lookAt) FPS style.
  */
-class Camera : public ifx::MovableObject {
+class Camera : public MovableObject, public EventHandler{
 public:
     Camera(ObjectID id, std::string name,
            int *width, int *height,
@@ -19,11 +21,13 @@ public:
 
     ~Camera();
 
+    // Overriden from EventHandler
+    void HandleEvents() override;
+
     /**
      * Override from MovableObject.
      */
     void rotate(const glm::vec3 &rotation) override;
-
     void rotateTo(const glm::vec3 &rotation) override;
 
     /**
@@ -32,21 +36,15 @@ public:
     virtual void update() override;
 
     void moveForward(float speedBoost);
-
     void moveBackward(float speedBoost);
-
     void moveLeft(float speedBoost);
-
     void moveRight(float speedBoost);
-
     void moveUp(float speedBoost);
-
     void moveDown(float speedBoost);
 
     void use(const Program &program);
 
     const glm::mat4 &getViewMatrix();
-
     const glm::mat4 &getProjectionMatrix();
 
 private:
@@ -67,6 +65,8 @@ private:
     float near;
     float far;
 
+    float last_mouse_x;
+    float last_mouse_y;
 };
 }
 

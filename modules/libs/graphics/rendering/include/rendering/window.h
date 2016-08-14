@@ -3,12 +3,13 @@
 
 #include <string>
 #include <GLFW/glfw3.h>
+#include <controls/event_handler.h>
 
 namespace ifx {
 /*
  * Windows Context, encapsulating the GLFW handle
  */
-class Window {
+class Window : public EventHandler {
 
 public:
     Window(int width, int height, std::string name);
@@ -17,10 +18,16 @@ public:
     int* width() {return &width_;}
     int* height() {return &height_;}
 
+    // Overridden from EvenHandler
+    void HandleEvents() override;
+
     int shouldClose();
     void update();
 
     GLFWwindow* getHandle();
+
+    void ShowCursor();
+    void HideCursor();
 
 private:
     GLFWwindow* glfwWindow;

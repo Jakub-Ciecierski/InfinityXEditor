@@ -1,5 +1,8 @@
-#include <stdexcept>
 #include "rendering/renderer.h"
+#include <controls/glfw_callbacks.h>
+
+#include <stdexcept>
+#include <controls/controls.h>
 
 namespace ifx {
 
@@ -13,7 +16,6 @@ Renderer::Renderer() :
 Renderer::~Renderer(){
     delete scene_;
     delete window_;
-    delete controls_;
 }
 
 void Renderer::startMainLoop(){
@@ -68,8 +70,8 @@ void Renderer::initGLFWCallbacks(){
 
 void Renderer::Update(){
     window_->update();
-    controls_->doMovement();
     scene_->update();
+    Controls::GetInstance().Update();
 }
 
 void Renderer::Render(){
@@ -77,30 +79,6 @@ void Renderer::Render(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     scene_->render();
-}
-
-void key_callback(GLFWwindow *window, int key,
-                  int scancode, int action, int mode){
-    /*
-    if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GL_TRUE);
-
-    controls_->onKeyboardAction(action, key);*/
-}
-
-void mouse_callback(GLFWwindow *window,
-                    double xpos, double ypos){
-
-}
-
-void mouse_button_callback(GLFWwindow *window,
-                           int button, int action, int mods){
-
-}
-
-void mousescroll_callback(GLFWwindow *window,
-                          double xoffset, double yoffset){
-
 }
 
 }
