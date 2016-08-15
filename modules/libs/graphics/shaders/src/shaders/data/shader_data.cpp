@@ -26,6 +26,7 @@ const std::string MATERIAL_DISPLACEMENT_NAME = "material.displacement";
 const std::string MATERIAL_SHININESS_NAME = "material.shininess";
 
 const std::string TEXTURE_CUBEMAP_NAME = "cubemap";
+const std::string TEXTURE_SCREEN_NAME = "screen_texture";
 
 const std::string TESSELLATION_LVL_INNER_NAME = "TessLevelInner";
 const std::string TESSELLATION_LVL_OUTER_NAME = "TessLevelOuter";

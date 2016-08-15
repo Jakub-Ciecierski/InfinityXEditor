@@ -3,6 +3,7 @@
 #include <math/math_ifx.h>
 #include <factory/model_factory.h>
 #include <factory/program_factory.h>
+#include <rendering/fbo_rendering/fbo_renderer.h>
 
 namespace ifx{
 
@@ -37,6 +38,13 @@ void RenderObjectFactory::initModels() {
             = new Model(ModelFactory::LoadBicubicBezierBowlPatch());
     bicubicBezierAsymmetricPatchModel
             = new Model(ModelFactory::LoadBicubicBezierAsymmetricPatch());
+}
+
+FBORenderer* RenderObjectFactory::CreateFBORenderer(Window* window){
+    FBORenderer* fbo_renderer = new FBORenderer(window);
+    fbo_renderer->SetProgram(ProgramFactory().LoadFBOProgram());
+
+    return fbo_renderer;
 }
 
 RenderObject *RenderObjectFactory::loadBicubicBezierSurfaceC0Object() {

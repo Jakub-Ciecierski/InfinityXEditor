@@ -21,13 +21,16 @@ struct Vertex{
 };
 
 enum TextureTypes{
-    DIFFUSE, SPECULAR, NORMAL, DISPLACEMENT, CUBEMAP
+    DIFFUSE, SPECULAR, NORMAL, DISPLACEMENT, CUBEMAP, FBO
 };
 
 struct Texture{
     GLuint id;
     TextureTypes texType;
     GLenum type;
+
+    int width;
+    int height;
 
     std::string path; // physical path on the disk of the texture
 
@@ -85,6 +88,8 @@ extern const std::string MATERIAL_DISPLACEMENT_NAME;
 extern const std::string MATERIAL_SHININESS_NAME;
 
 extern const std::string TEXTURE_CUBEMAP_NAME;
+// Used in FBO screen rendering
+extern const std::string TEXTURE_SCREEN_NAME;
 
 extern const std::string TESSELLATION_LVL_INNER_NAME;
 extern const std::string TESSELLATION_LVL_OUTER_NAME;

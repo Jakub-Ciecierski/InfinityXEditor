@@ -15,6 +15,28 @@ TextureLoader::~TextureLoader() {
 
 }
 
+Texture TextureLoader::CreateEmptyTexture(TextureTypes type,
+                                          int width, int height){
+    GLuint id;
+    glGenTextures(1, &id);
+    glBindTexture(GL_TEXTURE_2D, id);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+                 width, height, 0,
+                 GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    Texture tex = contructTexture(id, GL_TEXTURE_2D);
+    tex.texType = type;
+    tex.width = width;
+    tex.height = height;
+
+    return tex;
+}
+
 Texture TextureLoader::loadFromData(TextureTypes type, unsigned char* data,
                                     int width, int height){
     GLuint id;

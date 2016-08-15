@@ -4,7 +4,6 @@
 #include <rendering/render_object.h>
 #include <rendering/camera/camera.h>
 #include "lighting/light_group.h"
-#include <controls/event_handler.h>
 
 #include <vector>
 
@@ -13,15 +12,12 @@ namespace ifx {
 /**
  * Takes ownership of render_objects, light_group and latest set camera.
  */
-class Scene : public EventHandler{
+class Scene {
 public:
     Scene(std::vector<RenderObject*>& render_objects,
           LightGroup* light_group, Camera* camera);
 
     ~Scene();
-
-    // Overridden from EventHandler
-    void HandleEvents() override;
 
     void ReloadProgams();
 

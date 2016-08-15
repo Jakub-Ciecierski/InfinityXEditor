@@ -5,12 +5,17 @@
 
 namespace ifx {
 
+class FBORenderer;
+class Window;
+
 class RenderObjectFactory {
 public:
 
     RenderObjectFactory();
 
     ~RenderObjectFactory();
+
+    FBORenderer* CreateFBORenderer(Window* window);
 
     RenderObject* loadBicubicBezierSurfaceC0Object();
     RenderObject* loadBicubicBezierPatchObject();

@@ -47,8 +47,6 @@ void LightSource::use(const Program &program, int id) {
 
 void LightSource::render(const Program &program) {
     if (movableObject == NULL) return;
-
-    //followedRenderObject->render(program);
 }
 
 } // ifx

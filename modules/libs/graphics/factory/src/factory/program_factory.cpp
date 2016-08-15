@@ -13,6 +13,20 @@ ProgramFactory::~ProgramFactory(){
 
 }
 
+Program* ProgramFactory::LoadFBOProgram(){
+    ifx::Resources& resources = ifx::Resources::GetInstance();
+
+    std::string vertex_path =
+            resources.GetResourcePath("fbo/fbo.vs", ifx::ResourceType::SHADER);
+    std::string fragment_path =
+            resources.GetResourcePath("fbo/fbo.fs", ifx::ResourceType::SHADER);
+
+    ProgramLoader programLoader;
+    Program* program = programLoader.CreateProgram(vertex_path, fragment_path);
+
+    return program;
+}
+
 Program* ProgramFactory::loadTessellationLODProgram(){
     ifx::Resources& resources = ifx::Resources::GetInstance();
     std::string vertex_path =

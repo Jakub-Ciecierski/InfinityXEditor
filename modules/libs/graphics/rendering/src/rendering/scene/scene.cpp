@@ -20,15 +20,6 @@ Scene::~Scene(){
     delete camera_;
 }
 
-void Scene::HandleEvents() {
-    Controls& controls = Controls::GetInstance();
-    const Keys& keys = controls.keyboard_keys();
-
-    if (keys[GLFW_KEY_R]){
-        ReloadProgams();
-    }
-}
-
 void Scene::ReloadProgams(){
     for(unsigned int i = 0; i < render_objects_.size(); i++){
         render_objects_[i]->getProgram()->Reload();
@@ -47,7 +38,6 @@ void Scene::render(){
 }
 
 void Scene::update(){
-    HandleEvents();
     updateObjects();
     camera_->update();
 }

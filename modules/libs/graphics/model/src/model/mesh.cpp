@@ -208,6 +208,9 @@ void Mesh::bindTextures(const Program& program){
         }else if(textures[i].texType == TextureTypes::CUBEMAP){
             glUniform1i(glGetUniformLocation(program.getID(),
                                              TEXTURE_CUBEMAP_NAME.c_str()),i);
+        }else if(textures[i].texType == TextureTypes::FBO){
+            glUniform1i(glGetUniformLocation(program.getID(),
+                                             TEXTURE_SCREEN_NAME.c_str()),i);
         }else{
             // TODO check proper naming convetion
             glUniform1i(glGetUniformLocation(program.getID(),

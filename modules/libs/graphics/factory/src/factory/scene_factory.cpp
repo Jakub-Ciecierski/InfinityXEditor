@@ -14,6 +14,8 @@ SceneFactory::~SceneFactory(){
 }
 
 Scene* SceneFactory::CreateScene(Camera* camera){
+    camera->moveTo(glm::vec3(-0.2f, 0.1f, 0.0f));
+
     RenderObjectFactory render_object_factory;
     LightingFactory lighting_factory;
 

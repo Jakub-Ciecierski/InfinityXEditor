@@ -12,6 +12,8 @@ public:
 
     ~ProgramFactory();
 
+    Program* LoadFBOProgram();
+
     Program* loadTessellationLODProgram();
     Program* loadTessellationBicubicBezierPolygonProgram();
     Program* loadTessellationBicubicBezierProgram();
