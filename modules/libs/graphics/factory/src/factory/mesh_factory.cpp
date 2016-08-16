@@ -1,7 +1,7 @@
 #include "factory/mesh_factory.h"
 
 #include "factory/texture_factory.h"
-#include <model/textures/texture_loader.h>
+#include <shaders/textures/texture_loader.h>
 #include <model/patch/patch.h>
 
 #include <vector>

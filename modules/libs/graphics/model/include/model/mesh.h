@@ -4,8 +4,8 @@
 #include "shaders/program.h"
 #include "shaders/data/shader_data.h"
 
-#include "model/buffers/vbo.h"
-#include "model/buffers/vao.h"
+#include "shaders/buffers/vbo.h"
+#include "shaders/buffers/vao.h"
 
 #include <GL/glew.h>
 #include <vector>

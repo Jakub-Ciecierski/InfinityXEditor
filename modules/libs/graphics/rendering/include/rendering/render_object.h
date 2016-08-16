@@ -22,22 +22,23 @@ private:
 
     Model* model;
 
-    Program* program_;
+    std::vector<Program*> programs_;
+
 public:
     RenderObject(ObjectID id, std::string name,
                  Model* model);
 
     ~RenderObject();
 
+    const std::vector<Program*>& programs(){return programs_;}
+
     Model* getModel();
 
-    void setProgram(Program* program);
-    Program* getProgram();
+    void addProgram(Program* program);
 
     /*
      * Binds the Model matrix and draws Mesh
      */
-    void render(RenderModels renderModel = RenderModels::MAIN_MODEL);
     void render(const Program& program,
                 RenderModels renderModel = RenderModels::MAIN_MODEL);
 

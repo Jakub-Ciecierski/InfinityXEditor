@@ -1,6 +1,6 @@
 #include "model_loader/model_loader.h"
 
-#include <model/textures/texture_loader.h>
+#include <shaders/textures/texture_loader.h>
 
 #include <stdexcept>
 #include <iostream>
@@ -41,7 +41,7 @@ Model* ModelLoader::loadModel() {
     processNode(scene->mRootNode, scene, meshes);
 
     Model* model = new Model(meshes);
-    printInfo(*model);
+    //printInfo(*model);
 
     return model;
 }

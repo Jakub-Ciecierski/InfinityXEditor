@@ -2,8 +2,8 @@
 #define DUCK_VAO_H
 
 #include <GL/glew.h>
-#include "model/buffers/vbo.h"
-#include "model/buffers/ebo.h"
+#include "shaders/buffers/vbo.h"
+#include "shaders/buffers/ebo.h"
 
 class VAO {
 private:

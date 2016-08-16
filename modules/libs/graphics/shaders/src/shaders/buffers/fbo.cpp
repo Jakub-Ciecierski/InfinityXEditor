@@ -1,5 +1,6 @@
+#include "shaders/buffers/fbo.h"
+
 #include <stdexcept>
-#include "model/buffers/fbo.h"
 
 namespace ifx {
 

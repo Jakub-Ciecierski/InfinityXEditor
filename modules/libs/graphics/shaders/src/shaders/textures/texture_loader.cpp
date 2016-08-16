@@ -1,6 +1,6 @@
 #include <GL/glew.h>
 
-#include "model/textures/texture_loader.h"
+#include "shaders/textures/texture_loader.h"
 
 #include <SOIL.h>
 #include <stdexcept>

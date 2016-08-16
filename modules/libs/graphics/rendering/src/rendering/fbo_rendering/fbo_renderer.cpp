@@ -1,9 +1,9 @@
 #include "rendering/fbo_rendering/fbo_renderer.h"
 
 #include <math/math_ifx.h>
-#include <model/buffers/fbo.h>
+#include <shaders/buffers/fbo.h>
 #include <model/mesh.h>
-#include <model/textures/texture_loader.h>
+#include <shaders/textures/texture_loader.h>
 #include <rendering/window.h>
 
 namespace ifx {

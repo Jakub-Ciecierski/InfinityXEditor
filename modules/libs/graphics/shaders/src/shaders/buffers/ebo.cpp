@@ -1,4 +1,4 @@
-#include "model/buffers/ebo.h"
+#include "shaders/buffers/ebo.h"
 
 EBO::EBO(const std::vector<GLuint>* indices) :
         indices(indices){

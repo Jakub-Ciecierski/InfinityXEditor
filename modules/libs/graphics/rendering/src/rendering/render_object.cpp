@@ -4,33 +4,23 @@ using namespace glm;
 
 RenderObject::RenderObject(ObjectID id, std::string name,
                            Model* model) :
-        ifx::MovableObject(id, name), model(model),
-        program_(nullptr){
+        ifx::MovableObject(id, name), model(model) {
 
 }
 
 RenderObject::~RenderObject(){
-    if(program_ != nullptr)
-        delete program_;
+    for(unsigned int i = 0; i < programs_.size(); i++){
+        if(programs_[i] != nullptr)
+            delete programs_[i];
+    }
 }
 
 Model *RenderObject::getModel() {
     return model;
 }
 
-void RenderObject::setProgram(Program* program){
-    if(program_ != nullptr) delete program_;
-    program_ = program;
-}
-
-Program* RenderObject::getProgram(){
-    return program_;
-}
-
-void RenderObject::render(RenderModels renderModel){
-    if(program_ == nullptr)
-        return;
-    render(*program_, renderModel);
+void RenderObject::addProgram(Program* program){
+    programs_.push_back(program);
 }
 
 void RenderObject::render(const Program& program,

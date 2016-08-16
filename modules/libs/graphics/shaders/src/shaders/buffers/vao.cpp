@@ -1,6 +1,6 @@
 #include <GL/glew.h>
 
-#include "model/buffers/vao.h"
+#include "shaders/buffers/vao.h"
 
 VAO::VAO(){
     glGenVertexArrays(1, &id);

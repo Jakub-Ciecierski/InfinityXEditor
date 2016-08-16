@@ -31,8 +31,8 @@ float[kernel_size] getEdgeDetectionKernel();
 
 void main()
 {
-    //color = getGrayscale();
-    color = getConvolutionColor();
+    color = getGrayscale();
+    //color = getConvolutionColor();
 }
 
 vec4 getColor(){
@@ -55,7 +55,7 @@ vec4 getConvolutionColor(){
 
     vec3 sampleTex[kernel_size];
     for(int i = 0; i < kernel_size; i++){
-        sampleTex[i] = vec3(texture(screen_texture, vTexCoords.st + offsets[i]));
+        sampleTex[i] = vec3(texture(screen_texture, vTexCoords.xy + offsets[i]));
     }
 
     vec3 col = vec3(0.0);

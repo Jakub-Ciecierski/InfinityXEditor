@@ -138,11 +138,15 @@ RenderObject* RenderObjectFactory::loadNanosuitObject(){
     ProgramFactory program_factory;
 
     Program* nano_program = program_factory.loadBumpMappingProgram();
+    Program* normal_vision_program = program_factory.LoadNormalVisionProgram();
+
     Model* nanosuitModel = ModelFactory::LoadNanoSuitModel();
 
     RenderObject* renderObject
             = new RenderObject(ObjectID(0), "NanoSuit", nanosuitModel);
-    renderObject->setProgram(nano_program);
+
+    renderObject->addProgram(nano_program);
+    renderObject->addProgram(normal_vision_program);
 
     float scaleFactor = 0.005f;
     renderObject->scale(glm::vec3(scaleFactor, scaleFactor, scaleFactor));

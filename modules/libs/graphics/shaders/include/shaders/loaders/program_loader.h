@@ -19,6 +19,9 @@ public:
     ShaderLoader shaderLoader;
 
     Program* CreateProgram(std::string vertex_path, std::string fragment_path);
+    Program* CreateProgram(std::string vertex_path,
+                           std::string fragment_path,
+                           std::string geometry_path);
     Program* CreateProgram(std::string vertex_path, std::string fragment_path,
                            std::string tcs_path, std::string tes_path);
 };

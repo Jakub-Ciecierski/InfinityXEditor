@@ -3,6 +3,7 @@
 
 #include "shaders/shaders/fragment_shader.h"
 #include "shaders/shaders/vertex_shader.h"
+#include "shaders/shaders/geometry_shader.h"
 #include "shaders/shaders/tess_control_shader.h"
 #include "shaders/shaders/tess_eval_shader.h"
 
@@ -15,6 +16,7 @@ public:
     Program();
     Program(VertexShader* vertexShader = nullptr,
             FragmentShader* fragmentShader = nullptr,
+            GeometryShader* geometryShader = nullptr,
             TessControlShader* tessControlShader = nullptr,
             TessEvalShader* tessEvalShader = nullptr);
 
@@ -29,6 +31,7 @@ public:
 private:
     void linkShaders(VertexShader* vertexShader,
                      FragmentShader* fragmentShader,
+                     GeometryShader* geometryShader,
                      TessControlShader* tessControlShader,
                      TessEvalShader* tessEvalShader);
 
@@ -37,6 +40,7 @@ private:
     struct Programs{
         VertexShader* vertex_shader;
         FragmentShader* fragment_shader;
+        GeometryShader* geometry_shader;
         TessControlShader* tess_control_shader;
         TessEvalShader* tess_eval_shader;
     };

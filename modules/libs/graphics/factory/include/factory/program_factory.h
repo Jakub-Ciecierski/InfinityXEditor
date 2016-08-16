@@ -13,6 +13,7 @@ public:
     ~ProgramFactory();
 
     Program* LoadFBOProgram();
+    Program* LoadNormalVisionProgram();
 
     Program* loadTessellationLODProgram();
     Program* loadTessellationBicubicBezierPolygonProgram();

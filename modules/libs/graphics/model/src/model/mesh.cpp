@@ -1,6 +1,5 @@
 #include "model/mesh.h"
 
-#include <iostream>
 #include <stdexcept>
 
 using namespace std;

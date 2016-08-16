@@ -28,6 +28,13 @@ VertexShader ShaderLoader::loadVertexShader(const GLchar *path) {
     return vertexShader;
 }
 
+GeometryShader ShaderLoader::loadGeometryShader(const GLchar* path){
+    std::string shaderCode = getShaderCode(path);
+    GeometryShader geometryShader(shaderCode.c_str(), std::string(path));
+
+    return geometryShader;
+}
+
 FragmentShader ShaderLoader::loadFragmentShader(const GLchar *path) {
     std::string shaderCode = getShaderCode(path);
 

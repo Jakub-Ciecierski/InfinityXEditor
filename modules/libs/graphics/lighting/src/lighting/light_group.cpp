@@ -13,6 +13,8 @@ LightGroup::~LightGroup(){
 }
 
 void LightGroup::bindLightCount(const Program &program) {
+    program.use();
+
     int pointLightCount = lightPointVec.size();
     int dirLightCount = lightDirectionVec.size();
     int spotLightCount = lightSpotlightVec.size();

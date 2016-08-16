@@ -40,6 +40,8 @@ include_directories($ENV{IFX_ROOT}/modules/libs/common/math/${INC_DIR})
 # MATH
 include_directories($ENV{IFX_ROOT}/dependencies/glm/${INC_DIR})
 
+include_directories($ENV{IFX_ROOT}/dependencies/SOIL/src)
+
 #---------------------------------
 # PROJECT
 #---------------------------------

@@ -8,11 +8,6 @@
  * Model class is an encapsulation of many meshes take up a single model
  */
 class Model {
-private:
-    std::vector<Mesh*> meshes;
-
-    std::vector<Mesh*> subMeshes;
-
 public:
 
     Model(const std::vector<Mesh*>& meshes);
@@ -29,6 +24,11 @@ public:
     void drawSubMeshes(const Program &program);
 
     std::string toString() const;
+
+private:
+    std::vector<Mesh*> meshes;
+    std::vector<Mesh*> subMeshes;
+
 };
 
 #endif //DUCK_MODEL_H

@@ -33,6 +33,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 #---------------------------------
 
 include_directories($ENV{IFX_ROOT}/modules/libs/graphics/model/${INC_DIR})
+include_directories($ENV{IFX_ROOT}/modules/libs/graphics/shaders/${INC_DIR})
 include_directories($ENV{IFX_ROOT}/dependencies/assimp-3.1.1/${INC_DIR})
 
 # MODEL

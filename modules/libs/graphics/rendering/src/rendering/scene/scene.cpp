@@ -9,7 +9,6 @@ Scene::Scene(std::vector<RenderObject *>& render_objects,
         render_objects_(render_objects),
         light_group_(light_group),
         camera_(camera) {
-
 }
 
 Scene::~Scene(){
@@ -22,7 +21,11 @@ Scene::~Scene(){
 
 void Scene::ReloadProgams(){
     for(unsigned int i = 0; i < render_objects_.size(); i++){
-        render_objects_[i]->getProgram()->Reload();
+        const std::vector<Program*>& programs =
+                render_objects_[i]->programs();
+        for(unsigned int j = 0; j < programs.size(); j++){
+            programs[j]->Reload();
+        }
     }
 }
 
@@ -45,13 +48,12 @@ void Scene::update(){
 void Scene::renderObjects(){
     for(unsigned int i = 0; i < render_objects_.size(); i++){
         RenderObject* object = render_objects_[i];
-        Program* program = object->getProgram();
-        if(program == nullptr)
-            continue;
-
-        camera_->use(*program);
-        light_group_->use(*program);
-        object->render();
+        const std::vector<Program*>& programs = object->programs();
+        for(unsigned int j = 0; j < programs.size(); j++){
+            camera_->use(*programs[j]);
+            light_group_->use(*programs[j]);
+            object->render(*programs[j]);
+        }
     }
 }
 

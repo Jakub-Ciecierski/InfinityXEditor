@@ -27,6 +27,27 @@ Program* ProgramFactory::LoadFBOProgram(){
     return program;
 }
 
+Program* ProgramFactory::LoadNormalVisionProgram(){
+    ifx::Resources& resources = ifx::Resources::GetInstance();
+
+    std::string vertex_path =
+            resources.GetResourcePath("geo_normal/norm.vs",
+                                      ifx::ResourceType::SHADER);
+    std::string fragment_path =
+            resources.GetResourcePath("geo_normal/norm.fs",
+                                      ifx::ResourceType::SHADER);
+    std::string geometry_path =
+            resources.GetResourcePath("geo_normal/norm.gs",
+                                      ifx::ResourceType::SHADER);
+
+    ProgramLoader programLoader;
+    Program* program = programLoader.CreateProgram(vertex_path,
+                                                   fragment_path,
+                                                   geometry_path);
+
+    return program;
+}
+
 Program* ProgramFactory::loadTessellationLODProgram(){
     ifx::Resources& resources = ifx::Resources::GetInstance();
     std::string vertex_path =
