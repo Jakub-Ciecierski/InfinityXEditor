@@ -30,6 +30,7 @@ private:
     void initScreenMesh();
 
     FBO* fbo_;
+
     /**
      * The quad mesh which will render the screen.
      */

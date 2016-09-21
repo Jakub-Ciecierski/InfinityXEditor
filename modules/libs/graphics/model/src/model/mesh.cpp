@@ -48,23 +48,16 @@ Mesh::Mesh(std::vector<Vertex> vertices,
     computeTangetBasis();
     initBuffers();
 }
-/*
-Mesh::Mesh(const Mesh& mesh){
-    copy(mesh);
-}*/
-/*
-Mesh& Mesh::operator=(const Mesh& other){
-    copy(other);
-
-    return *this;
-}*/
-
 
 Mesh::~Mesh() {
     delete vao_;
 
     delete vbo_;
     delete ebo_;
+
+    for(auto& texture : textures){
+        texture.Delete();
+    }
 }
 
 void Mesh::computeTangetBasis(){
@@ -176,17 +169,6 @@ void Mesh::checkError(){
     }
 }
 
-void Mesh::copy(const Mesh& other){
-    vertices = other.vertices;
-    indices = other.indices;
-    textures = other.textures;
-    material = other.material;
-    primitive_mode_ = other.primitive_mode_;
-    polygonMode = other.polygonMode;
-
-    initBuffers();
-}
-
 void Mesh::initBuffers(){
     vao_ = new VAO();
 
@@ -232,10 +214,6 @@ void Mesh::bindColor(const Program& program){
     glUniform1f(matShineLoc, material.shininess);
 }
 
-void Mesh::setDrawingMode(DrawingModes mode){
-    drawing_mode_ = mode;
-}
-
 void Mesh::setPolygonMode(GLenum polygonMode){
     this->polygonMode = polygonMode;
 }
@@ -260,17 +238,6 @@ std::vector<Texture*> Mesh::getTextures(TextureTypes type){
         }
     }
     return texturesType;
-}
-
-std::vector<Vertex> Mesh::getVertices() {
-    return vertices;
-}
-
-GLenum Mesh::getPolygonMode(){
-    return this->polygonMode;
-}
-GLenum Mesh::getDrawingMode(){
-    return this->primitive_mode_;
 }
 
 void Mesh::draw(const Program& program){
@@ -303,7 +270,6 @@ void Mesh::drawInstanced(const Program& program, int count){
 
     vao_->unbind();
 }
-
 
 std::string Mesh::toString() const{
     string str = "";

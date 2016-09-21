@@ -44,6 +44,10 @@ struct Texture{
     Texture(GLuint id,
             GLenum type) : id(id), type(type){}
 
+    void Delete(){
+        glDeleteTextures(1, &id);
+    }
+
     void updateData(unsigned char* data, int width, int height, int dim){
         glBindTexture(GL_TEXTURE_2D, id);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,

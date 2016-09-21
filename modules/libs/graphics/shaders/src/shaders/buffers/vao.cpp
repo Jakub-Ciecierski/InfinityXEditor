@@ -81,6 +81,7 @@ void VAO::bindInstancedRenderingBuffers(InstancedData& instanced_data){
     glVertexAttribPointer(8, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4),
                           (GLvoid*)(3 * sizeof(glm::vec4)));
 
+    // Notify instanced rendering
     glVertexAttribDivisor(5, 1);
     glVertexAttribDivisor(6, 1);
     glVertexAttribDivisor(7, 1);

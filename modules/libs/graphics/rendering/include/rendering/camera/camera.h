@@ -21,7 +21,9 @@ public:
 
     ~Camera();
 
-    // Overriden from EventHandler
+    /**
+     * Overriden from EventHandler
+     */
     void HandleEvents() override;
 
     /**

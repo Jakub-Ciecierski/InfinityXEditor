@@ -12,10 +12,6 @@
 
 #include <iostream>
 
-enum class DrawingModes{
-    NORMAL, INSTANCED
-};
-
 /*
  * Contains the geometry of an object.
  * Vertices, indices, textures and material is defined.
@@ -52,16 +48,12 @@ public:
     VAO* vao() {return vao_;};
     VBO* vbo() {return vbo_;};
 
-    void setDrawingMode(DrawingModes mode);
     void setPolygonMode(GLenum polygonMode);
     void setPrimitiveMode(GLenum drawingMode);
     void setMaterial(const Material& material);
     void addTexture(Texture texture);
 
     std::vector<Texture*> getTextures(TextureTypes type);
-    std::vector<Vertex> getVertices();
-    GLenum getPolygonMode();
-    GLenum getDrawingMode();
 
     virtual void draw(const Program& program);
     virtual void drawInstanced(const Program& program, int count);
@@ -73,7 +65,6 @@ protected:
     std::vector<GLuint> indices;
     std::vector<Texture> textures;
 
-    DrawingModes drawing_mode_;
     GLenum primitive_mode_;
     GLenum polygonMode;
 
@@ -87,11 +78,6 @@ protected:
      * Checks for errors in the Mesh class and throws exceptions;
      */
     void checkError();
-
-    /*
-     * Copy contructor/operator=
-     */
-    void copy(const Mesh& other);
 
     /*
      * Computes the Tanget Basis for all faces

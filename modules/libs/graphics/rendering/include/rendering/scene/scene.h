@@ -5,6 +5,7 @@
 #include <rendering/camera/camera.h>
 #include "lighting/light_group.h"
 
+#include <memory>
 #include <vector>
 
 namespace ifx {
