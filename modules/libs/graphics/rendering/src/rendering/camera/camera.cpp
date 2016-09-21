@@ -5,10 +5,10 @@
 
 namespace ifx {
 
-Camera::Camera(ObjectID id, std::string name,
+Camera::Camera(ObjectID id,
                int *width, int *height,
                float FOV, float near, float far) :
-        MovableObject(id, name),
+        MovableObject(id),
         width(width), height(height),
         FOV(FOV), near(near), far(far) {
     WorldUp = glm::vec3(0.0f, 1.0f, 0.0f);

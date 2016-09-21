@@ -7,33 +7,10 @@ Model::Model(const std::vector<Mesh*>& meshes) :
 
 }
 
-Model::Model(const Model& other){
-    //meshes = other.meshes;
-    //subMeshes = other.subMeshes;
-
-    for(unsigned int i = 0; i < other.meshes.size(); i++){
-        Mesh* mesh = other.meshes[i];
-        //Mesh* newMesh = new Mesh(*mesh);
-        meshes.push_back(mesh);
-    }
-    for(unsigned int i = 0; i < other.subMeshes.size(); i++){
-        Mesh* mesh = other.subMeshes[i];
-        subMeshes.push_back(mesh);
-    }
-}
-
 Model::~Model() {
-    /*
     for(unsigned int i = 0; i < meshes.size(); i++){
         delete meshes[i];
     }
-    for(unsigned int i = 0; i < subMeshes.size(); i++){
-        delete subMeshes[i];
-    }*/
-}
-
-void Model::addSubMesh(Mesh* mesh){
-    subMeshes.push_back(mesh);
 }
 
 const std::vector<Mesh*>& Model::getMeshes(){
@@ -50,9 +27,9 @@ void Model::draw(const Program &program) {
     }
 }
 
-void Model::drawSubMeshes(const Program &program) {
-    for(unsigned int i = 0; i < subMeshes.size(); i++){
-        subMeshes[i]->draw(program);
+void Model::drawInstanced(const Program &program, int count) {
+    for(unsigned int i = 0; i < meshes.size(); i++){
+        meshes[i]->drawInstanced(program, count);
     }
 }
 

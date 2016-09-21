@@ -14,6 +14,8 @@ public:
 
     Scene* CreateScene(Camera* camera);
 
+    Scene* CreateNanosuitGuy(Camera* camera);
+    Scene* CreateAsteroidField(Camera* camera);
 private:
 };
 

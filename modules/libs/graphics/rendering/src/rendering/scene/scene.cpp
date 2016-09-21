@@ -37,24 +37,24 @@ Camera* Scene::SetCamera(Camera* camera){
 }
 
 void Scene::render(){
-    renderObjects();
+    for(unsigned int i = 0; i < render_objects_.size(); i++){
+        RenderObject* object = render_objects_[i];
+        render(object);
+    }
+}
+
+void Scene::render(RenderObject* render_object){
+    const std::vector<Program*>& programs = render_object->programs();
+    for(unsigned int j = 0; j < programs.size(); j++){
+        camera_->use(*programs[j]);
+        light_group_->use(*programs[j]);
+        render_object->render(*programs[j]);
+    }
 }
 
 void Scene::update(){
     updateObjects();
     camera_->update();
-}
-
-void Scene::renderObjects(){
-    for(unsigned int i = 0; i < render_objects_.size(); i++){
-        RenderObject* object = render_objects_[i];
-        const std::vector<Program*>& programs = object->programs();
-        for(unsigned int j = 0; j < programs.size(); j++){
-            camera_->use(*programs[j]);
-            light_group_->use(*programs[j]);
-            object->render(*programs[j]);
-        }
-    }
 }
 
 void Scene::updateObjects(){

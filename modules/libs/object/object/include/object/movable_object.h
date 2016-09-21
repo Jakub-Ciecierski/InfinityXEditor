@@ -5,12 +5,19 @@
 #include <math/math_ifx.h>
 
 namespace ifx {
+
+/**
+ * TODO MovableObject should not be an object.
+ */
 class MovableObject : public Object {
 public:
 
-    MovableObject(ObjectID id, std::string name);
+    MovableObject(ObjectID id);
 
     ~MovableObject();
+
+    // Overridden from Object
+    virtual void update() override;
 
     /*
      * Moves to position
@@ -47,6 +54,8 @@ protected:
     glm::vec3 scaleFactor;
 
     glm::vec3 direction;
+
+    glm::mat4 ModelMatrix;
 
 private:
 

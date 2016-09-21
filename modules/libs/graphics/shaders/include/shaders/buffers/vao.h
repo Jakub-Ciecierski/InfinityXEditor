@@ -6,18 +6,20 @@
 #include "shaders/buffers/ebo.h"
 
 class VAO {
-private:
-    GLuint id;
 public:
 
     VAO();
 
     ~VAO();
 
-    void bindBuffers(VBO &vbo, EBO &ebo);
+    void bindVertexBuffers(VBO &vbo, EBO &ebo);
+    void bindInstancedRenderingBuffers(InstancedData& instanced_data);
 
     void bind();
     void unbind();
+
+private:
+    GLuint id;
 };
 
 

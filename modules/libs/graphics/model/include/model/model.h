@@ -11,23 +11,21 @@ class Model {
 public:
 
     Model(const std::vector<Mesh*>& meshes);
-    Model(const Model& other);
-
     ~Model();
 
-    void addSubMesh(Mesh* mesh);
+    Model(const Model& other) = delete;
+    Model& operator=(const Model& other) = delete;
 
     const std::vector<Mesh*>& getMeshes();
     Mesh* getMesh(int i);
 
     void draw(const Program& program);
-    void drawSubMeshes(const Program &program);
+    void drawInstanced(const Program& program, int count);
 
     std::string toString() const;
 
 private:
     std::vector<Mesh*> meshes;
-    std::vector<Mesh*> subMeshes;
 
 };
 

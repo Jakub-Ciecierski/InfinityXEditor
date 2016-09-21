@@ -30,7 +30,7 @@ public:
     void update();
 
 private:
-    void renderObjects();
+    void render(RenderObject* render_object);
     void updateObjects();
 
     std::vector<RenderObject*> render_objects_;

@@ -7,6 +7,7 @@ namespace ifx {
 
 struct Models{
     Model* nanosuit = nullptr;
+    Model* asteroid = nullptr;
 };
 
 /**
@@ -18,7 +19,10 @@ public:
     ~ModelMemoryManager();
 
     void SetNanosuit(Model* models);
+    void SetAsteroid(Model* models);
+
     Model* GetNanosuit();
+    Model* GetAsteroid();
 
 private:
     ModelMemoryManager();

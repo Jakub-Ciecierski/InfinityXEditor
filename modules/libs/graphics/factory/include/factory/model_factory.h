@@ -14,17 +14,18 @@ public:
 
     ~ModelFactory();
 
+    static Model* LoadAsteroidModel();
     static Model* LoadNanoSuitModel();
 
-    static Model LoadBicubicBezierSurfaceC0();
-    static Model LoadBicubicBezierPatch();
-    static Model LoadBicubicBezierBowlPatch();
-    static Model LoadBicubicBezierAsymmetricPatch();
+    static Model* LoadBicubicBezierSurfaceC0();
+    static Model* LoadBicubicBezierPatch();
+    static Model* LoadBicubicBezierBowlPatch();
+    static Model* LoadBicubicBezierAsymmetricPatch();
 
-    static Model LoadSquareModel();
-    static Model LoadCubeModel();
-    static Model LoadCubemapModel();
-    static Model LoadLampModel();
+    static Model* LoadSquareModel();
+    static Model* LoadCubeModel();
+    static Model* LoadCubemapModel();
+    static Model* LoadLampModel();
 
 };
 } // ifx

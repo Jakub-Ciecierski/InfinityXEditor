@@ -4,6 +4,7 @@
 #include <math/math_ifx.h>
 #include <GL/glew.h>
 #include <string>
+#include <vector>
 
 /**
  * Provides all the data used by Meshes and Lights.
@@ -18,6 +19,11 @@ struct Vertex{
 
     glm::vec3 Tangent;
     glm::vec3 Binormal;
+};
+
+struct InstancedData {
+    unsigned int data_count;
+    std::vector<glm::mat4> model_matrices;
 };
 
 enum TextureTypes{

@@ -8,27 +8,16 @@
 #include <math/math_ifx.h>
 #include <shaders/program.h>
 
-enum RenderModels{
-    MAIN_MODEL, SUB_MODEL
-};
-
 /*
  * RenderObject is used to render Meshes.
  * Takes ownership over program.
  */
-class RenderObject : public ifx::MovableObject{
-private:
-    glm::mat4 ModelMatrix;
-
-    Model* model;
-
-    std::vector<Program*> programs_;
-
+class RenderObject : public ifx::MovableObject {
 public:
-    RenderObject(ObjectID id, std::string name,
+    RenderObject(ObjectID id,
                  Model* model);
 
-    ~RenderObject();
+    virtual ~RenderObject();
 
     const std::vector<Program*>& programs(){return programs_;}
 
@@ -39,13 +28,14 @@ public:
     /*
      * Binds the Model matrix and draws Mesh
      */
-    void render(const Program& program,
-                RenderModels renderModel = RenderModels::MAIN_MODEL);
+    virtual void render(const Program& program);
+protected:
+    Model* model;
 
-    /*
-     * Override from Object
-     */
-    virtual void update() override;
+private:
+
+    std::vector<Program*> programs_;
+
 };
 
 

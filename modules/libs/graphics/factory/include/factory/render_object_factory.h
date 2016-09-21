@@ -17,6 +17,11 @@ public:
 
     FBORenderer* CreateFBORenderer(Window* window);
 
+    RenderObject* CreateAsteroidField();
+    RenderObject* CreateAsteroid();
+    RenderObject* CreateNanosuitObject();
+
+    /*
     RenderObject* loadBicubicBezierSurfaceC0Object();
     RenderObject* loadBicubicBezierPatchObject();
     RenderObject* loadBicubicBezierBowlPatchObject();
@@ -26,20 +31,7 @@ public:
     RenderObject* loadCubeObject();
     RenderObject* loadCubemapObject();
     RenderObject* loadLampObject();
-    RenderObject*loadNanosuitObject();
-
-private:
-    void initModels();
-
-    Model* squareModel;
-    Model* cubeModel;
-    Model* cubeMapModel;
-    Model* lampModel;
-
-    Model* bicubicBezierSurfaceC0Model;
-    Model* bicubicBezierPatchModel;
-    Model* bicubicBezierBowlPatchModel;
-    Model* bicubicBezierAsymmetricPatchModel;
+    */
 };
 }
 

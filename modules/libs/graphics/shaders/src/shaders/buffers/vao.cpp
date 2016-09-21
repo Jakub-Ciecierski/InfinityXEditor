@@ -10,7 +10,7 @@ VAO::~VAO() {
     glDeleteVertexArrays(1, &id);
 }
 
-void VAO::bindBuffers(VBO &vbo, EBO &ebo){
+void VAO::bindVertexBuffers(VBO &vbo, EBO &ebo){
     this->bind();
 
     vbo.bind();
@@ -51,7 +51,40 @@ void VAO::bindBuffers(VBO &vbo, EBO &ebo){
                           (GLvoid*)offsetof(Vertex, Binormal));
     glEnableVertexAttribArray(4);
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    vbo.unbind();
+    this->unbind();
+}
+
+void VAO::bindInstancedRenderingBuffers(InstancedData& instanced_data){
+    GLuint byte_size
+            = instanced_data.model_matrices.size() * sizeof(glm::mat4);
+
+    this->bind();
+
+    GLuint buffer;
+    glGenBuffers(1, &buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glBufferData(GL_ARRAY_BUFFER, byte_size,
+                 instanced_data.model_matrices.data(), GL_STATIC_DRAW);
+
+    // Set attribute pointers for matrix (4 times vec4)
+    glEnableVertexAttribArray(5);
+    glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4),
+                          (GLvoid*)0);
+    glEnableVertexAttribArray(6);
+    glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4),
+                          (GLvoid*)(sizeof(glm::vec4)));
+    glEnableVertexAttribArray(7);
+    glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4),
+                          (GLvoid*)(2 * sizeof(glm::vec4)));
+    glEnableVertexAttribArray(8);
+    glVertexAttribPointer(8, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4),
+                          (GLvoid*)(3 * sizeof(glm::vec4)));
+
+    glVertexAttribDivisor(5, 1);
+    glVertexAttribDivisor(6, 1);
+    glVertexAttribDivisor(7, 1);
+    glVertexAttribDivisor(8, 1);
 
     this->unbind();
 }

@@ -108,7 +108,7 @@ Mesh *MeshFactory::LoadBicubicBezierPatch(float startX, float startY,
     Mesh *mesh = new Patch(vertices, indices, textures,
                            2.0f, 2.0f, vertices.size(), idI, idJ);
     mesh->setPolygonMode(GL_LINE);
-    mesh->setDrawingMode(GL_PATCHES);
+    mesh->setPrimitiveMode(GL_PATCHES);
 
     Material material;
     material.shininess = 32.0f;
@@ -233,7 +233,7 @@ Mesh *MeshFactory::LoadBicubicBezierPolygon(float startX, float startY,
     Mesh *mesh = new Patch(vertices, indices, textures,
                            2.0f, 2.0f, vertices.size(), idI, idJ);
     mesh->setPolygonMode(GL_FILL);
-    mesh->setDrawingMode(GL_LINES);
+    mesh->setPrimitiveMode(GL_LINES);
 
     Material material;
     material.shininess = 32.0f;
@@ -324,7 +324,7 @@ Mesh *MeshFactory::LoadBicubicBezierAsymmetricPatch() {
     Mesh *mesh = new Patch(vertices, indices, textures,
                            2.0f, 2.0f, vertices.size());
     mesh->setPolygonMode(GL_LINE);
-    mesh->setDrawingMode(GL_PATCHES);
+    mesh->setPrimitiveMode(GL_PATCHES);
 
     Material material;
     material.shininess = 332.0f;
@@ -365,7 +365,7 @@ Mesh *MeshFactory::LoadPatch() {
 
     Mesh *mesh = new Patch(vertices, indices, textures);
     mesh->setPolygonMode(GL_LINE);
-    mesh->setDrawingMode(GL_PATCHES);
+    mesh->setPrimitiveMode(GL_PATCHES);
 
     Material material;
     material.shininess = 32.0f;

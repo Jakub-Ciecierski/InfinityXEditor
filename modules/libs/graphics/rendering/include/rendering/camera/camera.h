@@ -14,7 +14,7 @@ namespace ifx {
  */
 class Camera : public MovableObject, public EventHandler{
 public:
-    Camera(ObjectID id, std::string name,
+    Camera(ObjectID id,
            int *width, int *height,
            float FOV = 45.0f,
            float near = 0.01f, float far = 100.0f);

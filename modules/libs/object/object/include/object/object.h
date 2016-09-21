@@ -13,11 +13,10 @@ class Object {
 private:
 
     ObjectID id;
-    std::string name;
 
 public:
 
-    Object(ObjectID id, std::string name);
+    Object(ObjectID id);
 
     virtual ~Object();
 
