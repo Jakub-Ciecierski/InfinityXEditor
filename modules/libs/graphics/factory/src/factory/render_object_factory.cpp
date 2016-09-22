@@ -86,8 +86,8 @@ RenderObject* RenderObjectFactory::CreateAsteroid(){
 RenderObject* RenderObjectFactory::CreateNanosuitObject(){
     ProgramFactory program_factory;
 
-    Program* nano_program = program_factory.loadBumpMappingProgram();
-    Program* normal_vision_program = program_factory.LoadNormalVisionProgram();
+    Program* nano_program = program_factory.LoadMainProgram();
+    //Program* normal_vision_program = program_factory.LoadNormalVisionProgram();
 
     Model* nanosuitModel = ModelFactory::LoadNanoSuitModel();
 
@@ -95,7 +95,7 @@ RenderObject* RenderObjectFactory::CreateNanosuitObject(){
             = new RenderObject(ObjectID(0), nanosuitModel);
 
     renderObject->addProgram(nano_program);
-    renderObject->addProgram(normal_vision_program);
+    //renderObject->addProgram(normal_vision_program);
 
     float scaleFactor = 0.005f;
     renderObject->scale(glm::vec3(scaleFactor, scaleFactor, scaleFactor));

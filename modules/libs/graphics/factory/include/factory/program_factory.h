@@ -12,6 +12,8 @@ public:
 
     ~ProgramFactory();
 
+    Program* LoadMainProgram();
+
     Program* LoadInstancedProgram();
 
     Program* LoadFBOProgram();
