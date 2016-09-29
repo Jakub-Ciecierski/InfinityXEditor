@@ -1,5 +1,20 @@
 #include <shaders/data/shader_data.h>
 
+GLenum GetTextureInternalFormatPrimitive(TextureInternalFormat format){
+    if(format == TextureInternalFormat::RGB)
+        return GL_RGB;
+    else if(format == TextureInternalFormat::DEPTH_COMPONENT)
+        return GL_DEPTH_COMPONENT;
+}
+
+GLenum GetTexturePixelTypePrimitive(TexturePixelType type){
+    if(type == TexturePixelType::FLOAT)
+        return GL_FLOAT;
+    else if(type == TexturePixelType::UNSIGNED_BYTE)
+        return GL_UNSIGNED_BYTE;
+}
+
+
 // Maximum number of textures
 const int MAX_TEX_COUNT = 16;
 
@@ -17,6 +32,8 @@ const std::string MODEL_MATRIX_NAME = "ModelMatrix";
 const std::string VIEW_MATRIX_NAME = "ViewMatrix";
 const std::string PROJECTION_MATRIX_NAME = "ProjectionMatrix";
 
+const std::string LIGHT_SPACE_MATRIX_NAME = "LightSpaceMatrix";
+
 const std::string VIEW_POSITION_NAME = "viewPos";
 
 const std::string MATERIAL_DIFFUSE_NAME = "material.diffuse";
@@ -27,6 +44,8 @@ const std::string MATERIAL_SHININESS_NAME = "material.shininess";
 
 const std::string TEXTURE_CUBEMAP_NAME = "cubemap";
 const std::string TEXTURE_SCREEN_NAME = "screen_texture";
+
+const std::string TEXTURE_SHADOW_MAP = "shadow_map";
 
 const std::string TESSELLATION_LVL_INNER_NAME = "TessLevelInner";
 const std::string TESSELLATION_LVL_OUTER_NAME = "TessLevelOuter";

@@ -41,6 +41,8 @@ struct DirLight{
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
+
+    mat4 LightSpaceMatrix;
 };
 
 struct PointLight{
@@ -71,6 +73,9 @@ struct SpotLight{
     float quadratic;
 };
 
+// Shadow Mapping
+uniform sampler2D shadow_map;
+
 // ---------- UNIFORMS ---------- //
 
 uniform PointLight pointLights[MAX_LIGHT_COUNT];
@@ -86,6 +91,9 @@ uniform vec3 viewPos;
 
 // ---------- HEADERS ---------- //
 
+// Shadow Mapping
+float ShadowMappingCalculation(vec4 fragPosLightSpace);
+
 vec3 computePointLight(PointLight light, vec3 norm, vec3 fragPos,
                        vec3 viewDir, mat3 TBN);
 vec3 computeDirLight(DirLight light, vec3 norm, vec3 viewDir, mat3 TBN);
@@ -96,6 +104,20 @@ vec3 computeAmbient(vec3 ambientLight);
 vec3 computeDiffuse(vec3 norm, vec3 lightDir, vec3 diffuseLight);
 vec3 computeSpecular(vec3 norm, vec3 lightDir,
                      vec3 viewDir, vec3 specularLight);
+
+float ShadowMappingCalculation(vec4 fragPosLightSpace){
+    // Projection.
+    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+
+    // Depth map is in range [0,1].
+    projCoords = projCoords * 0.5 + 0.5;
+
+    float closestDepth = texture(shadow_map, projCoords.xy).r;
+    float currentDepth = projCoords.z;
+    float shadow = closestDepth < currentDepth ? 1 : 0;
+
+    return shadow;
+}
 
 vec3 computePointLight(PointLight light, vec3 norm, vec3 fragPos,
                         vec3 viewDir, mat3 TBN){
@@ -135,7 +157,11 @@ vec3 computeDirLight(DirLight light, vec3 norm, vec3 viewDir, mat3 TBN){
     vec3 diffuse = computeDiffuse(norm, lightDir, light.diffuse);
     vec3 specular = computeSpecular(norm, lightDir, viewDir, light.specular);
 
-    vec3 result = (ambient + diffuse + specular);
+    // Shadow Mapping
+    vec4 fragPosLightSpace = light.LightSpaceMatrix * vec4(FragPos, 1.0);
+    float shadow = ShadowMappingCalculation(fragPosLightSpace);
+
+    vec3 result = (ambient + (1.0 - shadow) * (diffuse + specular));
     return result;
 }
 

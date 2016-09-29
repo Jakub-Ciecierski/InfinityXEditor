@@ -43,6 +43,13 @@ void Scene::render(){
     }
 }
 
+void Scene::render(const Program* program){
+    camera_->use(*program);
+    light_group_->use(*program);
+    for(unsigned int i = 0; i < render_objects_.size(); i++)
+        render_objects_[i]->render(*program);
+}
+
 void Scene::render(RenderObject* render_object){
     const std::vector<Program*>& programs = render_object->programs();
     for(unsigned int j = 0; j < programs.size(); j++){

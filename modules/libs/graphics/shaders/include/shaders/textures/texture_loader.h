@@ -13,7 +13,13 @@ public:
     TextureLoader();
 
     ~TextureLoader();
-
+    Texture CreateEmptyTexture(TextureTypes type,
+                               TextureInternalFormat format,
+                               TexturePixelType pixel_type,
+                               int width, int height);
+    /**
+     * Deprecated.
+     */
     Texture CreateEmptyTexture(TextureTypes type,
                                int width, int height);
 

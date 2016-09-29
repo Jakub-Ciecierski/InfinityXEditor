@@ -26,14 +26,32 @@ struct InstancedData {
     std::vector<glm::mat4> model_matrices;
 };
 
-enum TextureTypes{
+enum class TextureTypes{
     DIFFUSE, SPECULAR, NORMAL, DISPLACEMENT, CUBEMAP, FBO
+};
+
+enum class TextureInternalFormat{
+    RGB, DEPTH_COMPONENT
+};
+
+enum class TexturePixelType{
+    FLOAT, UNSIGNED_BYTE
+};
+
+GLenum GetTextureInternalFormatPrimitive(TextureInternalFormat format);
+GLenum GetTexturePixelTypePrimitive(TexturePixelType type);
+
+struct TextureParameter{
+    GLenum param;
+    GLenum value;
 };
 
 struct Texture{
     GLuint id;
     TextureTypes texType;
+    // e.g. GL_TEXTURE_2D
     GLenum type;
+    TextureInternalFormat format;
 
     int width;
     int height;
@@ -46,6 +64,20 @@ struct Texture{
 
     void Delete(){
         glDeleteTextures(1, &id);
+    }
+
+    void AddParameter(TextureParameter param){
+        Bind();
+        glTexParameteri(type, param.param, param.value);
+        Unbind();
+    }
+
+    void Bind(){
+        glBindTexture(type, id);
+    }
+
+    void Unbind(){
+        glBindTexture(type, 0);
     }
 
     void updateData(unsigned char* data, int width, int height, int dim){
@@ -101,6 +133,8 @@ extern const std::string TEXTURE_CUBEMAP_NAME;
 // Used in FBO screen rendering
 extern const std::string TEXTURE_SCREEN_NAME;
 
+extern const std::string TEXTURE_SHADOW_MAP;
+
 extern const std::string TESSELLATION_LVL_INNER_NAME;
 extern const std::string TESSELLATION_LVL_OUTER_NAME;
 extern const std::string PATCH_ID_I_NAME;
@@ -123,6 +157,8 @@ extern const std::string LIGHT_DIRECTION_NAME;
 extern const std::string LIGHT_AMBIENT_NAME;
 extern const std::string LIGHT_DIFFUSE_NAME;
 extern const std::string LIGHT_SPECULAR_NAME;
+
+extern const std::string LIGHT_SPACE_MATRIX_NAME;
 
 extern const std::string LIGHT_ATTENUATION_CONST_NAME;
 extern const std::string LIGHT_ATTENUATION_LINEAR_NAME;

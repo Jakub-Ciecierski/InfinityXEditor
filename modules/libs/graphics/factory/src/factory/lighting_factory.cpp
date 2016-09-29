@@ -88,6 +88,8 @@ LightGroup* LightingFactory::createGroupLight(Camera* camera){
 
     light_group->addLightSpotlight(light_spotlight);
 
+    light_group->addLightDirectional(loadDirLight());
+
     return light_group;
 }
 

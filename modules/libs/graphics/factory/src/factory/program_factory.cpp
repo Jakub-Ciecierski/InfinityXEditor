@@ -29,6 +29,22 @@ Program* ProgramFactory::LoadMainProgram(){
     return program;
 }
 
+Program* ProgramFactory::LoadShadowMappingProgram(){
+    ifx::Resources& resources = ifx::Resources::GetInstance();
+
+    std::string vertex_path =
+            resources.GetResourcePath("shadow_mapping/shadow_mapping.vs",
+                                      ifx::ResourceType::SHADER);
+    std::string fragment_path =
+            resources.GetResourcePath("shadow_mapping/shadow_mapping.fs",
+                                      ifx::ResourceType::SHADER);
+
+    ProgramLoader programLoader;
+    Program* program = programLoader.CreateProgram(vertex_path, fragment_path);
+
+    return program;
+}
+
 Program* ProgramFactory::LoadInstancedProgram(){
     ifx::Resources& resources = ifx::Resources::GetInstance();
 

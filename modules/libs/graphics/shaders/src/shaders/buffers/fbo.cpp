@@ -4,8 +4,10 @@
 
 namespace ifx {
 
-FBO::FBO(Texture texture) :
-        texture_(texture){
+FBO::FBO(Texture texture, FBOType type) :
+        texture_(texture),
+        type_(type),
+        compiled_(false){
     glGenFramebuffers(1, &id_);
 }
 
@@ -14,14 +16,20 @@ FBO::~FBO() {
 }
 
 void FBO::compile(){
+    if(compiled_)
+        return;
+
     bind();
-    compileTexture();
-    compileRBO();
 
-    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-        throw new std::invalid_argument("Framebuffer is not complete!");
+    if(type_ == FBOType::COLOR_DEPTH)
+        compileColorDepth();
+    else if(type_ == FBOType::DEPTH)
+        compileDepth();
 
+    CheckError();
     unbind();
+
+    compiled_ = true;
 }
 
 void FBO::bind() {
@@ -32,11 +40,24 @@ void FBO::unbind(){
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void FBO::compileTexture(){
+void FBO::compileColorDepth(){
+    compileTexture(GL_COLOR_ATTACHMENT0);
+    compileRBO();
+}
+
+void FBO::compileDepth(){
+    compileTexture(GL_DEPTH_ATTACHMENT);
+
+    glDrawBuffer(GL_NONE);
+    glReadBuffer(GL_NONE);
+}
+
+void FBO::compileTexture(GLenum attachment){
     glFramebufferTexture2D(GL_FRAMEBUFFER,
-                           GL_COLOR_ATTACHMENT0,
+                           attachment,
                            GL_TEXTURE_2D, texture_.id, 0);
 }
+
 void FBO::compileRBO(){
     GLuint rbo;
     glGenRenderbuffers(1, &rbo);
@@ -48,6 +69,11 @@ void FBO::compileRBO(){
     glFramebufferRenderbuffer(GL_FRAMEBUFFER,
                               GL_DEPTH_STENCIL_ATTACHMENT,
                               GL_RENDERBUFFER, rbo);
+}
+
+void FBO::CheckError(){
+    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+        throw new std::invalid_argument("Framebuffer is not complete!");
 }
 
 } // ifx

@@ -7,13 +7,21 @@
 namespace ifx {
 
 /**
+ * Determines the type of FBO.
+ * What buffers to bind.
+ */
+enum class FBOType{
+    COLOR_DEPTH, DEPTH, COLOR
+};
+
+/**
  * Frame Buffer Object. Created RenderObjectBuffer for depth and stencil.
  * Must call compile before using.
  */
 class FBO {
 public:
 
-    FBO(Texture texture);
+    FBO(Texture texture, FBOType type);
 
     ~FBO();
 
@@ -37,11 +45,24 @@ public:
     void unbind();
 
 private:
-    void compileTexture();
+
+    /**
+     * Compile based on the type
+     */
+    void compileColorDepth();
+    void compileDepth();
+
+    void compileTexture(GLenum attachment);
     void compileRBO();
+
+    void CheckError();
+
+    FBOType type_;
 
     GLuint id_;
     Texture texture_;
+
+    bool compiled_;
 };
 
 }

@@ -11,13 +11,6 @@ namespace ifx {
  * It binds the position and the direction with the shader.
  */
 class LightDirectional : public LightSource {
-protected:
-    // Defines the direction of the light.
-    // Will be used if light is not set on follow with camera
-    glm::vec3 lookAt;
-
-    virtual void bind(const Program &program, int id = -1) override;
-
 public:
 
     LightDirectional();
@@ -26,6 +19,8 @@ public:
 
     ~LightDirectional();
 
+    const glm::vec3& lookAt() {return lookAt_;}
+
     /*
      * Gets direction either from the camera or based on its own
      * position and lookAt
@@ -33,6 +28,15 @@ public:
     const glm::vec3 getDirection();
 
     void setLookAt(const glm::vec3 &lookAt);
+
+    glm::mat4 GetLightSpaceMatrix();
+protected:
+    virtual void bind(const Program &program, int id = -1) override;
+
+    // Defines the direction of the light.
+    // Will be used if light is not set on follow with camera
+    glm::vec3 lookAt_;
+
 };
 }
 

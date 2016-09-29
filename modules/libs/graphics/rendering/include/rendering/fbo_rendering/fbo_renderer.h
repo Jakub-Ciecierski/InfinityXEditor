@@ -9,6 +9,12 @@ namespace ifx {
 class Window;
 class FBO;
 
+/**
+ * The viewport does not need to be changed since the window's dimensions
+ * are used.
+ * Creates FBO with Color and Depth buffers.
+ * Allows for post-processing effects.
+ */
 class FBORenderer {
 public:
 

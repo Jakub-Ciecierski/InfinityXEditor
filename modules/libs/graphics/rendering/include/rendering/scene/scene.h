@@ -19,6 +19,8 @@ public:
 
     ~Scene();
 
+    LightGroup* light_group(){return light_group_;}
+
     void ReloadProgams();
 
     /**
@@ -27,6 +29,12 @@ public:
     Camera* SetCamera(Camera* camera);
 
     void render();
+
+    /**
+     * Overrides all programs used and renders the entire scene using
+     * input program
+     */
+    void render(const Program* program);
     void update();
 
 private:

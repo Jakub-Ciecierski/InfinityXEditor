@@ -16,6 +16,32 @@ TextureLoader::~TextureLoader() {
 }
 
 Texture TextureLoader::CreateEmptyTexture(TextureTypes type,
+                                          TextureInternalFormat format,
+                                          TexturePixelType pixel_type,
+                                          int width, int height){
+    GLuint id;
+    glGenTextures(1, &id);
+    glBindTexture(GL_TEXTURE_2D, id);
+
+    GLenum format_gl = GetTextureInternalFormatPrimitive(format);
+    glTexImage2D(GL_TEXTURE_2D, 0,
+                 format_gl,
+                 width, height, 0,
+                 format_gl,
+                 GetTexturePixelTypePrimitive(pixel_type), NULL);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    Texture tex = contructTexture(id, GL_TEXTURE_2D);
+    tex.texType = type;
+    tex.width = width;
+    tex.height = height;
+    tex.format = format;
+
+    return tex;
+}
+
+Texture TextureLoader::CreateEmptyTexture(TextureTypes type,
                                           int width, int height){
     GLuint id;
     glGenTextures(1, &id);
@@ -24,7 +50,7 @@ Texture TextureLoader::CreateEmptyTexture(TextureTypes type,
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
                  width, height, 0,
                  GL_RGB, GL_UNSIGNED_BYTE, NULL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     glBindTexture(GL_TEXTURE_2D, 0);

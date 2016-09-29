@@ -13,6 +13,8 @@ namespace ifx {
         std::string DIFFUSE;
         std::string SPECULAR;
 
+        std::string LIGHT_SPACE_MATRIX;
+
         DirlightShaderBuilder(int id);
 
         ~DirlightShaderBuilder();

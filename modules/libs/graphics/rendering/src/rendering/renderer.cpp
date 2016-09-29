@@ -3,7 +3,6 @@
 #include <controls/glfw_callbacks.h>
 #include <controls/controls.h>
 #include <rendering/fbo_rendering/fbo_renderer.h>
-#include <stdexcept>
 
 namespace ifx {
 
@@ -68,10 +67,18 @@ void Renderer::SetRenderingType(RenderingType type){
     rendering_type_ = type;
 }
 
+void Renderer::SetShadowsType(ShadowsType type){
+    shadow_type_ = type;
+}
+
 void Renderer::SetFBORenderer(FBORenderer* fbo_renderer){
     if(fbo_renderer_ != nullptr)
         delete fbo_renderer_;
     fbo_renderer_ = fbo_renderer;
+}
+
+void Renderer::SetShadowMapping(ShadowMapping* shadow_mapping){
+    shadow_mapping_.reset(shadow_mapping);
 }
 
 void Renderer::initGLFWRenderContext(){
@@ -110,9 +117,20 @@ void Renderer::Update(){
 
 void Renderer::Render(){
     if(rendering_type_ == RenderingType::NORMAL)
-        RenderNormal();
+        RenderNormalShadowMapping();//RenderNormal();
     if(rendering_type_ == RenderingType::FBO_TEXTURE)
         RenderFBOTexture();
+}
+
+void Renderer::RenderNormalShadowMapping(){
+    shadow_mapping_->Render(scene_);
+
+    glViewport(0, 0, *(window_->width()), *(window_->height()));
+    glClearColor(0.1f, 0.2f, 0.2f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+
+    scene_->render();
 }
 
 void Renderer::RenderNormal(){

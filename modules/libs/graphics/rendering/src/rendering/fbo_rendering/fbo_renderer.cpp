@@ -46,10 +46,15 @@ void FBORenderer::Render(Program* program){
 }
 
 void FBORenderer::initFBO(Window* window){
-    Texture texture = TextureLoader().CreateEmptyTexture(TextureTypes::FBO,
-                                                         *(window->width()),
-                                                         *(window->height()));
-    fbo_ = new FBO(texture);
+    Texture texture = TextureLoader().CreateEmptyTexture(
+            TextureTypes::FBO,
+            TextureInternalFormat::RGB,
+            TexturePixelType::UNSIGNED_BYTE,
+            *(window->width()), *(window->height()));
+    texture.AddParameter(TextureParameter{GL_TEXTURE_MIN_FILTER, GL_LINEAR});
+    texture.AddParameter(TextureParameter{GL_TEXTURE_MAG_FILTER, GL_LINEAR});
+
+    fbo_ = new FBO(texture, FBOType::COLOR_DEPTH);
     fbo_->compile();
 }
 

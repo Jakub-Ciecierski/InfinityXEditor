@@ -5,6 +5,12 @@
 #include <glm/gtc/type_ptr.hpp>
 
 namespace ifx{
+
+struct Dimensions{
+    int width;
+    int height;
+};
+
 void math();
 }
 

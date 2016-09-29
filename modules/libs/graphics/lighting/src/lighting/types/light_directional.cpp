@@ -21,13 +21,13 @@ const glm::vec3 LightDirectional::getDirection() {
         return movableObject->getDirection();
     }else{
         const glm::vec3& pos = getPosition();
-        glm::vec3 dir = lookAt - pos;
+        glm::vec3 dir = lookAt_ - pos;
         return dir;
     }
 }
 
 void LightDirectional::setLookAt(const glm::vec3 &lookAt) {
-    this->lookAt = lookAt;
+    this->lookAt_ = lookAt;
 }
 
 void LightDirectional::bind(const Program &program, int id) {
@@ -46,6 +46,8 @@ void LightDirectional::bind(const Program &program, int id) {
                                                   builder.DIFFUSE.c_str());
     GLint lightSpecularLoc = glGetUniformLocation(program.getID(),
                                                   builder.SPECULAR.c_str());
+    GLint lightSpaceMatrixLoc = glGetUniformLocation(program.getID(),
+                                                     builder.LIGHT_SPACE_MATRIX.c_str());
 
     glUniform3f(lightAmbientLoc,
                 light.ambient.x, light.ambient.y, light.ambient.z);
@@ -53,6 +55,19 @@ void LightDirectional::bind(const Program &program, int id) {
                 light.diffuse.x, light.diffuse.y, light.diffuse.z);
     glUniform3f(lightSpecularLoc,
                 light.specular.x, light.specular.y, light.specular.z);
-
     glUniform3f(lightDirLoc, dir.x, dir.y, dir.z);
+    glUniformMatrix4fv(lightSpaceMatrixLoc, 1, GL_FALSE,
+                       glm::value_ptr(GetLightSpaceMatrix()));
+}
+
+glm::mat4 LightDirectional::GetLightSpaceMatrix() {
+    GLfloat near_plane = 1.0f, far_plane = 7.5f;
+    glm::mat4 light_projection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f,
+                                             near_plane, far_plane);
+    const glm::vec3 UP = glm::vec3(0.0f, 1.0f, 0.0f);
+    glm::mat4 light_view = glm::lookAt(getPosition(),
+                                       lookAt(),
+                                       UP);
+
+    return light_projection * light_view;
 }

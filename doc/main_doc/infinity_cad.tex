@@ -1,0 +1,117 @@
+\documentclass{book}
+
+% PACKAGES
+%--------------------------------------------------------------------------%
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{wrapfig}
+
+\usepackage{csquotes}
+\usepackage{amsmath}
+\usepackage{epigraph}
+\usepackage[linesnumbered,ruled]{algorithm2e}
+\usepackage{adjustbox}
+
+\DeclareMathOperator*{\argmin}{arg\,min} %argmin
+\DeclareMathOperator*{\argmax}{arg\,max} %argmax
+
+\usepackage{floatrow}
+% Table float box with bottom caption, box width adjusted to content
+\newfloatcommand{capbtabbox}{table}[][\FBwidth]
+\usepackage{caption}
+\usepackage{subcaption}
+\captionsetup{compatibility=false}
+
+%%%
+
+\usepackage{array}
+% For tabulars
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+
+
+\usepackage{pdfpages}
+\usepackage{graphicx}
+\usepackage{longtable}
+%\usepackage[export]{adjustbox}
+%\usepackage{tabu}
+\usepackage{xcolor,colortbl}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{amsfonts}
+
+% LOAD CUSTOM COMMANDS FROM A FILE
+%--------------------------------------------------------------------------%
+%\usepackage{result_figures}
+
+
+% TITLE
+%--------------------------------------------------------------------------%
+
+\title{
+    {\bf Geometrical Modeling} \\ Interface for Virtual Space interaction    \vspace{50pt} {\bf Modelowanie Geometryczne} Uniwersalny Interface do interakcji w przestrzenie wirtualnej
+}
+\author{Jakub Ciecierski}
+\date{\today}
+
+
+
+% DOCUMENT
+%--------------------------------------------------------------------------%
+
+\begin{document}
+
+
+\begin{titlepage}
+    \begin{center}
+
+            \textbf{\huge  Geometrical Modeling.} \\ {\huge Interface for Virtual Space interaction.} \\ [0.5cm]
+            
+            \textbf{\huge  Modelowanie Geometryczne.} \\ {\huge Uniwersalny Interface do interakcji w przestrzenie wirtualnej.} \\ [0.5cm]
+            
+            \vspace*{\fill}
+
+            \textbf{\large Jakub Ciecierski}
+
+            \vspace*{\fill}
+            
+            \textnormal{\large Warsaw University of Technology \\ Factulty of Mathematics and Information Science. \\ \today}
+
+    \end{center}
+\end{titlepage}
+
+\tableofcontents
+
+
+
+
+
+
+
+
+
+\chapter*{Introduction}
+
+\chapter{Projects}
+
+\section{Project 1}
+{\bf Dates} 25.02.2016 - 03.03.2016 (1 week)
+
+Requirements
+\begin{enumerate}
+    \item Translation, Scaling and Rotating of entire scene.
+    \item Affine coordinates. Save all affine transformations as one combined matrix $M \in R^4 \times R^4$.
+    \item Net model of Torus. Vertices and edges must be carefully prepared. Edges must point to vertices, and must remain topology independently of drawing order.
+    \item The net density dynamically changeable.
+\end{enumerate}
+
+%---------------------------------------------------------------
+\begin{thebibliography}{1}
+    
+    
+\end{thebibliography}
+
+
+\end{document}

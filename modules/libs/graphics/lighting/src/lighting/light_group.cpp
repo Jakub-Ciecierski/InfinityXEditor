@@ -7,17 +7,17 @@ LightGroup::LightGroup(){
 }
 
 LightGroup::~LightGroup(){
-    for(unsigned int i = 0; i < allLights.size(); i++){
-        delete allLights[i];
+    for(unsigned int i = 0; i < all_lights_.size(); i++){
+        delete all_lights_[i];
     }
 }
 
 void LightGroup::bindLightCount(const Program &program) {
     program.use();
 
-    int pointLightCount = lightPointVec.size();
-    int dirLightCount = lightDirectionVec.size();
-    int spotLightCount = lightSpotlightVec.size();
+    int pointLightCount = light_points_.size();
+    int dirLightCount = light_directions_.size();
+    int spotLightCount = light_spotlights_.size();
 
     GLint pointLightCountLoc
             = glGetUniformLocation(program.getID(),
@@ -36,39 +36,39 @@ void LightGroup::bindLightCount(const Program &program) {
 
 
 void LightGroup::addLightPoint(LightPoint* light){
-    this->lightPointVec.push_back(light);
+    this->light_points_.push_back(light);
 
-    this->allLights.push_back(light);
+    this->all_lights_.push_back(light);
 }
 
 void LightGroup::addLightDirectional(LightDirectional* light){
-    this->lightDirectionVec.push_back(light);
+    this->light_directions_.push_back(light);
 
-    this->allLights.push_back(light);
+    this->all_lights_.push_back(light);
 }
 
 void LightGroup::addLightSpotlight(LightSpotlight* light){
-    this->lightSpotlightVec.push_back(light);
+    this->light_spotlights_.push_back(light);
 
-    this->allLights.push_back(light);
+    this->all_lights_.push_back(light);
 }
 
 void LightGroup::use(const Program& program){
     bindLightCount(program);
 
-    for(unsigned int i = 0; i < lightPointVec.size(); i++){
-        lightPointVec[i]->use(program, i);
+    for(unsigned int i = 0; i < light_points_.size(); i++){
+        light_points_[i]->use(program, i);
     }
-    for(unsigned int i = 0; i < lightDirectionVec.size(); i++){
-        lightDirectionVec[i]->use(program, i);
+    for(unsigned int i = 0; i < light_directions_.size(); i++){
+        light_directions_[i]->use(program, i);
     }
-    for(unsigned int i = 0; i < lightSpotlightVec.size(); i++){
-        lightSpotlightVec[i]->use(program, i);
+    for(unsigned int i = 0; i < light_spotlights_.size(); i++){
+        light_spotlights_[i]->use(program, i);
     }
 }
 
 void LightGroup::render(const Program& program){
-    for(unsigned int i = 0; i < allLights.size(); i++){
-        allLights[i]->render(program);
+    for(unsigned int i = 0; i < all_lights_.size(); i++){
+        all_lights_[i]->render(program);
     }
 }

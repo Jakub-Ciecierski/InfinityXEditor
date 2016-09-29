@@ -14,6 +14,8 @@ public:
 
     Program* LoadMainProgram();
 
+    Program* LoadShadowMappingProgram();
+
     Program* LoadInstancedProgram();
 
     Program* LoadFBOProgram();

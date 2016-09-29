@@ -10,9 +10,10 @@ int main() {
     ifx::FBORenderer* fbo_renderer = ifx::RenderObjectFactory()
             .CreateFBORenderer(window);
     renderer.SetFBORenderer(fbo_renderer);
+    renderer.SetShadowMapping(ifx::RenderObjectFactory().CreateShadowMapping());
 
-    ifx::Camera* camera = new ifx::Camera(ObjectID(1),
-                                          window->width(), window->height());
+    ifx::Camera* camera
+            = new ifx::Camera(ObjectID(1), window->width(), window->height());
 
     ifx::Scene* scene = ifx::SceneFactory().CreateScene(camera);
     renderer.SetScene(scene);

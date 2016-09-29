@@ -7,6 +7,7 @@ namespace ifx {
 
 class FBORenderer;
 class Window;
+class ShadowMapping;
 
 class RenderObjectFactory {
 public:
@@ -16,6 +17,8 @@ public:
     ~RenderObjectFactory();
 
     FBORenderer* CreateFBORenderer(Window* window);
+
+    ShadowMapping* CreateShadowMapping();
 
     RenderObject* CreateAsteroidField();
     RenderObject* CreateAsteroid();

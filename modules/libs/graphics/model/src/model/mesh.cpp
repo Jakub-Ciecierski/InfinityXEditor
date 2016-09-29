@@ -179,25 +179,26 @@ void Mesh::initBuffers(){
 }
 
 void Mesh::bindTextures(const Program& program){
-    for(unsigned int i = 0; i < textures.size(); i++){
-        glActiveTexture(GL_TEXTURE0 + i);
-        glBindTexture(textures[i].type, textures[i].id);
-        if(textures[i].texType == TextureTypes::DIFFUSE){
+    for(unsigned int j = 0; j < textures.size(); j++){
+        int i = j + 31;
+        glActiveTexture(GL_TEXTURE31 + j);
+        textures[j].Bind();
+        if(textures[j].texType == TextureTypes::DIFFUSE){
             glUniform1i(glGetUniformLocation(program.getID(),
                                              MATERIAL_DIFFUSE_NAME.c_str()),i);
-        }else if(textures[i].texType == TextureTypes::SPECULAR){
+        }else if(textures[j].texType == TextureTypes::SPECULAR){
             glUniform1i(glGetUniformLocation(program.getID(),
                                              MATERIAL_SPECULAR_NAME.c_str()),i);
-        }else if(textures[i].texType == TextureTypes::NORMAL){
+        }else if(textures[j].texType == TextureTypes::NORMAL){
             glUniform1i(glGetUniformLocation(program.getID(),
                                              MATERIAL_NORMAL_NAME.c_str()),i);
-        }else if(textures[i].texType == TextureTypes::DISPLACEMENT){
+        }else if(textures[j].texType == TextureTypes::DISPLACEMENT){
             glUniform1i(glGetUniformLocation(program.getID(),
                                              MATERIAL_DISPLACEMENT_NAME.c_str()),i);
-        }else if(textures[i].texType == TextureTypes::CUBEMAP){
+        }else if(textures[j].texType == TextureTypes::CUBEMAP){
             glUniform1i(glGetUniformLocation(program.getID(),
                                              TEXTURE_CUBEMAP_NAME.c_str()),i);
-        }else if(textures[i].texType == TextureTypes::FBO){
+        }else if(textures[j].texType == TextureTypes::FBO){
             glUniform1i(glGetUniformLocation(program.getID(),
                                              TEXTURE_SCREEN_NAME.c_str()),i);
         }else{

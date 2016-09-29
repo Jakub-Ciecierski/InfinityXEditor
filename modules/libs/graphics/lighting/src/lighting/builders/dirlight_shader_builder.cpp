@@ -26,4 +26,8 @@ void ifx::DirlightShaderBuilder::build() {
     SPECULAR = appendToBase(id,
                             LIGHT_DIRLIGHT_NAME,
                             LIGHT_SPECULAR_NAME);
+
+    LIGHT_SPACE_MATRIX = appendToBase(id,
+                                      LIGHT_DIRLIGHT_NAME,
+                                      LIGHT_SPACE_MATRIX_NAME);
 }

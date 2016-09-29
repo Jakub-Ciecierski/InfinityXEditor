@@ -5,6 +5,7 @@
 #include <factory/program_factory.h>
 #include <rendering/fbo_rendering/fbo_renderer.h>
 #include <rendering/instanced_render_object.h>
+#include <rendering/shadows/shadow_mapping.h>
 
 #include <GLFW/glfw3.h>
 
@@ -24,6 +25,11 @@ FBORenderer* RenderObjectFactory::CreateFBORenderer(Window* window){
 
     return fbo_renderer;
 }
+
+ShadowMapping* RenderObjectFactory::CreateShadowMapping(){
+    Program* program = ProgramFactory().LoadShadowMappingProgram();
+    return new ShadowMapping(Dimensions{1024, 1024}, program);
+};
 
 RenderObject* RenderObjectFactory::CreateAsteroidField(){
     ProgramFactory program_factory;

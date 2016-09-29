@@ -7,6 +7,7 @@
 #include <vector>
 
 namespace ifx {
+
 /*
  * LightGroup combines all lights in the scene and renders them using
  * one shader.
@@ -15,28 +16,21 @@ namespace ifx {
  * If a LightSource is removed, then LightGroup also losed owner ship of it
  */
 class LightGroup {
-private:
-    std::vector<LightSource *> allLights;
-
-    std::vector<LightPoint *> lightPointVec;
-    std::vector<LightDirectional *> lightDirectionVec;
-    std::vector<LightSpotlight *> lightSpotlightVec;
-
-    /*
-     * Binds the number of each light type with the shader
-     */
-    void bindLightCount(const Program &program);
-
 public:
-
     LightGroup();
 
     ~LightGroup();
 
+    const std::vector<LightPoint *>& light_points(){return light_points_;}
+    const std::vector<LightDirectional *>& light_directions(){
+        return light_directions_ ;
+    }
+    const std::vector<LightSpotlight *>& light_spotlights() {
+        return light_spotlights_;
+    }
+
     void addLightPoint(LightPoint *light);
-
     void addLightDirectional(LightDirectional *light);
-
     void addLightSpotlight(LightSpotlight *light);
 
     /*
@@ -48,6 +42,20 @@ public:
      * Renders all LightSources
      */
     void render(const Program &program);
+
+private:
+
+    /*
+     * Binds the number of each light type with the shader
+     */
+    void bindLightCount(const Program &program);
+
+    std::vector<LightSource *> all_lights_;
+
+    std::vector<LightPoint *> light_points_;
+    std::vector<LightDirectional *> light_directions_;
+    std::vector<LightSpotlight *> light_spotlights_;
+
 };
 }
 
