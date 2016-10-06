@@ -1,6 +1,8 @@
 #ifndef PROJECT_FBO_RENDERER_H
 #define PROJECT_FBO_RENDERER_H
 
+#include <memory>
+
 class Mesh;
 class Program;
 
@@ -22,9 +24,9 @@ public:
 
     ~FBORenderer();
 
-    Program* program(){return program_;}
+    Program* program(){return program_.get();}
 
-    void SetProgram(Program* program);
+    void SetProgram(std::shared_ptr<Program> program);
 
     void Bind();
 
@@ -42,7 +44,7 @@ private:
      */
     Mesh* screenMesh_;
 
-    Program* program_;
+    std::shared_ptr<Program> program_;
 };
 }
 

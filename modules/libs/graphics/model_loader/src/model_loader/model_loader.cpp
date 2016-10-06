@@ -26,7 +26,7 @@ void ModelLoader::checkError(const aiScene* scene,
     }
 }
 
-Model* ModelLoader::loadModel() {
+std::shared_ptr<Model> ModelLoader::loadModel() {
     Assimp::Importer importer;
     const aiScene* scene =
             importer.ReadFile(filepath,
@@ -37,28 +37,25 @@ Model* ModelLoader::loadModel() {
     // Retrieve the directory path of the filepath
     this->directory = filepath.substr(0, filepath.find_last_of('/'));
 
-    vector<Mesh*> meshes;
+    std::vector<std::unique_ptr<Mesh>> meshes;
     processNode(scene->mRootNode, scene, meshes);
 
-    Model* model = new Model(meshes);
-    //printInfo(*model);
-
-    return model;
+    return Model::MakeModel(filepath, std::move(meshes));
 }
 
 void ModelLoader::processNode(aiNode* node, const aiScene* scene,
-                              vector<Mesh*>& meshes){
+                              vector<std::unique_ptr<Mesh>>& meshes){
     for(GLuint i = 0; i < node->mNumMeshes; i++)
     {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-        Mesh* ifxMesh = this->processMesh(mesh, scene);
+        std::unique_ptr<Mesh> ifxMesh(this->processMesh(mesh, scene));
 
         // TODO Find better solution for shininess !
         Material material;
         material.shininess = 322.0f;
         ifxMesh->setMaterial(material);
 
-        meshes.push_back(ifxMesh);
+        meshes.push_back(std::move(ifxMesh));
     }
     for(GLuint i = 0; i < node->mNumChildren; i++)
     {

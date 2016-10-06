@@ -5,72 +5,81 @@
 
 namespace ifx{
 
-SceneFactory::SceneFactory(){
+SceneFactory::SceneFactory(){}
 
-}
+SceneFactory::~SceneFactory(){}
 
-SceneFactory::~SceneFactory(){
-
-}
-
-Scene* SceneFactory::CreateScene(Camera* camera){
-    //return CreateNanosuitGuy(camera);
-    return CreateShadowMappingTest(camera);
+std::unique_ptr<Scene> SceneFactory::CreateScene(std::unique_ptr<Camera> camera){
+    //return CreateNanosuitGuy(std::move(camera));
+    return CreateShadowMappingTest(std::move(camera));
     //return CreateAsteroidField(camera);
 }
 
-Scene* SceneFactory::CreateNanosuitGuy(Camera* camera){
+std::unique_ptr<Scene> SceneFactory::CreateNanosuitGuy(std::unique_ptr<Camera> camera){
     camera->moveTo(glm::vec3(-0.2f, 0.1f, 0.0f));
 
-    RenderObjectFactory render_object_factory;
-    LightingFactory lighting_factory;
+    std::vector<std::unique_ptr<RenderObject>> render_objects;
 
-    std::vector<RenderObject*> render_objects;
-    render_objects.push_back(render_object_factory.CreateNanosuitObject());
+    render_objects.push_back(
+            std::unique_ptr<RenderObject>(
+                    RenderObjectFactory().CreateNanosuitObject()));
 
-    LightGroup* group_light = lighting_factory.createGroupLight(camera);
+    std::unique_ptr<LightGroup> group_light(
+                LightingFactory().createGroupLight(camera.get()));
 
-    Scene* scene = new Scene(render_objects,
-                             group_light, camera);
+    auto scene = std::unique_ptr<Scene>(new Scene(std::move(render_objects),
+                                                  std::move(group_light),
+                                                  std::move(camera)));
 
     return scene;
 }
 
-Scene* SceneFactory::CreateAsteroidField(Camera* camera){
+std::unique_ptr<Scene> SceneFactory::CreateAsteroidField(std::unique_ptr<Camera> camera){
     camera->moveTo(glm::vec3(-0.2f, 0.1f, 0.0f));
 
-    RenderObjectFactory render_object_factory;
-    LightingFactory lighting_factory;
+    std::vector<std::unique_ptr<RenderObject>> render_objects;
+    render_objects.push_back(
+            std::unique_ptr<RenderObject>(
+                    RenderObjectFactory().CreateAsteroidField()));
+    render_objects.push_back(
+            std::unique_ptr<RenderObject>(
+                    RenderObjectFactory().CreateAsteroid()));
 
-    std::vector<RenderObject*> render_objects;
-    render_objects.push_back(render_object_factory.CreateAsteroidField());
-    render_objects.push_back(render_object_factory.CreateAsteroid());
+    std::unique_ptr<LightGroup> group_light(
+                LightingFactory().createGroupLight(camera.get()));
 
-    LightGroup* group_light = lighting_factory.createGroupLight(camera);
-
-    Scene* scene = new Scene(render_objects,
-                             group_light, camera);
+    auto scene = std::unique_ptr<Scene>(new Scene(std::move(render_objects),
+                                                  std::move(group_light),
+                                                  std::move(camera)));
 
     return scene;
 }
 
-Scene* SceneFactory::CreateShadowMappingTest(Camera* camera){
+std::unique_ptr<Scene> SceneFactory::CreateShadowMappingTest(std::unique_ptr<Camera> camera){
     camera->moveTo(glm::vec3(-0.2f, 0.1f, 0.0f));
 
     RenderObjectFactory render_object_factory;
     LightingFactory lighting_factory;
 
-    std::vector<RenderObject*> render_objects;
-    render_objects.push_back(render_object_factory.CreateNanosuitObject());
-    render_objects.push_back(render_object_factory.CreateFloor());
-    render_objects.push_back(render_object_factory.CreateLampObject());
+    std::vector<std::unique_ptr<RenderObject>> render_objects;
+    render_objects.push_back(
+            std::unique_ptr<RenderObject>(
+                    render_object_factory.CreateNanosuitObject()));
+    render_objects.push_back(
+            std::unique_ptr<RenderObject>(
+                    render_object_factory.CreateFloor()));
+    render_objects.push_back(
+            std::unique_ptr<RenderObject>(
+                    render_object_factory.CreateLampObject()));
 
     render_objects[0]->moveTo(glm::vec3(0.5,0,0.5));
 
-    LightGroup* group_light = lighting_factory.createGroupLight(camera);
+    std::unique_ptr<LightGroup> group_light(
+            LightingFactory().createGroupLight(camera.get()));
 
-    Scene* scene = new Scene(render_objects,
-                             group_light, camera);
+    auto scene = std::unique_ptr<Scene>(new Scene(std::move(render_objects),
+                                                  std::move(group_light),
+                                                  std::move(camera)));
 
     return scene;
 }

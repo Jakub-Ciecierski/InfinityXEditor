@@ -2,6 +2,7 @@
 #define PROJECT_RENDER_OBJECT_FACTORY_H
 
 #include <rendering/render_object.h>
+#include <memory>
 
 namespace ifx {
 
@@ -16,7 +17,7 @@ public:
 
     ~RenderObjectFactory();
 
-    FBORenderer* CreateFBORenderer(Window* window);
+    std::unique_ptr<FBORenderer> CreateFBORenderer(Window* window);
 
     ShadowMapping* CreateShadowMapping();
 

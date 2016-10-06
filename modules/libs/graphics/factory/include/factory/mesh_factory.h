@@ -3,6 +3,8 @@
 
 #include <model/mesh.h>
 
+#include <memory>
+
 namespace ifx {
 
 class MeshFactory {
@@ -14,18 +16,23 @@ public:
 
     ~MeshFactory();
 
-    static Mesh* LoadBicubicBezierPatch(float startX, float startY,
-                                        float depth, int idI = 0, int idJ = 0);
-    static Mesh* LoadBicubicBezierPolygon(float startX, float startY,
-                                          float depth,
-                                          int idI = 0, int idJ = 0);
-    static Mesh* LoadBicubicBezierAsymmetricPatch();
+    static std::unique_ptr<Mesh> LoadBicubicBezierPatch(float startX,
+                                                        float startY,
+                                                        float depth,
+                                                        int idI = 0,
+                                                        int idJ = 0);
+    static std::unique_ptr<Mesh> LoadBicubicBezierPolygon(float startX,
+                                                          float startY,
+                                                          float depth,
+                                                          int idI = 0,
+                                                          int idJ = 0);
+    static std::unique_ptr<Mesh> LoadBicubicBezierAsymmetricPatch();
 
-    static Mesh* LoadPatch();
-    static Mesh* LoadCubemap();
-    static Mesh* LoadCube();
-    static Mesh* LoadFloor();
-    static Mesh* LoadLamp();
+    static std::unique_ptr<Mesh> LoadPatch();
+    static std::unique_ptr<Mesh> LoadCubemap();
+    static std::unique_ptr<Mesh> LoadCube();
+    static std::unique_ptr<Mesh> LoadFloor();
+    static std::unique_ptr<Mesh> LoadLamp();
 };
 }
 

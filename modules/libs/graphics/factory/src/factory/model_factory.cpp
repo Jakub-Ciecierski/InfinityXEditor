@@ -2,8 +2,10 @@
 
 #include <factory/mesh_factory.h>
 #include <model_loader/model_loader.h>
-#include <resources/resources.h>
 #include <model/model_memory_manager.h>
+#include <resources/resources.h>
+
+#include <memory>
 
 namespace ifx {
 
@@ -18,42 +20,23 @@ ModelFactory::~ModelFactory() {
 
 }
 
-Model* ModelFactory::LoadAsteroidModel() {
-    ModelMemoryManager& model_manager = ModelMemoryManager::GetInstance();
-    Model* cached_model = model_manager.GetAsteroid();
-    if(cached_model != nullptr)
-        return cached_model;
-
-    Resources &resources = Resources::GetInstance();
-    std::string path = resources.GetResourcePath("asteroid/rock.obj",
-                                                 ResourceType::MODEL);
-
-    ModelLoader loader(path);
-    Model* model = loader.loadModel();
-    model_manager.SetAsteroid(model);
-
-    return model;
+std::shared_ptr<Model> ModelFactory::LoadAsteroidModel() {
+    std::string path
+        = Resources::GetInstance().GetResourcePath("asteroid/rock.obj",
+                                                   ResourceType::MODEL);
+    return LoadModel(path);
 }
 
-Model* ModelFactory::LoadNanoSuitModel() {
-    ModelMemoryManager& model_manager = ModelMemoryManager::GetInstance();
-    Model* cached_model = model_manager.GetNanosuit();
-    if(cached_model != nullptr)
-        return cached_model;
-
-    Resources &resources = Resources::GetInstance();
-    std::string path = resources.GetResourcePath("nanosuit/nanosuit.obj",
-                                                 ResourceType::MODEL);
-
-    ModelLoader loader(path);
-    Model* model = loader.loadModel();
-    model_manager.SetNanosuit(model);
-
-    return model;
+std::shared_ptr<Model> ModelFactory::LoadNanoSuitModel() {
+    std::string path
+        = Resources::GetInstance().GetResourcePath("nanosuit/nanosuit.obj",
+                                                   ResourceType::MODEL);
+    return LoadModel(path);
 }
 
-Model* ModelFactory::LoadBicubicBezierSurfaceC0() {
+std::shared_ptr<Model> ModelFactory::LoadBicubicBezierSurfaceC0() {
     MeshFactory meshLoader;
+/*
     Mesh *mesh1 = meshLoader.LoadBicubicBezierPatch(0, 0, 0.0f, 3, 0);
     Mesh *mesh2 = meshLoader.LoadBicubicBezierPatch(2, 0, 2.0f, 3, 1);
     Mesh *mesh3 = meshLoader.LoadBicubicBezierPatch(4, 0, 1.5f, 3, 2);
@@ -74,81 +57,104 @@ Model* ModelFactory::LoadBicubicBezierSurfaceC0() {
     Mesh *mesh15 = meshLoader.LoadBicubicBezierPatch(4, 6, 1.0f, 0, 2);
     Mesh *mesh16 = meshLoader.LoadBicubicBezierPatch(6, 6, -0.5f, 0, 3);
 
-    std::vector<Mesh *> meshes = {mesh1, mesh2, mesh3, mesh4,
-                                  mesh5, mesh6, mesh7, mesh8,
-                                  mesh9, mesh10, mesh11, mesh12,
-                                  mesh13, mesh14, mesh15, mesh16};
+    std::vector<std::unique_ptr<Mesh>> meshes{
+            std::unique_ptr<Mesh>(mesh1),
+            std::unique_ptr<Mesh>(mesh2),
+            std::unique_ptr<Mesh>(mesh3),
+            std::unique_ptr<Mesh>(mesh4),
+            std::unique_ptr<Mesh>(mesh5),
+            std::unique_ptr<Mesh>(mesh6),
+            std::unique_ptr<Mesh>(mesh7),
+            std::unique_ptr<Mesh>(mesh8),
+            std::unique_ptr<Mesh>(mesh9),
+            std::unique_ptr<Mesh>(mesh10),
+            std::unique_ptr<Mesh>(mesh11),
+            std::unique_ptr<Mesh>(mesh12),
+            std::unique_ptr<Mesh>(mesh13),
+            std::unique_ptr<Mesh>(mesh14),
+            std::unique_ptr<Mesh>(mesh15),
+            std::unique_ptr<Mesh>(mesh16)
+    };
+    return Model::MakeModel("BicubicBezierSurfaceC0", std::move(meshes));
+    */
 
-    return new Model(meshes);
+    return nullptr;
 }
 
-Model* ModelFactory::LoadBicubicBezierPatch() {
+std::shared_ptr<Model> ModelFactory::LoadBicubicBezierPatch() {
     MeshFactory meshLoader;
-    Mesh *mesh = meshLoader.LoadBicubicBezierPatch(-1, 1, 1.5f);
-    Mesh *meshPolygon1 = meshLoader.LoadBicubicBezierPolygon(-1, 1, 1.5f);
 
-    std::vector<Mesh *> meshes = {mesh};
+    std::vector<std::unique_ptr<Mesh>> meshes;
+    meshes.push_back(std::move(meshLoader.LoadBicubicBezierPatch(-1, 1, 1.5f)));
 
-    return new Model(meshes);
+    return Model::MakeModel("BicubicBezierPatch", std::move(meshes));
 }
 
-Model* ModelFactory::LoadBicubicBezierBowlPatch() {
+std::shared_ptr<Model> ModelFactory::LoadBicubicBezierBowlPatch() {
     MeshFactory meshLoader;
 
-    Mesh *mesh = meshLoader.LoadBicubicBezierPatch(-1, 1, -1.5f);
-    Mesh *meshPolygon1 = meshLoader.LoadBicubicBezierPolygon(-1, 1, -1.5f);
-    std::vector<Mesh *> meshes = {mesh};
+    std::vector<std::unique_ptr<Mesh>> meshes;
+    meshes.push_back(std::move(meshLoader.LoadBicubicBezierPatch(-1, 1, 1.5f)));
 
-    return new Model(meshes);
+    return Model::MakeModel("BicubicBezierBowlPatch", std::move(meshes));
 }
 
-Model* ModelFactory::LoadBicubicBezierAsymmetricPatch() {
+std::shared_ptr<Model> ModelFactory::LoadBicubicBezierAsymmetricPatch() {
     MeshFactory meshLoader;
-    Mesh *mesh = meshLoader.LoadBicubicBezierAsymmetricPatch();
 
-    std::vector<Mesh *> meshes = {mesh};
+    std::vector<std::unique_ptr<Mesh>> meshes;
+    meshes.push_back(std::move(meshLoader.LoadBicubicBezierAsymmetricPatch()));
 
-    return new Model(meshes);
+    return Model::MakeModel("BicubicBezierAsymmetricPatch", std::move(meshes));
 }
 
-Model* ModelFactory::LoadSquareModel() {
+std::shared_ptr<Model> ModelFactory::LoadSquareModel() {
     MeshFactory meshLoader;
-    Mesh *mesh = meshLoader.LoadPatch();
-    std::vector<Mesh *> meshes = {mesh};
 
-    return new Model(meshes);
+    std::vector<std::unique_ptr<Mesh>> meshes;
+    meshes.push_back(std::move(meshLoader.LoadPatch()));
+
+    return Model::MakeModel("SquareModel", std::move(meshes));
 }
 
-Model* ModelFactory::LoadCubeModel() {
+std::shared_ptr<Model> ModelFactory::LoadCubeModel() {
     MeshFactory meshLoader;
-    Mesh *mesh = meshLoader.LoadCube();
-    std::vector<Mesh *> meshes = {mesh};
 
-    return new Model(meshes);
+    std::vector<std::unique_ptr<Mesh>> meshes;
+    meshes.push_back(std::move(meshLoader.LoadCube()));
+
+    return Model::MakeModel("CubeModel", std::move(meshes));
 }
 
-Model* ModelFactory::LoadCubemapModel() {
+std::shared_ptr<Model> ModelFactory::LoadCubemapModel() {
     MeshFactory meshLoader;
-    Mesh *mesh = meshLoader.LoadCubemap();
-    std::vector<Mesh *> meshes = {mesh};
 
-    return new Model(meshes);
+    std::vector<std::unique_ptr<Mesh>> meshes;
+    meshes.push_back(std::move(meshLoader.LoadCubemap()));
+
+    return Model::MakeModel("CubemapModel", std::move(meshes));
 }
 
-Model* ModelFactory::LoadLampModel() {
+std::shared_ptr<Model> ModelFactory::LoadLampModel() {
     MeshFactory meshLoader;
-    Mesh *mesh = meshLoader.LoadLamp();
-    std::vector<Mesh *> meshes = {mesh};
 
-    return new Model(meshes);
+    std::vector<std::unique_ptr<Mesh>> meshes;
+    meshes.push_back(std::move(meshLoader.LoadLamp()));
+
+    return Model::MakeModel("LampModel", std::move(meshes));
 }
 
-Model* ModelFactory::LoadFloorModel(){
-    MeshFactory meshLoader;
-    Mesh *mesh = meshLoader.LoadFloor();
-    std::vector<Mesh *> meshes = {mesh};
+std::shared_ptr<Model> ModelFactory::LoadModel(std::string path) {
+    return ModelLoader(path).loadModel();
+}
 
-    return new Model(meshes);
+std::shared_ptr<Model> ModelFactory::LoadFloorModel(){
+    MeshFactory meshLoader;
+
+    std::vector<std::unique_ptr<Mesh>> meshes;
+    meshes.push_back(std::move(meshLoader.LoadFloor()));
+
+    return Model::MakeModel("Floor", std::move(meshes));
 }
 
 } // ifx

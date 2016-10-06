@@ -11,9 +11,7 @@ LightSource::LightSource(MovableObject *renderObject) :
     setFollow(true);
 }
 
-LightSource::~LightSource() {
-
-}
+LightSource::~LightSource() {}
 
 void LightSource::setMovableObject(MovableObject* movableObject) {
     this->movableObject = movableObject;

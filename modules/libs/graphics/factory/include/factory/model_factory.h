@@ -3,31 +3,32 @@
 
 #include <model/model.h>
 
+#include <memory>
+
 namespace ifx {
 
 class ModelFactory {
-private:
-
 public:
 
     ModelFactory();
-
     ~ModelFactory();
 
-    static Model* LoadAsteroidModel();
-    static Model* LoadNanoSuitModel();
+    static std::shared_ptr<Model> LoadAsteroidModel();
+    static std::shared_ptr<Model> LoadNanoSuitModel();
 
-    static Model* LoadBicubicBezierSurfaceC0();
-    static Model* LoadBicubicBezierPatch();
-    static Model* LoadBicubicBezierBowlPatch();
-    static Model* LoadBicubicBezierAsymmetricPatch();
+    static std::shared_ptr<Model> LoadBicubicBezierSurfaceC0();
+    static std::shared_ptr<Model> LoadBicubicBezierPatch();
+    static std::shared_ptr<Model> LoadBicubicBezierBowlPatch();
+    static std::shared_ptr<Model> LoadBicubicBezierAsymmetricPatch();
 
-    static Model* LoadSquareModel();
-    static Model* LoadCubeModel();
-    static Model* LoadCubemapModel();
-    static Model* LoadLampModel();
+    static std::shared_ptr<Model> LoadSquareModel();
+    static std::shared_ptr<Model> LoadCubeModel();
+    static std::shared_ptr<Model> LoadCubemapModel();
+    static std::shared_ptr<Model> LoadLampModel();
 
-    static Model* LoadFloorModel();
+    static std::shared_ptr<Model> LoadFloorModel();
+private:
+    static std::shared_ptr<Model> LoadModel(std::string path);
 
 };
 } // ifx

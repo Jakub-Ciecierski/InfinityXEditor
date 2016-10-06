@@ -1,75 +1,52 @@
 #include "shaders/program.h"
 
+#include <shaders/loaders/shader_loader.h>
+#include <resources/resource_memory_cache.h>
+
 #include <stdexcept>
 #include <iostream>
-#include <shaders/loaders/shader_loader.h>
 
-Program::Program(){
+Program::Program(Shaders shaders) :
+        Resource(GetProgramPath(shaders), ifx::ResourceType::SHADER) {
+    vertex_shader.reset(shaders.vertexShader);
+    fragment_shader.reset(shaders.fragmentShader);
+    geometry_shader.reset(shaders.geometryShader);
+    tess_control_shader.reset(shaders.tessControlShader);
+    tess_eval_shader.reset(shaders.tessEvalShader);
 
-}
-
-Program::Program(VertexShader* vertexShader,
-                 FragmentShader* fragmentShader,
-                 GeometryShader* geometryShader,
-                 TessControlShader* tessControlShader,
-                 TessEvalShader* tessEvalShader){
-    linkShaders(vertexShader, fragmentShader,
-                geometryShader,
-                tessControlShader, tessEvalShader);
-
-    if(vertexShader != nullptr)
-        programs.vertex_shader = new VertexShader(*vertexShader);
-    else
-        programs.vertex_shader = nullptr;
-
-    if(fragmentShader != nullptr)
-        programs.fragment_shader = new FragmentShader(*fragmentShader);
-    else
-        programs.fragment_shader = nullptr;
-
-    if(geometryShader != nullptr)
-        programs.geometry_shader = new GeometryShader(*geometryShader);
-    else
-        programs.geometry_shader = nullptr;
-
-    if(tessControlShader != nullptr)
-        programs.tess_control_shader = new TessControlShader(*tessControlShader);
-    else
-        programs.tess_control_shader = nullptr;
-
-    if(tessEvalShader != nullptr)
-        programs.tess_eval_shader = new TessEvalShader(*tessEvalShader);
-    else
-        programs.tess_eval_shader = nullptr;
+    linkShaders();
 }
 
 Program::~Program() {
     glDeleteProgram(id);
-
-    delete programs.vertex_shader;
-    delete programs.fragment_shader;
-    delete programs.geometry_shader;
-    delete programs.tess_control_shader;
-    delete programs.tess_eval_shader;
 }
 
-void Program::linkShaders(VertexShader* vertexShader,
-                          FragmentShader* fragmentShader,
-                          GeometryShader* geometryShader,
-                          TessControlShader* tessControlShader,
-                          TessEvalShader* tessEvalShader) {
+// static
+std::shared_ptr<Program> Program::MakeProgram(Shaders& shaders){
+    std::shared_ptr<Program> program
+        = std::static_pointer_cast<Program>(ifx::ResourceMemoryCache::GetInstance()
+            .Get(Program::GetProgramPath(shaders)));
+    if(!program){
+        program = std::make_shared<Program>(shaders);
+    }
+    ifx::ResourceMemoryCache::GetInstance().Add(program);
+    
+    return program;
+}
+
+void Program::linkShaders() {
     id = glCreateProgram();
 
-    if(vertexShader != nullptr)
-        glAttachShader(id, vertexShader->getKey());
-    if(fragmentShader != nullptr)
-        glAttachShader(id, fragmentShader->getKey());
-    if(geometryShader != nullptr)
-        glAttachShader(id, geometryShader->getKey());
-    if(tessControlShader != nullptr)
-        glAttachShader(id, tessControlShader->getKey());
-    if(tessEvalShader != nullptr)
-        glAttachShader(id, tessEvalShader->getKey());
+    if(vertex_shader)
+        glAttachShader(id, vertex_shader->getKey());
+    if(fragment_shader)
+        glAttachShader(id, fragment_shader->getKey());
+    if(geometry_shader)
+        glAttachShader(id, geometry_shader->getKey());
+    if(tess_control_shader)
+        glAttachShader(id, tess_control_shader->getKey());
+    if(tess_eval_shader)
+        glAttachShader(id, tess_eval_shader->getKey());
 
     glLinkProgram(id);
 
@@ -85,16 +62,16 @@ void Program::linkShaders(VertexShader* vertexShader,
                                         + infoLogStr);
     }
 
-    if(vertexShader != nullptr)
-        vertexShader->deleteShader();
-    if(fragmentShader != nullptr)
-        fragmentShader->deleteShader();
-    if(geometryShader != nullptr)
-        geometryShader->deleteShader();
-    if(tessControlShader != nullptr)
-        tessControlShader->deleteShader();
-    if(tessEvalShader != nullptr)
-        tessEvalShader->deleteShader();
+    if(vertex_shader)
+        vertex_shader->deleteShader();
+    if(fragment_shader)
+        fragment_shader->deleteShader();
+    if(geometry_shader)
+        geometry_shader->deleteShader();
+    if(tess_control_shader)
+        tess_control_shader->deleteShader();
+    if(tess_eval_shader)
+        tess_eval_shader->deleteShader();
 }
 
 
@@ -105,24 +82,37 @@ void Program::use() const{
 void Program::Reload(){
     glDeleteProgram(id);
 
-    if (programs.vertex_shader != nullptr)
-        programs.vertex_shader->Reload();
-    if (programs.fragment_shader != nullptr)
-        programs.fragment_shader->Reload();
-    if (programs.geometry_shader != nullptr)
-        programs.geometry_shader->Reload();
-    if (programs.tess_control_shader != nullptr)
-        programs.tess_control_shader->Reload();
-    if (programs.tess_eval_shader != nullptr)
-        programs.tess_eval_shader->Reload();
+    if (vertex_shader)
+        vertex_shader->Reload();
+    if (fragment_shader)
+        fragment_shader->Reload();
+    if (geometry_shader)
+        geometry_shader->Reload();
+    if (tess_control_shader)
+        tess_control_shader->Reload();
+    if (tess_eval_shader)
+        tess_eval_shader->Reload();
 
-    linkShaders(programs.vertex_shader,
-                programs.fragment_shader,
-                programs.geometry_shader,
-                programs.tess_control_shader,
-                programs.tess_eval_shader);
+    linkShaders();
 }
 
 GLuint Program::getID() const{
     return id;
+}
+
+// static
+std::string Program::GetProgramPath(Shaders& shaders) {
+    std::string path = "";
+    if(shaders.vertexShader)
+        path += shaders.vertexShader->file_path();
+    if(shaders.fragmentShader)
+        path += shaders.fragmentShader->file_path();
+    if(shaders.geometryShader)
+        path += shaders.geometryShader->file_path();
+    if(shaders.tessControlShader)
+        path += shaders.tessControlShader->file_path();
+    if(shaders.tessEvalShader)
+        path += shaders.tessEvalShader->file_path();
+    
+    return path;
 }

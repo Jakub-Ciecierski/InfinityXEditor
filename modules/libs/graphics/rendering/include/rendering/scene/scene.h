@@ -5,6 +5,7 @@
 #include <rendering/camera/camera.h>
 #include "lighting/light_group.h"
 
+#include <memory>
 #include <vector>
 
 namespace ifx {
@@ -14,19 +15,17 @@ namespace ifx {
  */
 class Scene {
 public:
-    Scene(std::vector<RenderObject*>& render_objects,
-          LightGroup* light_group, Camera* camera);
+    Scene(std::vector<std::unique_ptr<RenderObject>> render_objects,
+          std::unique_ptr<LightGroup> light_group,
+          std::unique_ptr<Camera> camera);
 
     ~Scene();
 
-    LightGroup* light_group(){return light_group_;}
+    LightGroup* light_group(){return light_group_.get();}
 
     void ReloadProgams();
 
-    /**
-     * Sets new camera, returns pointer to the previous.
-     */
-    Camera* SetCamera(Camera* camera);
+    void SetCamera(std::unique_ptr<Camera> camera);
 
     void render();
 
@@ -41,10 +40,9 @@ private:
     void render(RenderObject* render_object);
     void updateObjects();
 
-    std::vector<RenderObject*> render_objects_;
-    LightGroup* light_group_;
-    Camera* camera_;
-
+    std::vector<std::unique_ptr<RenderObject>> render_objects_;
+    std::unique_ptr<LightGroup> light_group_;
+    std::unique_ptr<Camera> camera_;
 };
 
 }

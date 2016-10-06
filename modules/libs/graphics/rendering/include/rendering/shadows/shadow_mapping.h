@@ -28,7 +28,7 @@ class Scene;
 class ShadowMapping {
 public:
     ShadowMapping(Dimensions dimensions,
-                  Program* program);
+                  std::shared_ptr<Program> program);
     ~ShadowMapping();
 
     /**
@@ -45,7 +45,7 @@ private:
 
     std::unique_ptr<FBO> fbo_;
 
-    Program* program_;
+    std::shared_ptr<Program> program_;
 
     /**
      * Dimensions of the shadow map. Used to create texture

@@ -15,13 +15,7 @@ Renderer::Renderer() :
     initGLFWCallbacks();
 }
 
-Renderer::~Renderer(){
-    delete scene_;
-    delete window_;
-
-    if(fbo_renderer_ != nullptr)
-        delete fbo_renderer_;
-}
+Renderer::~Renderer(){}
 
 void Renderer::startMainLoop(){
     glEnable(GL_DEPTH_TEST);
@@ -56,11 +50,8 @@ void Renderer::HandleEvents() {
     }
 }
 
-Scene* Renderer::SetScene(Scene* scene){
-    Scene* prev_scene = scene_;
-    scene_ = scene;
-
-    return prev_scene;
+void Renderer::SetScene(std::unique_ptr<Scene> scene){
+    scene_ = std::move(scene);
 }
 
 void Renderer::SetRenderingType(RenderingType type){
@@ -71,10 +62,8 @@ void Renderer::SetShadowsType(ShadowsType type){
     shadow_type_ = type;
 }
 
-void Renderer::SetFBORenderer(FBORenderer* fbo_renderer){
-    if(fbo_renderer_ != nullptr)
-        delete fbo_renderer_;
-    fbo_renderer_ = fbo_renderer;
+void Renderer::SetFBORenderer(std::unique_ptr<FBORenderer> fbo_renderer){
+    fbo_renderer_ = std::move(fbo_renderer);
 }
 
 void Renderer::SetShadowMapping(ShadowMapping* shadow_mapping){
@@ -92,7 +81,7 @@ void Renderer::initGLFWRenderContext(){
 
     int width = 1200;
     int height = 800;
-    window_ = new Window(width, height, "Tessellation");
+    window_ .reset(new Window(width, height, "Tessellation"));
 }
 
 void Renderer::initOpenGLContext(){
@@ -123,7 +112,7 @@ void Renderer::Render(){
 }
 
 void Renderer::RenderNormalShadowMapping(){
-    shadow_mapping_->Render(scene_);
+    shadow_mapping_->Render(scene_.get());
 
     glViewport(0, 0, *(window_->width()), *(window_->height()));
     glClearColor(0.1f, 0.2f, 0.2f, 1.0f);

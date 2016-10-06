@@ -17,12 +17,9 @@ FBORenderer::FBORenderer(Window* window) :
 FBORenderer::~FBORenderer(){
     delete fbo_;
     delete screenMesh_;
-    if(program_ != nullptr)
-        delete program_;
 }
 
-void FBORenderer::SetProgram(Program* program){
-    if(program_ != nullptr) delete program_;
+void FBORenderer::SetProgram(std::shared_ptr<Program> program){
     program_ = program;
 }
 
@@ -31,7 +28,7 @@ void FBORenderer::Bind(){
 }
 
 void FBORenderer::Render(){
-    Render(program_);
+    Render(program_.get());
 }
 
 void FBORenderer::Render(Program* program){

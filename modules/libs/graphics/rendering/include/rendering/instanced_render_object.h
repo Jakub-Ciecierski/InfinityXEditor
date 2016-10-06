@@ -3,6 +3,8 @@
 
 #include "rendering/render_object.h"
 
+#include <memory>
+
 namespace ifx {
 
 /**
@@ -13,7 +15,7 @@ namespace ifx {
  */
 class InstancedRenderObject : public RenderObject {
 public:
-    InstancedRenderObject(ObjectID id, Model* model,
+    InstancedRenderObject(ObjectID id, std::shared_ptr<Model> model,
                           InstancedData& instanced_data);
 
     ~InstancedRenderObject();

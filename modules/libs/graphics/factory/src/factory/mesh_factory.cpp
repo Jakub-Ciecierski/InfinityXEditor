@@ -11,16 +11,14 @@ namespace ifx {
 using namespace std;
 using namespace glm;
 
-MeshFactory::MeshFactory(){
+MeshFactory::MeshFactory(){}
 
-}
+MeshFactory::~MeshFactory(){}
 
-MeshFactory::~MeshFactory(){
-
-}
-
-Mesh *MeshFactory::LoadBicubicBezierPatch(float startX, float startY,
-                                         float depth, int idI, int idJ) {
+std::unique_ptr<Mesh> MeshFactory::LoadBicubicBezierPatch(float startX,
+                                                          float startY,
+                                                          float depth,
+                                                          int idI, int idJ) {
     //float dx = 2.0f * 0.3333333f;
     double dx = 2.0f * 0.33333333f;
     float texDx = 0.3333333;
@@ -104,9 +102,14 @@ Mesh *MeshFactory::LoadBicubicBezierPatch(float startX, float startY,
 
     std::vector <Texture> textures = {textureDiffuse, textureSpecular,
                                       textureHeight, textureNormal};
+/*
+    std::unique_ptr<Mesh> mesh(new Patch(vertices, indices, textures,
+                                         2.0f, 2.0f, vertices.size(), idI, idJ));
+*/
+    auto mesh = std::unique_ptr<Mesh>(new Patch(vertices, indices, textures,
+                                               2.0f, 2.0f, vertices.size(),
+                                                idI, idJ));
 
-    Mesh *mesh = new Patch(vertices, indices, textures,
-                           2.0f, 2.0f, vertices.size(), idI, idJ);
     mesh->setPolygonMode(GL_LINE);
     mesh->setPrimitiveMode(GL_PATCHES);
 
@@ -118,7 +121,8 @@ Mesh *MeshFactory::LoadBicubicBezierPatch(float startX, float startY,
     return mesh;
 }
 
-Mesh *MeshFactory::LoadBicubicBezierPolygon(float startX, float startY,
+std::unique_ptr<Mesh> MeshFactory::LoadBicubicBezierPolygon(float startX,
+                                                            float startY,
                                            float depth, int idI, int idJ) {
     //float dx = 2.0f * 0.3333333f;
     double dx = 2.0f * 0.33333333f;
@@ -230,8 +234,12 @@ Mesh *MeshFactory::LoadBicubicBezierPolygon(float startX, float startY,
     std::vector <Texture> textures = {textureDiffuse, textureSpecular,
                                       textureHeight, textureNormal};
 
-    Mesh *mesh = new Patch(vertices, indices, textures,
-                           2.0f, 2.0f, vertices.size(), idI, idJ);
+
+
+    auto mesh = std::unique_ptr<Mesh>(new Patch(vertices, indices, textures,
+                                                2.0f, 2.0f,
+                                                vertices.size(), idI, idJ));
+
     mesh->setPolygonMode(GL_FILL);
     mesh->setPrimitiveMode(GL_LINES);
 
@@ -243,7 +251,7 @@ Mesh *MeshFactory::LoadBicubicBezierPolygon(float startX, float startY,
     return mesh;
 }
 
-Mesh *MeshFactory::LoadBicubicBezierAsymmetricPatch() {
+std::unique_ptr<Mesh> MeshFactory::LoadBicubicBezierAsymmetricPatch() {
     float end = -1.0f;
     float start = 1.0f;
     float mid1 = -0.33f;
@@ -321,8 +329,8 @@ Mesh *MeshFactory::LoadBicubicBezierAsymmetricPatch() {
 
     std::vector <Texture> textures = {textureDiffuse, textureSpecular};
 
-    Mesh *mesh = new Patch(vertices, indices, textures,
-                           2.0f, 2.0f, vertices.size());
+    std::unique_ptr<Mesh> mesh(new Patch(vertices, indices, textures,
+                           2.0f, 2.0f, vertices.size()));
     mesh->setPolygonMode(GL_LINE);
     mesh->setPrimitiveMode(GL_PATCHES);
 
@@ -334,7 +342,7 @@ Mesh *MeshFactory::LoadBicubicBezierAsymmetricPatch() {
     return mesh;
 }
 
-Mesh *MeshFactory::LoadPatch() {
+std::unique_ptr<Mesh> MeshFactory::LoadPatch() {
     // Position, Normal, TexCoord
     vector <Vertex> vertices = {
             // Front
@@ -363,7 +371,7 @@ Mesh *MeshFactory::LoadPatch() {
 
     std::vector <Texture> textures = {textureDiffuse, textureSpecular};
 
-    Mesh *mesh = new Patch(vertices, indices, textures);
+    std::unique_ptr<Mesh> mesh(new Patch(vertices, indices, textures));
     mesh->setPolygonMode(GL_LINE);
     mesh->setPrimitiveMode(GL_PATCHES);
 
@@ -374,7 +382,7 @@ Mesh *MeshFactory::LoadPatch() {
     return mesh;
 }
 
-Mesh *MeshFactory::LoadCubemap() {
+std::unique_ptr<Mesh> MeshFactory::LoadCubemap() {
     // Position, Normal, TexCoord
     vector <Vertex> vertices = {
             // Front
@@ -453,7 +461,7 @@ Mesh *MeshFactory::LoadCubemap() {
 
     std::vector <Texture> textures = {textureDiffuse};
 
-    Mesh *mesh = new Mesh(vertices, indices, textures);
+    std::unique_ptr<Mesh> mesh(new Mesh(vertices, indices, textures));
 
     Material material;
     material.shininess = 32.0f;
@@ -462,7 +470,7 @@ Mesh *MeshFactory::LoadCubemap() {
     return mesh;
 }
 
-Mesh *MeshFactory::LoadCube() {
+std::unique_ptr<Mesh> MeshFactory::LoadCube() {
     // Position, Normal, TexCoord
     vector <Vertex> vertices = {
             // Front
@@ -540,7 +548,8 @@ Mesh *MeshFactory::LoadCube() {
 
     std::vector <Texture> textures = {textureDiffuse, textureSpecular};
 
-    Mesh *mesh = new Mesh(vertices, indices, textures, GL_TRIANGLES);
+    std::unique_ptr<Mesh> mesh(new Mesh(vertices, indices, textures,
+                                        GL_TRIANGLES));
 
     Material material;
     material.shininess = 32.0f;
@@ -549,7 +558,7 @@ Mesh *MeshFactory::LoadCube() {
     return mesh;
 }
 
-Mesh* MeshFactory::LoadFloor(){
+std::unique_ptr<Mesh> MeshFactory::LoadFloor(){
     // Position, Normal, TexCoord
     vector <Vertex> vertices = {
             // Front
@@ -572,7 +581,8 @@ Mesh* MeshFactory::LoadFloor(){
 
     std::vector <Texture> textures = {textureDiffuse, textureSpecular};
 
-    Mesh *mesh = new Mesh(vertices, indices, textures, GL_TRIANGLES);
+    std::unique_ptr<Mesh> mesh(new Mesh(vertices, indices, textures,
+                                          GL_TRIANGLES));
 
     Material material;
     material.shininess = 32.0f;
@@ -581,7 +591,7 @@ Mesh* MeshFactory::LoadFloor(){
     return mesh;
 }
 
-Mesh *MeshFactory::LoadLamp() {
+std::unique_ptr<Mesh> MeshFactory::LoadLamp() {
     vector <Vertex> vertices = {
             // Front
             Vertex{vec3(1.0f, 1.0f, 0.0f),
@@ -654,7 +664,8 @@ Mesh *MeshFactory::LoadLamp() {
     TextureFactory textureLoader;
 
     std::vector <Texture> textures;
-
-    return new Mesh(vertices, indices, textures, GL_TRIANGLES);
+    std::unique_ptr<Mesh> mesh(new Mesh(
+            vertices, indices, textures, GL_TRIANGLES));
+    return mesh;
 }
 } // ifx

@@ -2,15 +2,9 @@
 
 using namespace ifx;
 
-LightGroup::LightGroup(){
+LightGroup::LightGroup(){}
 
-}
-
-LightGroup::~LightGroup(){
-    for(unsigned int i = 0; i < all_lights_.size(); i++){
-        delete all_lights_[i];
-    }
-}
+LightGroup::~LightGroup(){}
 
 void LightGroup::bindLightCount(const Program &program) {
     program.use();
@@ -35,40 +29,38 @@ void LightGroup::bindLightCount(const Program &program) {
 }
 
 
-void LightGroup::addLightPoint(LightPoint* light){
-    this->light_points_.push_back(light);
+void LightGroup::addLightPoint(std::unique_ptr<LightPoint> light){
+    this->light_points_.push_back(light.get());
 
-    this->all_lights_.push_back(light);
+    this->all_lights_.push_back(std::move(light));
 }
 
-void LightGroup::addLightDirectional(LightDirectional* light){
-    this->light_directions_.push_back(light);
+void LightGroup::addLightDirectional(std::unique_ptr<LightDirectional> light){
+    this->light_directions_.push_back(light.get());
 
-    this->all_lights_.push_back(light);
+    this->all_lights_.push_back(std::move(light));
 }
 
-void LightGroup::addLightSpotlight(LightSpotlight* light){
-    this->light_spotlights_.push_back(light);
+void LightGroup::addLightSpotlight(std::unique_ptr<LightSpotlight> light){
+    this->light_spotlights_.push_back(light.get());
 
-    this->all_lights_.push_back(light);
+    this->all_lights_.push_back(std::move(light));
 }
 
 void LightGroup::use(const Program& program){
     bindLightCount(program);
 
-    for(unsigned int i = 0; i < light_points_.size(); i++){
-        light_points_[i]->use(program, i);
-    }
-    for(unsigned int i = 0; i < light_directions_.size(); i++){
-        light_directions_[i]->use(program, i);
-    }
-    for(unsigned int i = 0; i < light_spotlights_.size(); i++){
-        light_spotlights_[i]->use(program, i);
-    }
+    int i,j,k;
+    i = j = k = 0;
+    for(auto light : light_points_)
+        light->use(program, i++);
+    for(auto light : light_directions_)
+        light->use(program, j++);
+    for(auto light : light_spotlights_)
+        light->use(program, k++);
 }
 
 void LightGroup::render(const Program& program){
-    for(unsigned int i = 0; i < all_lights_.size(); i++){
-        all_lights_[i]->render(program);
-    }
+    for(auto& light : all_lights_)
+        light->render(program);
 }

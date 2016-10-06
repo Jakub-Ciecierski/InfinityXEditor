@@ -1,11 +1,11 @@
 #include "factory/render_object_factory.h"
 
+#include "rendering/shadows/shadow_mapping.h"
 #include <math/math_ifx.h>
 #include <factory/model_factory.h>
 #include <factory/program_factory.h>
 #include <rendering/fbo_rendering/fbo_renderer.h>
 #include <rendering/instanced_render_object.h>
-#include <rendering/shadows/shadow_mapping.h>
 
 #include <GLFW/glfw3.h>
 
@@ -19,23 +19,23 @@ RenderObjectFactory::~RenderObjectFactory() {
 
 }
 
-FBORenderer* RenderObjectFactory::CreateFBORenderer(Window* window){
-    FBORenderer* fbo_renderer = new FBORenderer(window);
+std::unique_ptr<FBORenderer> RenderObjectFactory::CreateFBORenderer(
+        Window* window){
+    auto fbo_renderer = std::unique_ptr<FBORenderer>(new FBORenderer(window));
     fbo_renderer->SetProgram(ProgramFactory().LoadFBOProgram());
 
     return fbo_renderer;
 }
 
 ShadowMapping* RenderObjectFactory::CreateShadowMapping(){
-    Program* program = ProgramFactory().LoadShadowMappingProgram();
+    std::shared_ptr<Program> program = ProgramFactory().LoadShadowMappingProgram();
     return new ShadowMapping(Dimensions{1024, 1024}, program);
 };
 
 RenderObject* RenderObjectFactory::CreateAsteroidField(){
-    ProgramFactory program_factory;
-    Program* program = program_factory.LoadInstancedProgram();
+    std::shared_ptr<Program> program = ProgramFactory().LoadInstancedProgram();
 
-    Model* model = ModelFactory::LoadAsteroidModel();
+    std::shared_ptr<Model> model = ModelFactory::LoadAsteroidModel();
 
     InstancedData instanced_data;
     instanced_data.data_count = 10000;
@@ -73,10 +73,9 @@ RenderObject* RenderObjectFactory::CreateAsteroidField(){
 }
 
 RenderObject* RenderObjectFactory::CreateAsteroid(){
-    ProgramFactory program_factory;
-    Program* program = program_factory.loadBumpMappingProgram();
-
-    Model* model = ModelFactory::LoadAsteroidModel();
+    std::shared_ptr<Program> program
+            = ProgramFactory().loadBumpMappingProgram();
+    std::shared_ptr<Model> model = ModelFactory::LoadAsteroidModel();
 
     RenderObject* renderObject
             = new RenderObject(ObjectID(0), model);
@@ -90,12 +89,9 @@ RenderObject* RenderObjectFactory::CreateAsteroid(){
 }
 
 RenderObject* RenderObjectFactory::CreateNanosuitObject(){
-    ProgramFactory program_factory;
-
-    Program* nano_program = program_factory.LoadMainProgram();
-    //Program* normal_vision_program = program_factory.LoadNormalVisionProgram();
-
-    Model* nanosuitModel = ModelFactory::LoadNanoSuitModel();
+    std::shared_ptr<Program> nano_program = ProgramFactory().LoadMainProgram();
+    //std::shared_ptr<Program> normal_vision_program = ProgramFactory().LoadNormalVisionProgram();
+    std::shared_ptr<Model> nanosuitModel = ModelFactory::LoadNanoSuitModel();
 
     RenderObject* renderObject
             = new RenderObject(ObjectID(0), nanosuitModel);
@@ -113,10 +109,10 @@ RenderObject* RenderObjectFactory::CreateNanosuitObject(){
 RenderObject* RenderObjectFactory::CreateFloor(){
     ProgramFactory program_factory;
 
-    Program* nano_program = program_factory.LoadMainProgram();
+    std::shared_ptr<Program> nano_program = program_factory.LoadMainProgram();
     //Program* normal_vision_program = program_factory.LoadNormalVisionProgram();
 
-    Model* nanosuitModel = ModelFactory::LoadFloorModel();
+    std::shared_ptr<Model> nanosuitModel = ModelFactory::LoadFloorModel();
 
     RenderObject* renderObject
             = new RenderObject(ObjectID(0), nanosuitModel);
@@ -134,10 +130,10 @@ RenderObject* RenderObjectFactory::CreateFloor(){
 RenderObject* RenderObjectFactory::CreateLampObject(){
     ProgramFactory program_factory;
 
-    Program* nano_program = program_factory.loadLampProgram();
+    std::shared_ptr<Program> nano_program = program_factory.loadLampProgram();
     //Program* normal_vision_program = program_factory.LoadNormalVisionProgram();
 
-    Model* nanosuitModel = ModelFactory::LoadLampModel();
+    std::shared_ptr<Model> nanosuitModel = ModelFactory::LoadLampModel();
 
     RenderObject* renderObject
             = new RenderObject(ObjectID(0), nanosuitModel);

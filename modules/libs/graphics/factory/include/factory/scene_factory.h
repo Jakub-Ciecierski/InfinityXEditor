@@ -3,21 +3,22 @@
 
 #include <rendering/scene/scene.h>
 
+#include <memory>
+
 namespace ifx {
 
 class SceneFactory {
 public:
 
     SceneFactory();
-
     ~SceneFactory();
 
-    Scene* CreateScene(Camera* camera);
+    std::unique_ptr<Scene> CreateScene(std::unique_ptr<Camera> camera);
 
-    Scene* CreateNanosuitGuy(Camera* camera);
-    Scene* CreateAsteroidField(Camera* camera);
+    std::unique_ptr<Scene> CreateNanosuitGuy(std::unique_ptr<Camera> camera);
+    std::unique_ptr<Scene> CreateAsteroidField(std::unique_ptr<Camera> camera);
 
-    Scene* CreateShadowMappingTest(Camera* camera);
+    std::unique_ptr<Scene> CreateShadowMappingTest(std::unique_ptr<Camera> camera);
 private:
 };
 

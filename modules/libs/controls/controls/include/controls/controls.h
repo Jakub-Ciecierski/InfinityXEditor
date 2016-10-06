@@ -2,8 +2,7 @@
 #define PROJECT_CONTROLS_H
 
 #include <controls/mouse_event.h>
-//#include <GLFW/glfw3.h>
-#include "../../../../../../dependencies/glfw-3.1.2/include/GLFW/glfw3.h"
+#include <GLFW/glfw3.h>
 #include <vector>
 
 namespace ifx {

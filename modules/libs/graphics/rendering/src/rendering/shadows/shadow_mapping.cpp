@@ -9,7 +9,7 @@
 namespace ifx {
 
 ShadowMapping::ShadowMapping(Dimensions dimensions,
-                             Program* program) :
+                             std::shared_ptr<Program> program) :
         program_(program),
         dimensions_(dimensions){
     InitFBO(CreateTexture());
@@ -26,11 +26,11 @@ void ShadowMapping::Render(Scene* scene){
             = scene->light_group()->light_directions();
     for(unsigned int i = 0; i < lights.size(); i++){
         program_->use();
-        BindLightMatrix(program_, lights[i]);
+        BindLightMatrix(program_.get(), lights[i]);
 
         fbo_->bind();
         glClear(GL_DEPTH_BUFFER_BIT);
-        scene->render(program_);
+        scene->render(program_.get());
         fbo_->unbind();
     }
 

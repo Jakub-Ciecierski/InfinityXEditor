@@ -50,11 +50,6 @@ Mesh::Mesh(std::vector<Vertex> vertices,
 }
 
 Mesh::~Mesh() {
-    delete vao_;
-
-    delete vbo_;
-    delete ebo_;
-
     for(auto& texture : textures){
         texture.Delete();
     }
@@ -170,10 +165,10 @@ void Mesh::checkError(){
 }
 
 void Mesh::initBuffers(){
-    vao_ = new VAO();
+    vao_.reset(new VAO());
 
-    vbo_ = new VBO(&vertices);
-    ebo_ = new EBO(&indices);
+    vbo_.reset(new VBO(&vertices));
+    ebo_.reset(new EBO(&indices));
 
     vao_->bindVertexBuffers(*vbo_, *ebo_);
 }

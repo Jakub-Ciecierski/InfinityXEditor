@@ -1,6 +1,8 @@
 #include <lighting/light_group.h>
 #include "factory/lighting_factory.h"
 
+#include <memory>
+
 namespace ifx {
 
 LightingFactory::LightingFactory() {
@@ -76,11 +78,10 @@ LightSpotlight *LightingFactory::loadSpotlight() {
 LightGroup* LightingFactory::createGroupLight(Camera* camera){
     LightGroup* light_group = new LightGroup();
 
-    LightSpotlight* light_spotlight = loadSpotlight();
+    std::unique_ptr<LightSpotlight> light_spotlight(loadSpotlight());
     light_spotlight->setMovableObject(camera);
 
-    //light_group->addLightSpotlight(light_spotlight);
-    light_group->addLightDirectional(loadDirLight());
+    light_group->addLightSpotlight(std::move(light_spotlight));
 
     return light_group;
 }
