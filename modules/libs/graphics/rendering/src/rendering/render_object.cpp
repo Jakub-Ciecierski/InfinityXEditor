@@ -3,19 +3,12 @@
 using namespace glm;
 
 RenderObject::RenderObject(ObjectID id,
-                           Model* model) :
-        ifx::MovableObject(id), model(model) {
+                           std::shared_ptr<Model> model) :
+        ifx::MovableObject(id), model(model) {}
 
-}
+RenderObject::~RenderObject(){}
 
-RenderObject::~RenderObject(){
-    for(unsigned int i = 0; i < programs_.size(); i++){
-        if(programs_[i] != nullptr)
-            delete programs_[i];
-    }
-}
-
-void RenderObject::addProgram(Program* program){
+void RenderObject::addProgram(std::shared_ptr<Program> program){
     programs_.push_back(program);
 }
 

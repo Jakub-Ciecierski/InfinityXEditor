@@ -6,45 +6,46 @@
 #include "shaders/shaders/geometry_shader.h"
 #include "shaders/shaders/tess_control_shader.h"
 #include "shaders/shaders/tess_eval_shader.h"
+#include <resources/resource.h>
+
+#include <memory>
+
+struct Shaders{
+    VertexShader* vertexShader = nullptr;
+    FragmentShader* fragmentShader = nullptr;
+    GeometryShader* geometryShader = nullptr;
+    TessControlShader* tessControlShader = nullptr;
+    TessEvalShader* tessEvalShader = nullptr;
+}
 
 /*
  * This class encapsulates all shaders and is used to draw Meshes
  */
-class Program {
+class Program : public Resource {
 public:
-
-    Program();
-    Program(VertexShader* vertexShader = nullptr,
-            FragmentShader* fragmentShader = nullptr,
-            GeometryShader* geometryShader = nullptr,
-            TessControlShader* tessControlShader = nullptr,
-            TessEvalShader* tessEvalShader = nullptr);
+    static std::shared_ptr<Program> MakeProgram(Shaders& shaders);
 
     ~Program();
 
     void use() const;
-
     void Reload();
-
+    
     GLuint getID() const;
 
+    static std::string GetProgramPath(Shaders& shaders);
+
 private:
-    void linkShaders(VertexShader* vertexShader,
-                     FragmentShader* fragmentShader,
-                     GeometryShader* geometryShader,
-                     TessControlShader* tessControlShader,
-                     TessEvalShader* tessEvalShader);
+    Program(Shaders shaders);
+    
+    void linkShaders();
 
     GLuint id;
 
-    struct Programs{
-        VertexShader* vertex_shader;
-        FragmentShader* fragment_shader;
-        GeometryShader* geometry_shader;
-        TessControlShader* tess_control_shader;
-        TessEvalShader* tess_eval_shader;
-    };
-    Programs programs;
+    std::unique_ptr<VertexShader> vertex_shader;
+    std::unique_ptr<FragmentShader> fragment_shader;
+    std::unique_ptr<GeometryShader> geometry_shader;
+    std::unique_ptr<TessControlShader> tess_control_shader;
+    std::unique_ptr<TessEvalShader> tess_eval_shader;
 };
 
 

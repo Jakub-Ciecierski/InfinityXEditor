@@ -11,13 +11,9 @@ namespace ifx {
 using namespace std;
 using namespace glm;
 
-MeshFactory::MeshFactory(){
+MeshFactory::MeshFactory(){}
 
-}
-
-MeshFactory::~MeshFactory(){
-
-}
+MeshFactory::~MeshFactory(){}
 
 Mesh *MeshFactory::LoadBicubicBezierPatch(float startX, float startY,
                                          float depth, int idI, int idJ) {

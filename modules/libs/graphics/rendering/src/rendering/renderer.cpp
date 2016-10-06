@@ -16,13 +16,7 @@ Renderer::Renderer() :
     initGLFWCallbacks();
 }
 
-Renderer::~Renderer(){
-    delete scene_;
-    delete window_;
-
-    if(fbo_renderer_ != nullptr)
-        delete fbo_renderer_;
-}
+Renderer::~Renderer(){}
 
 void Renderer::startMainLoop(){
     glEnable(GL_DEPTH_TEST);
@@ -57,21 +51,16 @@ void Renderer::HandleEvents() {
     }
 }
 
-Scene* Renderer::SetScene(Scene* scene){
-    Scene* prev_scene = scene_;
-    scene_ = scene;
-
-    return prev_scene;
+void Renderer::SetScene(std::unique<Scene> scene){
+    scene_ = std::move(scene);
 }
 
 void Renderer::SetRenderingType(RenderingType type){
     rendering_type_ = type;
 }
 
-void Renderer::SetFBORenderer(FBORenderer* fbo_renderer){
-    if(fbo_renderer_ != nullptr)
-        delete fbo_renderer_;
-    fbo_renderer_ = fbo_renderer;
+void Renderer::SetFBORenderer(std::unique<FBORenderer> fbo_renderer){
+    fbo_renderer_ = std::move(fbo_renderer);
 }
 
 void Renderer::initGLFWRenderContext(){
@@ -85,7 +74,7 @@ void Renderer::initGLFWRenderContext(){
 
     int width = 1200;
     int height = 800;
-    window_ = new Window(width, height, "Tessellation");
+    window_ .reset(new Window(width, height, "Tessellation"));
 }
 
 void Renderer::initOpenGLContext(){

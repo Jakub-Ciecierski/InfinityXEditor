@@ -8,6 +8,7 @@
 #include "shaders/buffers/vao.h"
 
 #include <GL/glew.h>
+#include <memory>
 #include <vector>
 
 #include <iostream>
@@ -45,8 +46,8 @@ public:
 
     virtual ~Mesh();
 
-    VAO* vao() {return vao_;};
-    VBO* vbo() {return vbo_;};
+    VAO* vao() {return vao_.get();};
+    VBO* vbo() {return vbo_.get();};
 
     void setPolygonMode(GLenum polygonMode);
     void setPrimitiveMode(GLenum drawingMode);
@@ -70,9 +71,9 @@ protected:
 
     Material material;
 
-    VAO* vao_;
-    VBO* vbo_;
-    EBO* ebo_;
+    std::unique_ptr<VAO> vao_;
+    std::unique_ptr<VBO> vbo_;
+    std::unique_ptr<EBO> ebo_;
 
     /*
      * Checks for errors in the Mesh class and throws exceptions;

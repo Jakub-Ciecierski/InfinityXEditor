@@ -5,6 +5,8 @@
 #include <rendering/window.h>
 #include <controls/event_handler.h>
 
+#include <memory>
+
 namespace ifx {
 
 class FBORenderer;
@@ -18,19 +20,16 @@ public:
     Renderer();
     ~Renderer();
 
-    Scene* scene()  {return scene_;}
-    Window* window()  {return window_;}
+    Scene* scene()  {return scene_.get();}
+    Window* window()  {return window_.get();}
     RenderingType rendering_type(){return rendering_type_;}
 
     // Overridden from EventHandler.
     void HandleEvents() override;
 
-    /**
-     * Sets scene and returns previous.
-     */
-    Scene* SetScene(Scene* scene);
+    void SetScene(std::unique<Scene> scene);
     void SetRenderingType(RenderingType type);
-    void SetFBORenderer(FBORenderer* fbo_renderer);
+    void SetFBORenderer(std::unique<FBORenderer> fbo_renderer);
 
     void startMainLoop();
 
@@ -44,11 +43,11 @@ private:
     void RenderNormal();
     void RenderFBOTexture();
 
-    Window* window_;
-    Scene* scene_;
+    std::uqique_ptr<Window> window_;
+    std::unique_ptr<Scene> scene_;
     RenderingType rendering_type_;
 
-    FBORenderer* fbo_renderer_;
+    std::unique<FBORenderer> fbo_renderer_;
 };
 
 }

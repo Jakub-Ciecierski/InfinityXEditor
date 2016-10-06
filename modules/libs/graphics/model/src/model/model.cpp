@@ -1,24 +1,40 @@
 #include "model/model.h"
 
+#include <resources/resource_memory_cache.h>
+
 using namespace std;
 
-Model::Model(const std::vector<Mesh*>& meshes) :
-        meshes(meshes){
+Model::Model(std::string filepath, 
+             const std::vector<std::unique_ptr<Model>>& meshes) :
+    ifx::Resource(filepath, ifx::ResourceType::MODEL),
+    meshes(std::move(meshes)){}
 
-}
-
-Model::~Model() {
-    for(unsigned int i = 0; i < meshes.size(); i++){
-        delete meshes[i];
+// static
+std::shared_ptr<Model> Model::MakeModel(
+            std::string filepath, 
+            const std::vector<std::unique_ptr<Model>>& meshes){
+    std::shared_ptr<Model> model
+        = std::static_pointer_cast<Model>(
+            ResourceMemoryCache::GetInstance().Get(filepath));
+    if(!model){
+        model = std:make_shared<Model>(filepath, meshes);
     }
+    ResourceMemoryCache::GetInstance().Add(model);
+    
+    return model;
 }
+    
+Model::~Model() {}
 
-const std::vector<Mesh*>& Model::getMeshes(){
-    return this->meshes;
+std::vector<Mesh*> Model::getMeshes(){
+    std::vector<Mesh*> meshes_raw(meshes.size());
+    for(unsigned int i = 0; i < meshes.size(); i++)
+        meshes_raw[i] = meshes.get();
+    return meshes_raw;
 }
 
 Mesh* Model::getMesh(int i){
-    return meshes[i];
+    return meshes[i].get();
 }
 
 void Model::draw(const Program &program) {

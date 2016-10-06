@@ -6,11 +6,21 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include <memory>
+
 /*
  * Loads Models using Assimp.
+ * Loaded Models are stored in cache memory.
  * The Mesh Material shininess is not provided !
  */
 class ModelLoader {
+public:
+
+    ModelLoader(std::string filepath);
+    ~ModelLoader();
+
+    std::shared_ptr<Model> loadModel();
+
 private:
     std::string filepath;
 
@@ -29,7 +39,7 @@ private:
      * Processes each assimp Node recursively
      */
     void processNode(aiNode* node, const aiScene* scene,
-                     std::vector<Mesh*>& meshes);
+                     std::vector<std::unique_ptr<Mesh>>& meshes);
 
     /*
      * Translates the Assimp::Mesh into ifx::Mesh
@@ -59,13 +69,6 @@ private:
 
     void printInfo(const Model& model);
 
-public:
-
-    ModelLoader(std::string filepath);
-
-    ~ModelLoader();
-
-    Model* loadModel();
 };
 
 

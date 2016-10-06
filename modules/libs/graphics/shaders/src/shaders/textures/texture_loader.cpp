@@ -7,13 +7,9 @@
 
 using namespace std;
 
-TextureLoader::TextureLoader(){
+TextureLoader::TextureLoader(){}
 
-}
-
-TextureLoader::~TextureLoader() {
-
-}
+TextureLoader::~TextureLoader() {}
 
 Texture TextureLoader::CreateEmptyTexture(TextureTypes type,
                                           int width, int height){

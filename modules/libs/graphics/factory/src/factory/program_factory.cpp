@@ -13,7 +13,7 @@ ProgramFactory::~ProgramFactory(){
 
 }
 
-Program* ProgramFactory::LoadMainProgram(){
+std::shared_ptr<Program> ProgramFactory::LoadMainProgram(){
     ifx::Resources& resources = ifx::Resources::GetInstance();
 
     std::string vertex_path =
@@ -23,13 +23,10 @@ Program* ProgramFactory::LoadMainProgram(){
             resources.GetResourcePath("main/main.fs",
                                       ifx::ResourceType::SHADER);
 
-    ProgramLoader programLoader;
-    Program* program = programLoader.CreateProgram(vertex_path, fragment_path);
-
-    return program;
+    return ProgramLoader().CreateProgram(vertex_path, fragment_path);
 }
 
-Program* ProgramFactory::LoadInstancedProgram(){
+std::shared_ptr<Program> ProgramFactory::LoadInstancedProgram(){
     ifx::Resources& resources = ifx::Resources::GetInstance();
 
     std::string vertex_path =
@@ -39,13 +36,10 @@ Program* ProgramFactory::LoadInstancedProgram(){
             resources.GetResourcePath("instanced_rendering/instanced.fs",
                                       ifx::ResourceType::SHADER);
 
-    ProgramLoader programLoader;
-    Program* program = programLoader.CreateProgram(vertex_path, fragment_path);
-
-    return program;
+    return ProgramLoader().CreateProgram(vertex_path, fragment_path);
 }
 
-Program* ProgramFactory::LoadFBOProgram(){
+std::shared_ptr<Program> ProgramFactory::LoadFBOProgram(){
     ifx::Resources& resources = ifx::Resources::GetInstance();
 
     std::string vertex_path =
@@ -53,13 +47,10 @@ Program* ProgramFactory::LoadFBOProgram(){
     std::string fragment_path =
             resources.GetResourcePath("fbo/fbo.fs", ifx::ResourceType::SHADER);
 
-    ProgramLoader programLoader;
-    Program* program = programLoader.CreateProgram(vertex_path, fragment_path);
-
-    return program;
+    return ProgramLoader().CreateProgram(vertex_path, fragment_path);
 }
 
-Program* ProgramFactory::LoadNormalVisionProgram(){
+std::shared_ptr<Program> ProgramFactory::LoadNormalVisionProgram(){
     ifx::Resources& resources = ifx::Resources::GetInstance();
 
     std::string vertex_path =
@@ -72,15 +63,12 @@ Program* ProgramFactory::LoadNormalVisionProgram(){
             resources.GetResourcePath("geo_normal/norm.gs",
                                       ifx::ResourceType::SHADER);
 
-    ProgramLoader programLoader;
-    Program* program = programLoader.CreateProgram(vertex_path,
-                                                   fragment_path,
-                                                   geometry_path);
-
-    return program;
+    return ProgramLoader().CreateProgram(vertex_path,
+                                         fragment_path,
+                                         geometry_path);
 }
 
-Program* ProgramFactory::loadTessellationLODProgram(){
+std::shared_ptr<Program> ProgramFactory::loadTessellationLODProgram(){
     ifx::Resources& resources = ifx::Resources::GetInstance();
     std::string vertex_path =
             resources.GetResourcePath("tessellation/lod/tess.vs",
@@ -95,13 +83,11 @@ Program* ProgramFactory::loadTessellationLODProgram(){
             resources.GetResourcePath("tessellation/lod/tess.tes",
                                       ifx::ResourceType::SHADER);
 
-    ProgramLoader programLoader;
-    Program* program = programLoader.CreateProgram(vertex_path, fragment_path,
-                                                   tcs_path, tes_path);
-    return program;
+    return ProgramLoader().CreateProgram(vertex_path, fragment_path,
+                                         tcs_path, tes_path);
 }
 
-Program* ProgramFactory::loadTessellationBicubicBezierPolygonProgram(){
+std::shared_ptr<Program> ProgramFactory::loadTessellationBicubicBezierPolygonProgram(){
     ifx::Resources& resources = ifx::Resources::GetInstance();
 
     std::string vertex_path =
@@ -113,13 +99,10 @@ Program* ProgramFactory::loadTessellationBicubicBezierPolygonProgram(){
                     ("tessellation/bicubic_bezier/polygon/tess.fs",
                      ifx::ResourceType::SHADER);
 
-    ProgramLoader programLoader;
-    Program* program = programLoader.CreateProgram(vertex_path, fragment_path);
-
-    return program;
+    return ProgramLoader().CreateProgram(vertex_path, fragment_path);
 }
 
-Program* ProgramFactory::loadTessellationBicubicBezierProgram(){
+std::shared_ptr<Program> ProgramFactory::loadTessellationBicubicBezierProgram(){
     ifx::Resources& resources = ifx::Resources::GetInstance();
     std::string vertex_path =
             resources.GetResourcePath("tessellation/bicubic_bezier/tess.vs",
@@ -134,13 +117,11 @@ Program* ProgramFactory::loadTessellationBicubicBezierProgram(){
             resources.GetResourcePath("tessellation/bicubic_bezier/tess.tes",
                                       ifx::ResourceType::SHADER);
 
-    ProgramLoader programLoader;
-    Program* program = programLoader.CreateProgram(vertex_path, fragment_path,
-                                                   tcs_path, tes_path);
-    return program;
+    return ProgramLoader().CreateProgram(vertex_path, fragment_path,
+                                         tcs_path, tes_path);
 }
 
-Program* ProgramFactory::loadTessellationProgram(){
+std::shared_ptr<Program> ProgramFactory::loadTessellationProgram(){
     ifx::Resources& resources = ifx::Resources::GetInstance();
     std::string vertex_path =
             resources.GetResourcePath("tessellation/tess.vs",
@@ -155,13 +136,11 @@ Program* ProgramFactory::loadTessellationProgram(){
             resources.GetResourcePath("tessellation/tess.tes",
                                       ifx::ResourceType::SHADER);
 
-    ProgramLoader programLoader;
-    Program* program = programLoader.CreateProgram(vertex_path, fragment_path,
-                                                   tcs_path, tes_path);
-    return program;
+    return ProgramLoader().CreateProgram(vertex_path, fragment_path,
+                                         tcs_path, tes_path);
 }
 
-Program* ProgramFactory::loadAllLightProgram(){
+std::shared_ptr<Program> ProgramFactory::loadAllLightProgram(){
     ifx::Resources& resources = ifx::Resources::GetInstance();
 
     std::string vertex_path =
@@ -171,13 +150,10 @@ Program* ProgramFactory::loadAllLightProgram(){
             resources.GetResourcePath("lighting/light_all_frag.glsl",
                                       ifx::ResourceType::SHADER);
 
-    ProgramLoader programLoader;
-    Program* program = programLoader.CreateProgram(vertex_path, fragment_path);
-
-    return program;
+    return ProgramLoader().CreateProgram(vertex_path, fragment_path);
 }
 
-Program* ProgramFactory::loadAnisotropicLightProgram(){
+std::shared_ptr<Program> ProgramFactory::loadAnisotropicLightProgram(){
     ifx::Resources& resources = ifx::Resources::GetInstance();
 
     std::string vertex_path =
@@ -187,13 +163,10 @@ Program* ProgramFactory::loadAnisotropicLightProgram(){
             resources.GetResourcePath("lighting/anis_light_frag.glsl",
                                       ifx::ResourceType::SHADER);
 
-    ProgramLoader programLoader;
-    Program* program = programLoader.CreateProgram(vertex_path, fragment_path);
-
-    return program;
+    return ProgramLoader().CreateProgram(vertex_path, fragment_path);
 }
 
-Program* ProgramFactory::loadCubemapProgram(){
+std::shared_ptr<Program> ProgramFactory::loadCubemapProgram(){
     ifx::Resources& resources = ifx::Resources::GetInstance();
 
     std::string vertex_path =
@@ -203,13 +176,10 @@ Program* ProgramFactory::loadCubemapProgram(){
             resources.GetResourcePath("lighting/cubemap_frag.glsl",
                                       ifx::ResourceType::SHADER);
 
-    ProgramLoader programLoader;
-    Program* program = programLoader.CreateProgram(vertex_path, fragment_path);
-
-    return program;
+    return ProgramLoader().CreateProgram(vertex_path, fragment_path);
 }
 
-Program* ProgramFactory::loadBumpMappingProgram(){
+std::shared_ptr<Program> ProgramFactory::loadBumpMappingProgram(){
     ifx::Resources& resources = ifx::Resources::GetInstance();
 
     std::string vertex_path =
@@ -219,13 +189,10 @@ Program* ProgramFactory::loadBumpMappingProgram(){
             resources.GetResourcePath("lighting/bump_frag.glsl",
                                       ifx::ResourceType::SHADER);
 
-    ProgramLoader programLoader;
-    Program* program = programLoader.CreateProgram(vertex_path, fragment_path);
-
-    return program;
+    return ProgramLoader().CreateProgram(vertex_path, fragment_path);
 }
 
-Program *ProgramFactory::loadLampProgram() {
+std::shared_ptr<Program> ProgramFactory::loadLampProgram() {
     ifx::Resources& resources = ifx::Resources::GetInstance();
 
     std::string vertex_path =
@@ -235,9 +202,6 @@ Program *ProgramFactory::loadLampProgram() {
             resources.GetResourcePath("lighting/lamp_frag.glsl",
                                       ifx::ResourceType::SHADER);
 
-    ProgramLoader programLoader;
-    Program* program = programLoader.CreateProgram(vertex_path, fragment_path);
-
-    return program;
+    return ProgramLoader().CreateProgram(vertex_path, fragment_path);
 }
 }

@@ -7,6 +7,7 @@
 #include <rendering/instanced_render_object.h>
 
 #include <GLFW/glfw3.h>
+#include <memory>
 
 namespace ifx{
 
@@ -26,10 +27,9 @@ FBORenderer* RenderObjectFactory::CreateFBORenderer(Window* window){
 }
 
 RenderObject* RenderObjectFactory::CreateAsteroidField(){
-    ProgramFactory program_factory;
-    Program* program = program_factory.LoadInstancedProgram();
+    std::shared_ptr<Program> program = ProgramFactory().LoadInstancedProgram();
 
-    Model* model = ModelFactory::LoadAsteroidModel();
+    std::shared_ptr<Model> model = ModelFactory::LoadAsteroidModel();
 
     InstancedData instanced_data;
     instanced_data.data_count = 10000;
@@ -67,10 +67,9 @@ RenderObject* RenderObjectFactory::CreateAsteroidField(){
 }
 
 RenderObject* RenderObjectFactory::CreateAsteroid(){
-    ProgramFactory program_factory;
-    Program* program = program_factory.loadBumpMappingProgram();
-
-    Model* model = ModelFactory::LoadAsteroidModel();
+    std::shared_ptr<Program> program 
+            = ProgramFactory().loadBumpMappingProgram();
+    std::shared_ptr<Model> = ModelFactory::LoadAsteroidModel();
 
     RenderObject* renderObject
             = new RenderObject(ObjectID(0), model);
@@ -84,12 +83,9 @@ RenderObject* RenderObjectFactory::CreateAsteroid(){
 }
 
 RenderObject* RenderObjectFactory::CreateNanosuitObject(){
-    ProgramFactory program_factory;
-
-    Program* nano_program = program_factory.LoadMainProgram();
-    //Program* normal_vision_program = program_factory.LoadNormalVisionProgram();
-
-    Model* nanosuitModel = ModelFactory::LoadNanoSuitModel();
+    std::shared_ptr<Program> nano_program = ProgramFactory().LoadMainProgram();
+    //std::shared_ptr<Program> normal_vision_program = ProgramFactory().LoadNormalVisionProgram();
+    std::shared_ptr<Model> nanosuitModel = ModelFactory::LoadNanoSuitModel();
 
     RenderObject* renderObject
             = new RenderObject(ObjectID(0), nanosuitModel);

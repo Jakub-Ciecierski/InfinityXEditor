@@ -4,18 +4,23 @@
 #include <rendering/renderer.h>
 #include <factory/render_object_factory.h>
 
+#include <memory>
+
 int main() {
     ifx::Renderer renderer;
-    ifx::Window* window = renderer.window();
-    ifx::FBORenderer* fbo_renderer = ifx::RenderObjectFactory()
-            .CreateFBORenderer(window);
-    renderer.SetFBORenderer(fbo_renderer);
+    std::unique_ptr<ifx::Window> window(renderer.window());
+    std::unique_ptr<ifx::FBORenderer> fbo_renderer(
+                ifx::RenderObjectFactory().CreateFBORenderer(window.get()));
+    renderer.SetFBORenderer(std::move(fbo_renderer));
 
-    ifx::Camera* camera = new ifx::Camera(ObjectID(1),
-                                          window->width(), window->height());
+    std::unique_ptr<ifx::Camera> camera(new ifx::Camera(
+                                            ObjectID(1),
+                                            window->width(), 
+                                            window->height()));
 
-    ifx::Scene* scene = ifx::SceneFactory().CreateScene(camera);
-    renderer.SetScene(scene);
+    std::unique_ptr<ifx::Scene> scene 
+        = ifx::SceneFactory().CreateScene(std::move(camera));
+    renderer.SetScene(std::move(scene));
 
     renderer.startMainLoop();
 }

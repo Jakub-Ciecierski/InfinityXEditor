@@ -83,10 +83,10 @@ LightSpotlight *LightingFactory::loadSpotlight() {
 LightGroup* LightingFactory::createGroupLight(Camera* camera){
     LightGroup* light_group = new LightGroup();
 
-    LightSpotlight* light_spotlight = loadSpotlight();
+    std::uqique<LightSpotlight> light_spotlight(loadSpotlight());
     light_spotlight->setMovableObject(camera);
 
-    light_group->addLightSpotlight(light_spotlight);
+    light_group->addLightSpotlight(std::move(light_spotlight));
 
     return light_group;
 }

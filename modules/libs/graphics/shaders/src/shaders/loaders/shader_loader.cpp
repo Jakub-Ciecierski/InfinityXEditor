@@ -21,42 +21,29 @@ ShaderLoader::~ShaderLoader() {
 
 }
 
-VertexShader ShaderLoader::loadVertexShader(const GLchar *path) {
+VertexShader* ShaderLoader::loadVertexShader(const GLchar *path) {
     std::string shaderCode = getShaderCode(path);
-    VertexShader vertexShader(shaderCode.c_str(), std::string(path));
-
-    return vertexShader;
+    return new VertexShader(shaderCode.c_str(), std::string(path));
 }
 
-GeometryShader ShaderLoader::loadGeometryShader(const GLchar* path){
+GeometryShader* ShaderLoader::loadGeometryShader(const GLchar* path){
     std::string shaderCode = getShaderCode(path);
-    GeometryShader geometryShader(shaderCode.c_str(), std::string(path));
-
-    return geometryShader;
+    return new GeometryShader(shaderCode.c_str(), std::string(path));
 }
 
-FragmentShader ShaderLoader::loadFragmentShader(const GLchar *path) {
+FragmentShader* ShaderLoader::loadFragmentShader(const GLchar *path) {
     std::string shaderCode = getShaderCode(path);
-
-    FragmentShader fragmentShader(shaderCode.c_str(), std::string(path));
-
-    return fragmentShader;
+    return new FragmentShader(shaderCode.c_str(), std::string(path));
 }
 
-TessControlShader ShaderLoader::loadTessControlShader(const GLchar *path) {
+TessControlShader* ShaderLoader::loadTessControlShader(const GLchar *path) {
     std::string shaderCode = getShaderCode(path);
-
-    TessControlShader shader(shaderCode.c_str(), std::string(path));
-
-    return shader;
+    return new TessControlShader(shaderCode.c_str(), std::string(path));
 }
 
-TessEvalShader ShaderLoader::loadTessEvalShader(const GLchar *path) {
+TessEvalShader* ShaderLoader::loadTessEvalShader(const GLchar *path) {
     std::string shaderCode = getShaderCode(path);
-
-    TessEvalShader shader(shaderCode.c_str(),std::string(path));
-
-    return shader;
+    return new TessEvalShader(shaderCode.c_str(),std::string(path));
 }
 
 std::string ShaderLoader::getShaderCode(const GLchar *path) {

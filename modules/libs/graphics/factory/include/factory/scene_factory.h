@@ -3,19 +3,20 @@
 
 #include <rendering/scene/scene.h>
 
+#include <memory>
+
 namespace ifx {
 
 class SceneFactory {
 public:
 
     SceneFactory();
-
     ~SceneFactory();
 
-    Scene* CreateScene(Camera* camera);
+    Scene* CreateScene(std::unique<Camera> camera);
 
-    Scene* CreateNanosuitGuy(Camera* camera);
-    Scene* CreateAsteroidField(Camera* camera);
+    Scene* CreateNanosuitGuy(std::unique<Camera> camera);
+    Scene* CreateAsteroidField(std::unique<Camera> camera);
 private:
 };
 

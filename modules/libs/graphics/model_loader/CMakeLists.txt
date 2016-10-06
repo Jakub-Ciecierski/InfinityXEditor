@@ -42,6 +42,7 @@ find_package(GLEW REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
 include_directories($ENV{IFX_ROOT}/dependencies/SOIL/src)
 include_directories($ENV{IFX_ROOT}/modules/libs/graphics/shaders/${INC_DIR})
+include_directories($ENV{IFX_ROOT}/modules/libs/common/resources/${INC_DIR})
 
 # MODEL::SHADERS
 find_package(OpenGL REQUIRED)

@@ -11,9 +11,7 @@ Window::Window(int width, int height, std::string name) :
     setViewport();
 }
 
-Window::~Window() {
-
-}
+Window::~Window() {}
 
 void Window::HandleEvents() {
     Controls& controls = Controls::GetInstance();
@@ -55,7 +53,6 @@ void Window::update() {
 GLFWwindow *Window::getHandle() {
     return glfwWindow;
 }
-
 
 void Window::ShowCursor(){
     glfwSetInputMode(glfwWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);

@@ -3,7 +3,7 @@
 namespace ifx {
 
 InstancedRenderObject::InstancedRenderObject(ObjectID id, Model* model,
-                                         InstancedData& instanced_data) :
+                                             InstancedData& instanced_data) :
     RenderObject(id, model),
     instanced_data_(instanced_data) {
     const std::vector<Mesh*>& meshes = model->getMeshes();
@@ -13,9 +13,7 @@ InstancedRenderObject::InstancedRenderObject(ObjectID id, Model* model,
     }
 }
 
-InstancedRenderObject::~InstancedRenderObject(){
-
-}
+InstancedRenderObject::~InstancedRenderObject(){}
 
 void InstancedRenderObject::render(const Program& program){
     program.use();
