@@ -105,6 +105,48 @@ RenderObject* RenderObjectFactory::CreateNanosuitObject(){
 
     float scaleFactor = 0.005f;
     renderObject->scale(glm::vec3(scaleFactor, scaleFactor, scaleFactor));
+    renderObject->moveTo(glm::vec3(0,0,0));
+
+    return renderObject;
+}
+
+RenderObject* RenderObjectFactory::CreateFloor(){
+    ProgramFactory program_factory;
+
+    Program* nano_program = program_factory.LoadMainProgram();
+    //Program* normal_vision_program = program_factory.LoadNormalVisionProgram();
+
+    Model* nanosuitModel = ModelFactory::LoadFloorModel();
+
+    RenderObject* renderObject
+            = new RenderObject(ObjectID(0), nanosuitModel);
+
+    renderObject->addProgram(nano_program);
+    //renderObject->addProgram(normal_vision_program);
+
+    float scaleFactor = 1.005f;
+    renderObject->scale(glm::vec3(scaleFactor, scaleFactor, scaleFactor));
+    renderObject->rotateTo(glm::vec3(90, 0, 0));
+
+    return renderObject;
+}
+
+RenderObject* RenderObjectFactory::CreateLampObject(){
+    ProgramFactory program_factory;
+
+    Program* nano_program = program_factory.loadLampProgram();
+    //Program* normal_vision_program = program_factory.LoadNormalVisionProgram();
+
+    Model* nanosuitModel = ModelFactory::LoadLampModel();
+
+    RenderObject* renderObject
+            = new RenderObject(ObjectID(0), nanosuitModel);
+
+    renderObject->addProgram(nano_program);
+
+    float scaleFactor = 0.05f;
+    renderObject->scale(glm::vec3(scaleFactor, scaleFactor, scaleFactor));
+    renderObject->moveTo(glm::vec3(0, 0.3, 0));
 
     return renderObject;
 }

@@ -21,11 +21,11 @@ ShadowMapping::~ShadowMapping(){
 
 void ShadowMapping::Render(Scene* scene){
     glViewport(0, 0, dimensions_.width, dimensions_.height);
-    program_->use();
 
     const std::vector<LightDirectional *>& lights
             = scene->light_group()->light_directions();
     for(unsigned int i = 0; i < lights.size(); i++){
+        program_->use();
         BindLightMatrix(program_, lights[i]);
 
         fbo_->bind();
@@ -56,6 +56,7 @@ Texture ShadowMapping::CreateTexture(){
 
 void ShadowMapping::InitFBO(Texture texture){
     fbo_.reset(new FBO(texture, FBOType::DEPTH));
+    fbo_->compile();
 }
 
 void ShadowMapping::BindLightMatrix(const Program* program,
@@ -63,6 +64,7 @@ void ShadowMapping::BindLightMatrix(const Program* program,
     GLint lightSpaceMatrixLoc
             = glGetUniformLocation(program->getID(),
                                    LIGHT_SPACE_MATRIX_NAME.c_str());
+    glm::mat4 mat = light->GetLightSpaceMatrix();
     glUniformMatrix4fv(lightSpaceMatrixLoc, 1, GL_FALSE,
                        glm::value_ptr(light->GetLightSpaceMatrix()));
 

@@ -27,6 +27,8 @@ public:
     static Model* LoadCubemapModel();
     static Model* LoadLampModel();
 
+    static Model* LoadFloorModel();
+
 };
 } // ifx
 

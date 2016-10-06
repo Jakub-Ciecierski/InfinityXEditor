@@ -24,6 +24,10 @@ public:
     RenderObject* CreateAsteroid();
     RenderObject* CreateNanosuitObject();
 
+    RenderObject* CreateFloor();
+
+    RenderObject* CreateLampObject();
+
     /*
     RenderObject* loadBicubicBezierSurfaceC0Object();
     RenderObject* loadBicubicBezierPatchObject();

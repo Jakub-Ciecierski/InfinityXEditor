@@ -116,6 +116,8 @@ float ShadowMappingCalculation(vec4 fragPosLightSpace){
     float currentDepth = projCoords.z;
     float shadow = closestDepth < currentDepth ? 1 : 0;
 
+    //return currentDepth;
+    //return closestDepth;
     return shadow;
 }
 
@@ -162,6 +164,7 @@ vec3 computeDirLight(DirLight light, vec3 norm, vec3 viewDir, mat3 TBN){
     float shadow = ShadowMappingCalculation(fragPosLightSpace);
 
     vec3 result = (ambient + (1.0 - shadow) * (diffuse + specular));
+    //vec3 result = vec3(shadow, shadow, shadow);
     return result;
 }
 
@@ -250,4 +253,7 @@ void main() {
     }
 
     color = vec4(result, 1.0f);
+
+    float depthValue = texture(shadow_map, TexCoords).r;
+    //color = vec4(vec3(depthValue), 1.0);
 }

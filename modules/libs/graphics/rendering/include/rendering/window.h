@@ -2,6 +2,7 @@
 #define DUCK_WINDOW_H
 
 #include <string>
+
 #include <GLFW/glfw3.h>
 #include <controls/event_handler.h>
 

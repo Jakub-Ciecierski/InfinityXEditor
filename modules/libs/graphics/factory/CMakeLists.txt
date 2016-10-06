@@ -4,6 +4,7 @@ project(${LIB_NAME})
 
 set(INC_DIR include)
 set(SRC_DIR src)
+set(DEPS_DIR dependencies)
 
 #---------------------------------
 # MACROS
@@ -62,7 +63,9 @@ include_directories($ENV{IFX_ROOT}/dependencies/SOIL/src)
 include_directories($ENV{IFX_ROOT}/modules/libs/graphics/shaders/${INC_DIR})
 
 # MODEL_LOADER
-include_directories($ENV{IFX_ROOT}/dependencies/assimp-3.1.1/${INC_DIR})
+include_directories($ENV{IFX_ROOT}/${DEPS_DIR}/assimp-3.1.1/${INC_DIR})
+
+include_directories($ENV{IFX_ROOT}/${DEPS_DIR}/glfw-3.1.2/${INC_DIR})
 
 #---------------------------------
 # PROJECT

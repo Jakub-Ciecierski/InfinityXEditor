@@ -4,7 +4,7 @@ project(${LIB_NAME})
 
 set(INC_DIR include)
 set(SRC_DIR src)
-
+set(DEPS_DIR dependencies)
 
 #---------------------------------
 # MACROS
@@ -57,7 +57,9 @@ include_directories($ENV{IFX_ROOT}/modules/libs/graphics/shaders/${INC_DIR})
 
 # OBJECT
 include_directories($ENV{IFX_ROOT}/modules/libs/common/math/${INC_DIR})
-include_directories($ENV{IFX_ROOT}/dependencies/glm/${INC_DIR})
+include_directories($ENV{IFX_ROOT}/${DEPS_DIR}/glm/${INC_DIR})
+
+include_directories($ENV{IFX_ROOT}/${DEPS_DIR}/glfw-3.1.2/${INC_DIR})
 
 #---------------------------------
 # PROJECT

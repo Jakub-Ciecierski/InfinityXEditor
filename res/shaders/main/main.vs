@@ -32,6 +32,5 @@ void main()
     Tangent = mat3(transpose(inverse(ModelMatrix))) * tangent;
     Binormal = mat3(transpose(inverse(ModelMatrix))) * binormal;
 
-
     TexCoords = texCoords;
 }

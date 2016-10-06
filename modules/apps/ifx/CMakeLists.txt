@@ -4,6 +4,7 @@ project(${APP_NAME})
 
 set(INC_DIR include)
 set(SRC_DIR src)
+set(DEPS_DIR dependencies)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
@@ -73,17 +74,17 @@ include_directories($ENV{IFX_ROOT}/modules/libs/graphics/factory/${INC_DIR})
 # EXTERNAL
 #----------------------------------
 
-add_subdirectory(../../../dependencies/assimp-3.1.1 ./build/assimp-3.1.1)
-include_directories($ENV{IFX_ROOT}/dependencies/assimp-3.1.1/${INC_DIR})
+add_subdirectory(../../../${DEPS_DIR}/glfw-3.1.2 ./build/glfw-3.1.2)
+include_directories($ENV{IFX_ROOT}/${DEPS_DIR}/glfw-3.1.2/${INC_DIR})
 
-add_subdirectory(../../../dependencies/glfw-3.1.2 ./build/glfw-3.1.2)
-include_directories($ENV{IFX_ROOT}/dependencies/glfw-3.1.2/${INC_DIR})
+add_subdirectory(../../../${DEPS_DIR}/assimp-3.1.1 ./build/assimp-3.1.1)
+include_directories($ENV{IFX_ROOT}/${DEPS_DIR}/assimp-3.1.1/${INC_DIR})
 
-add_subdirectory(../../../dependencies/SOIL ./build/SOIL)
-include_directories($ENV{IFX_ROOT}/dependencies/SOIL/src)
+add_subdirectory(../../../${DEPS_DIR}/SOIL ./build/SOIL)
+include_directories($ENV{IFX_ROOT}/${DEPS_DIR}/SOIL/src)
 
 #
-include_directories($ENV{IFX_ROOT}/dependencies/glm/${INC_DIR})
+include_directories($ENV{IFX_ROOT}/${DEPS_DIR}/glm/${INC_DIR})
 
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
@@ -104,6 +105,9 @@ target_link_libraries(${APP_NAME}
 
 target_link_libraries(${APP_NAME}
         glfw SOIL assimp ${GLFW_LIBRARIES})
+
+#target_link_libraries(${APP_NAME}
+#        glfw SOIL assimp glfw-3.1.2)
 
 target_link_libraries(${APP_NAME}
         ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})

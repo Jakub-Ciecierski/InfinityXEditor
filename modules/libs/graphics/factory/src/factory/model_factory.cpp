@@ -143,4 +143,12 @@ Model* ModelFactory::LoadLampModel() {
     return new Model(meshes);
 }
 
+Model* ModelFactory::LoadFloorModel(){
+    MeshFactory meshLoader;
+    Mesh *mesh = meshLoader.LoadFloor();
+    std::vector<Mesh *> meshes = {mesh};
+
+    return new Model(meshes);
+}
+
 } // ifx

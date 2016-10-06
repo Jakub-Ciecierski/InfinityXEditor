@@ -24,6 +24,7 @@ public:
     static Mesh* LoadPatch();
     static Mesh* LoadCubemap();
     static Mesh* LoadCube();
+    static Mesh* LoadFloor();
     static Mesh* LoadLamp();
 };
 }

@@ -1,4 +1,5 @@
 #include "rendering/window.h"
+#include "../../../../../../dependencies/glfw-3.1.2/include/GLFW/glfw3.h"
 
 #include <stdexcept>
 #include <controls/controls.h>

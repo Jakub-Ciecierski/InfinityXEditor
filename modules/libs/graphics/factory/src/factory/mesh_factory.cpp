@@ -549,6 +549,38 @@ Mesh *MeshFactory::LoadCube() {
     return mesh;
 }
 
+Mesh* MeshFactory::LoadFloor(){
+    // Position, Normal, TexCoord
+    vector <Vertex> vertices = {
+            // Front
+            Vertex{vec3(1.0f, 1.0f, 0.0f),
+                   vec3(0.0f, 0.0f, -1.0f), vec2(1.0f, 1.0f)},
+            Vertex{vec3(1.0f, 0.0f, 0.0f),
+                   vec3(0.0f, 0.0f, -1.0f), vec2(1.0f, 0.0f)},
+            Vertex{vec3(0.0f, 0.0f, 0.0f),
+                   vec3(0.0f, 0.0f, -1.0f), vec2(0.0f, 0.0f)},
+            Vertex{vec3(0.0f, 1.0f, 0.0f),
+                   vec3(0.0f, 0.0f, -1.0f), vec2(0.0f, 1.0f)},
+    };
+
+    vector <GLuint> indices = {
+            0, 1, 3, 1, 2, 3,            // front
+    };
+    TextureFactory textureLoader;
+    Texture textureDiffuse = textureLoader.LoadContainerDiffuse();
+    Texture textureSpecular = textureLoader.LoadContainerSpecular();
+
+    std::vector <Texture> textures = {textureDiffuse, textureSpecular};
+
+    Mesh *mesh = new Mesh(vertices, indices, textures, GL_TRIANGLES);
+
+    Material material;
+    material.shininess = 32.0f;
+    mesh->setMaterial(material);
+
+    return mesh;
+}
+
 Mesh *MeshFactory::LoadLamp() {
     vector <Vertex> vertices = {
             // Front
