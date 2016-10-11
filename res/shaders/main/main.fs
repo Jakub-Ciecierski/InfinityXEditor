@@ -163,8 +163,9 @@ vec3 computeDirLight(DirLight light, vec3 norm, vec3 viewDir, mat3 TBN){
     vec4 fragPosLightSpace = light.LightSpaceMatrix * vec4(FragPos, 1.0);
     float shadow = ShadowMappingCalculation(fragPosLightSpace);
 
-    vec3 result = (ambient + (1.0 - shadow) * (diffuse + specular));
-    //vec3 result = vec3(shadow, shadow, shadow);
+    vec3 result = (ambient + diffuse + specular);
+    //vec3 result = (ambient + (1.0 - shadow) * (diffuse + specular));
+
     return result;
 }
 

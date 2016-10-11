@@ -8,15 +8,33 @@
 #include <rendering/instanced_render_object.h>
 
 #include <GLFW/glfw3.h>
+#include <rendering/renderer.h>
+#include <factory/scene_factory.h>
 
 namespace ifx{
-
 
 RenderObjectFactory::RenderObjectFactory(){
 }
 
 RenderObjectFactory::~RenderObjectFactory() {
 
+}
+
+std::unique_ptr<Renderer> RenderObjectFactory::CreateRenderer(){
+    auto renderer = std::unique_ptr<ifx::Renderer>(new ifx::Renderer());
+    ifx::Window* window = renderer->window();
+    auto fbo_renderer = ifx::RenderObjectFactory().CreateFBORenderer(window);
+    renderer->SetFBORenderer(std::move(fbo_renderer));
+    renderer->SetShadowMapping(ifx::RenderObjectFactory().CreateShadowMapping());
+
+    auto camera
+            = std::unique_ptr<ifx::Camera>(new ifx::Camera(ObjectID(1),
+                                                           window->width(),
+                                                           window->height()));
+    auto scene = ifx::SceneFactory().CreateScene(std::move(camera));
+    renderer->SetScene(std::move(scene));
+
+    return renderer;
 }
 
 std::unique_ptr<FBORenderer> RenderObjectFactory::CreateFBORenderer(
@@ -31,6 +49,68 @@ ShadowMapping* RenderObjectFactory::CreateShadowMapping(){
     std::shared_ptr<Program> program = ProgramFactory().LoadShadowMappingProgram();
     return new ShadowMapping(Dimensions{1024, 1024}, program);
 };
+
+std::unique_ptr<RenderObject> RenderObjectFactory::CreateRoom(){
+    std::shared_ptr<Program> program = ProgramFactory().LoadMainProgram();
+    std::shared_ptr<Model> room_model = ModelFactory::LoadRoomModel();
+
+    auto render_object
+            = std::unique_ptr<RenderObject>(new RenderObject(ObjectID(0),
+                                                             room_model));
+    render_object->addProgram(program);
+    float scaleFactor = 2.0f;
+    render_object->scale(glm::vec3(scaleFactor, scaleFactor, scaleFactor));
+
+    render_object->SetBeforeRender([](){
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
+    });
+    render_object->SetAfterRender([](){
+        glDisable(GL_CULL_FACE);
+    });
+
+    return render_object;
+}
+
+std::unique_ptr<RenderObject> RenderObjectFactory::CreateSpring(){
+    std::shared_ptr<Program> program = ProgramFactory().LoadMainProgram();
+
+    std::string local_path = "spring3/spring.stl";
+    auto model = ModelFactory::LoadModel(
+            Resources::GetInstance().GetResourcePath(local_path,
+                                                     ResourceType::MODEL));
+
+    auto render_object
+            = std::unique_ptr<RenderObject>(new RenderObject(ObjectID(0),
+                                                             model));
+    render_object->addProgram(program);
+    float scale_factor = 0.022f;
+    float scale_factor_y = 0.06f;
+    render_object->scale(glm::vec3(scale_factor, scale_factor_y, scale_factor));
+    render_object->moveTo(glm::vec3(0.0f, 0.4f, 0.0f));
+
+    return render_object;
+}
+
+std::unique_ptr<RenderObject> RenderObjectFactory::CreateMassSpring(){
+    std::shared_ptr<Program> program = ProgramFactory().LoadMainProgram();
+
+    std::string local_path = "weight/100t_weight.obj";
+    auto model = ModelFactory::LoadModel(
+            Resources::GetInstance().GetResourcePath(local_path,
+                                                     ResourceType::MODEL));
+
+    auto render_object
+            = std::unique_ptr<RenderObject>(new RenderObject(ObjectID(0),
+                                                             model));
+    render_object->addProgram(program);
+    float scale_factor = 0.025f;
+    render_object->scale(glm::vec3(scale_factor, scale_factor, scale_factor));
+    render_object->moveTo(glm::vec3(0.0f, 0.0f, 0.0f));
+    render_object->rotateTo(glm::vec3(0.0f, 90.0f, 0.0f));
+
+    return render_object;
+}
 
 RenderObject* RenderObjectFactory::CreateAsteroidField(){
     std::shared_ptr<Program> program = ProgramFactory().LoadInstancedProgram();
@@ -90,14 +170,14 @@ RenderObject* RenderObjectFactory::CreateAsteroid(){
 
 RenderObject* RenderObjectFactory::CreateNanosuitObject(){
     std::shared_ptr<Program> nano_program = ProgramFactory().LoadMainProgram();
-    //std::shared_ptr<Program> normal_vision_program = ProgramFactory().LoadNormalVisionProgram();
+    std::shared_ptr<Program> normal_vision_program = ProgramFactory().LoadNormalVisionProgram();
     std::shared_ptr<Model> nanosuitModel = ModelFactory::LoadNanoSuitModel();
 
     RenderObject* renderObject
             = new RenderObject(ObjectID(0), nanosuitModel);
 
     renderObject->addProgram(nano_program);
-    //renderObject->addProgram(normal_vision_program);
+    renderObject->addProgram(normal_vision_program);
 
     float scaleFactor = 0.005f;
     renderObject->scale(glm::vec3(scaleFactor, scaleFactor, scaleFactor));

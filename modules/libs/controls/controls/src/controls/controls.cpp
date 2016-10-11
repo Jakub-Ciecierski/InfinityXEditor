@@ -4,6 +4,8 @@
 namespace ifx {
 
 Controls::Controls() {
+    control_mode_ = ControlMode::SCENE;
+
     mouse_events_.LeftMouse = new MouseEvent(MouseButtonType::BUTTON_LEFT);
     mouse_events_.RightMouse = new MouseEvent(MouseButtonType::BUTTON_RIGHT);
     mouse_events_.MiddleMouse = new MouseEvent(MouseButtonType::BUTTON_MIDDLE);
@@ -52,6 +54,9 @@ void Controls::OnMouseEvent(float xpos, float ypos){
     mouse_events_.pos_y = ypos;
 }
 
+void Controls::SetControlMode(ControlMode control_mode){
+    control_mode_ = control_mode;
+}
 
 void Controls::Update(){
     mouse_events_.prev_pos_x = mouse_events_.pos_x;

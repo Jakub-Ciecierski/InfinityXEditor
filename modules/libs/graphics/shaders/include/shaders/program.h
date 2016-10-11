@@ -34,9 +34,9 @@ public:
 
     static std::string GetProgramPath(Shaders& shaders);
 
+private:
     Program(Shaders shaders);
 
-private:
     void linkShaders();
 
     GLuint id;

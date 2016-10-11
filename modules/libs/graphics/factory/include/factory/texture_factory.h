@@ -29,7 +29,7 @@ public:
     Texture LoadTesselationHeight();
 
     Texture LoadContainer();
-
+    Texture LoadPortalTexture();
     Texture LoadContainerDiffuse();
 
     Texture LoadContainerSpecular();

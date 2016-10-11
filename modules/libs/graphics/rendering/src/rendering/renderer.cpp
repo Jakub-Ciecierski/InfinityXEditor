@@ -3,6 +3,8 @@
 #include <controls/glfw_callbacks.h>
 #include <controls/controls.h>
 #include <rendering/fbo_rendering/fbo_renderer.h>
+#include <gui/gui.h>
+#include <gui/imgui/imgui.h>
 
 namespace ifx {
 
@@ -17,22 +19,6 @@ Renderer::Renderer() :
 
 Renderer::~Renderer(){}
 
-void Renderer::startMainLoop(){
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    while(!window_->shouldClose()) {
-        HandleEvents();
-        Update();
-        Render();
-
-        glfwSwapBuffers(window_->getHandle());
-    }
-
-    glfwTerminate();
-}
-
 void Renderer::HandleEvents() {
     Controls& controls = Controls::GetInstance();
     const Keys& keys = controls.keyboard_keys();
@@ -42,16 +28,20 @@ void Renderer::HandleEvents() {
         if(fbo_renderer_->program())
             fbo_renderer_->program()->Reload();
     }
-    if (keys[GLFW_KEY_F1]){
+    if (keys[GLFW_KEY_1]){
         rendering_type_ = RenderingType::NORMAL;
     }
-    if (keys[GLFW_KEY_F2]){
+    if (keys[GLFW_KEY_2]){
         rendering_type_ = RenderingType::FBO_TEXTURE;
     }
 }
 
 void Renderer::SetScene(std::unique_ptr<Scene> scene){
     scene_ = std::move(scene);
+}
+
+void Renderer::SetGUI(std::unique_ptr<GUI> gui){
+    gui_ = std::move(gui);
 }
 
 void Renderer::SetRenderingType(RenderingType type){
@@ -79,16 +69,15 @@ void Renderer::initGLFWRenderContext(){
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-    int width = 1200;
-    int height = 800;
-    window_ .reset(new Window(width, height, "Tessellation"));
+    int width = 1400;
+    int height = 900;
+    window_ .reset(new Window(width, height, "InfinityX"));
 }
 
 void Renderer::initOpenGLContext(){
     glewExperimental = GL_TRUE;
-    if (glewInit() != GLEW_OK){
+    if (glewInit() != GLEW_OK)
         throw new std::invalid_argument("Failed to initialize GLEW");
-    }
 }
 
 void Renderer::initGLFWCallbacks(){
@@ -96,6 +85,7 @@ void Renderer::initGLFWCallbacks(){
     glfwSetCursorPosCallback(window_->getHandle(), mouse_callback);
     glfwSetMouseButtonCallback(window_->getHandle(), mouse_button_callback);
     glfwSetScrollCallback(window_->getHandle(), mousescroll_callback);
+    glfwSetCharCallback(window_->getHandle(), char_callback);
 }
 
 void Renderer::Update(){
@@ -105,10 +95,20 @@ void Renderer::Update(){
 }
 
 void Renderer::Render(){
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     if(rendering_type_ == RenderingType::NORMAL)
-        RenderNormalShadowMapping();//RenderNormal();
+        RenderNormal();
     if(rendering_type_ == RenderingType::FBO_TEXTURE)
         RenderFBOTexture();
+
+    if(gui_){
+        gui_->Render();
+    }
+
+    glfwSwapBuffers(window_->getHandle());
 }
 
 void Renderer::RenderNormalShadowMapping(){

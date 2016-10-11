@@ -27,7 +27,7 @@ std::shared_ptr<Program> Program::MakeProgram(Shaders& shaders){
         = std::static_pointer_cast<Program>(ifx::ResourceMemoryCache::GetInstance()
             .Get(Program::GetProgramPath(shaders)));
     if(!program){
-        program = std::make_shared<Program>(shaders);
+        program = std::shared_ptr<Program>(new Program(shaders));
     }
     ifx::ResourceMemoryCache::GetInstance().Add(program);
     

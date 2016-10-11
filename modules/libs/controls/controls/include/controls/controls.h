@@ -7,12 +7,20 @@
 
 namespace ifx {
 
+/**
+ * What is being controlled
+ */
+enum class ControlMode{
+    SCENE, GUI
+};
+
 using Keys = std::vector<bool>;
 
 class Controls {
 public:
     ~Controls();
 
+    ControlMode control_mode() {return control_mode_;}
     const Keys& keyboard_keys() {return keyboard_keys_;}
     const MouseEvents& mouse_events() {return mouse_events_;}
 
@@ -23,6 +31,8 @@ public:
                             float xpos, float ypos);
     void OnMouseEvent(float xpos, float ypos);
 
+    void SetControlMode(ControlMode control_mode);
+
     /**
      * Must be called after all EventHandlers were called.
      */
@@ -31,8 +41,8 @@ public:
 private:
     Controls();
 
+    ControlMode control_mode_;
     Keys keyboard_keys_;
-
     MouseEvents mouse_events_;
 };
 

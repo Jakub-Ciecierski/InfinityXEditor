@@ -7,4 +7,6 @@ controls/controls
 object/object
 common/math
 
+gui/imgui
+
 GLFW
