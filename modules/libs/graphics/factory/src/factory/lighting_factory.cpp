@@ -31,7 +31,6 @@ LightPoint *LightingFactory::loadPointLight() {
     light.quadratic = 0.0032;
 
     lightSource->setLight(light);
-
     return lightSource;
 }
 
@@ -45,7 +44,7 @@ LightDirectional *LightingFactory::loadDirLight() {
 
     lightSource->setLight(light);
 
-    lightSource->setPosition(glm::vec3(0.0f, 0.7f, 0.0f));
+    lightSource->setPosition(glm::vec3(0.5f, 0.7f, 0.0f));
     lightSource->setLookAt(glm::vec3(0.0f, 0.0f, 0.0f));
     lightSource->setFollow(false);
 
@@ -78,10 +77,8 @@ LightSpotlight *LightingFactory::loadSpotlight() {
 LightGroup* LightingFactory::createGroupLight(Camera* camera){
     LightGroup* light_group = new LightGroup();
 
-    std::unique_ptr<LightSpotlight> light_spotlight(loadSpotlight());
-    light_spotlight->setMovableObject(camera);
-
-    light_group->addLightSpotlight(std::move(light_spotlight));
+    std::unique_ptr<LightDirectional> light(loadDirLight());
+    light_group->addLightDirectional(std::move(light));
 
     return light_group;
 }

@@ -16,25 +16,30 @@ class RenderObject : public ifx::MovableObject {
 public:
     RenderObject(ObjectID id,
                  std::shared_ptr<Model>);
-
     virtual ~RenderObject();
 
     const std::vector<std::shared_ptr<Program>>& programs(){ return programs_;}
 
-    Model* getModel();
+    void SetBeforeRender(std::function<void()> before_render);
+    void SetAfterRender(std::function<void()> after_render);
 
+    Model* getModel();
     void addProgram(std::shared_ptr<Program> program);
 
     /*
      * Binds the Model matrix and draws Mesh
      */
     virtual void render(const Program& program);
+
 protected:
     std::shared_ptr<Model> model;
 
 private:
 
     std::vector<std::shared_ptr<Program>> programs_;
+
+    std::function<void()> before_render_;
+    std::function<void()> after_render_;
 
 };
 

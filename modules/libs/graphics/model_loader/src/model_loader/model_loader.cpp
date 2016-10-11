@@ -40,7 +40,10 @@ std::shared_ptr<Model> ModelLoader::loadModel() {
     std::vector<std::unique_ptr<Mesh>> meshes;
     processNode(scene->mRootNode, scene, meshes);
 
-    return Model::MakeModel(filepath, std::move(meshes));
+    auto model = Model::MakeModel(filepath, std::move(meshes));
+    printInfo(*model);
+
+    return model;
 }
 
 void ModelLoader::processNode(aiNode* node, const aiScene* scene,
@@ -87,9 +90,12 @@ vector<Vertex> ModelLoader::processVertices(aiMesh *mesh){
         vertex.Position = vPos;
 
         glm::vec3 vNorm;
-        vNorm.x = mesh->mNormals[i].x;
-        vNorm.y = mesh->mNormals[i].y;
-        vNorm.z = mesh->mNormals[i].z;
+        if(mesh->mNormals != nullptr){
+            std::cout << "No normals" << std::endl;
+            vNorm.x = mesh->mNormals[i].x;
+            vNorm.y = mesh->mNormals[i].y;
+            vNorm.z = mesh->mNormals[i].z;
+        }
         vertex.Normal = vNorm;
 
         // Assimp has up to 8 different textureCoords, we only care about one

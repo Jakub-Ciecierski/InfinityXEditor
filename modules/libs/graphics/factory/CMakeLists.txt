@@ -43,6 +43,8 @@ include_directories($ENV{IFX_ROOT}/modules/libs/graphics/scene/${INC_DIR})
 include_directories($ENV{IFX_ROOT}/modules/libs/common/resources/${INC_DIR})
 include_directories($ENV{IFX_ROOT}/modules/libs/common/math/${INC_DIR})
 
+include_directories($ENV{IFX_ROOT}/modules/libs/gui/gui/${INC_DIR})
+
 # LIGHTING
 include_directories($ENV{IFX_ROOT}/modules/libs/graphics/shaders/${INC_DIR})
 include_directories($ENV{IFX_ROOT}/modules/libs/object/object/${INC_DIR})

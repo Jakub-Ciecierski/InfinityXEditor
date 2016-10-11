@@ -31,6 +31,7 @@ public:
     static std::unique_ptr<Mesh> LoadPatch();
     static std::unique_ptr<Mesh> LoadCubemap();
     static std::unique_ptr<Mesh> LoadCube();
+    static std::unique_ptr<Mesh> LoadRoom();
     static std::unique_ptr<Mesh> LoadFloor();
     static std::unique_ptr<Mesh> LoadLamp();
 };

@@ -23,11 +23,12 @@ public:
 
     static std::shared_ptr<Model> LoadSquareModel();
     static std::shared_ptr<Model> LoadCubeModel();
+    static std::shared_ptr<Model> LoadRoomModel();
     static std::shared_ptr<Model> LoadCubemapModel();
     static std::shared_ptr<Model> LoadLampModel();
 
     static std::shared_ptr<Model> LoadFloorModel();
-private:
+
     static std::shared_ptr<Model> LoadModel(std::string path);
 
 };
