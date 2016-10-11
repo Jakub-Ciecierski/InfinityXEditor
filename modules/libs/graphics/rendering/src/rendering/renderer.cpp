@@ -17,22 +17,6 @@ Renderer::Renderer() :
 
 Renderer::~Renderer(){}
 
-void Renderer::startMainLoop(){
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    while(!window_->shouldClose()) {
-        HandleEvents();
-        Update();
-        Render();
-
-        glfwSwapBuffers(window_->getHandle());
-    }
-
-    glfwTerminate();
-}
-
 void Renderer::HandleEvents() {
     Controls& controls = Controls::GetInstance();
     const Keys& keys = controls.keyboard_keys();
@@ -105,10 +89,16 @@ void Renderer::Update(){
 }
 
 void Renderer::Render(){
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     if(rendering_type_ == RenderingType::NORMAL)
         RenderNormalShadowMapping();//RenderNormal();
     if(rendering_type_ == RenderingType::FBO_TEXTURE)
         RenderFBOTexture();
+
+    glfwSwapBuffers(window_->getHandle());
 }
 
 void Renderer::RenderNormalShadowMapping(){

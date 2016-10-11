@@ -1,7 +1,7 @@
 #ifndef PROJECT_INSTANCED_RENDERER_H
 #define PROJECT_INSTANCED_RENDERER_H
 
-#include "rendering/render_object.h"
+#include <object/render_object.h>
 
 #include <memory>
 

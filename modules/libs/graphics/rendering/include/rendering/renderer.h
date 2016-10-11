@@ -42,21 +42,20 @@ public:
 
     // Overridden from EventHandler.
     void HandleEvents() override;
+    void Update();
+    void Render();
 
     void SetScene(std::unique_ptr<Scene> scene);
     void SetRenderingType(RenderingType type);
     void SetShadowsType(ShadowsType type);
     void SetFBORenderer(std::unique_ptr<FBORenderer> fbo_renderer);
     void SetShadowMapping(ShadowMapping* shadow_mapping);
-    void startMainLoop();
 
 private:
     void initGLFWRenderContext();
     void initOpenGLContext();
     void initGLFWCallbacks();
 
-    void Update();
-    void Render();
     void RenderNormal();
     void RenderNormalShadowMapping();
     void RenderFBOTexture();

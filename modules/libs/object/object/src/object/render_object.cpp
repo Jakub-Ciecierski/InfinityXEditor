@@ -1,4 +1,4 @@
-#include "rendering/render_object.h"
+#include "object/render_object.h"
 
 using namespace glm;
 

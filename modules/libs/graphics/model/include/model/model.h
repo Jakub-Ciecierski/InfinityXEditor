@@ -29,10 +29,10 @@ public:
 
     std::string toString() const;
 
+private:
     Model(std::string filepath,
           std::vector<std::unique_ptr<Mesh>> meshes);
 
-private:
     std::vector<std::unique_ptr<Mesh>> meshes;
 
 };

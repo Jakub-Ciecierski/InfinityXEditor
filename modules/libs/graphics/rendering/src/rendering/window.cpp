@@ -14,6 +14,10 @@ Window::Window(int width, int height, std::string name) :
 
 Window::~Window() {}
 
+void Window::Terminate(){
+    glfwTerminate();
+}
+
 void Window::HandleEvents() {
     Controls& controls = Controls::GetInstance();
     const Keys& keys = controls.keyboard_keys();

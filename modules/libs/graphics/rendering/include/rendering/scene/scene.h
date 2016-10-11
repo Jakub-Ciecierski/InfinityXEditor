@@ -1,7 +1,7 @@
 #ifndef PROJECT_SCENE_H
 #define PROJECT_SCENE_H
 
-#include <rendering/render_object.h>
+#include <object/render_object.h>
 #include <rendering/camera/camera.h>
 #include "lighting/light_group.h"
 

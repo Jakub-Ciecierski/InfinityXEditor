@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.3)
-set(LIB_NAME "object_ifx")
+set(LIB_NAME "vr_ifx")
 project(${LIB_NAME})
 
 #---------------------------------
@@ -29,6 +29,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 # DEPENDENCIES
 #---------------------------------
 
+include_directories($ENV{IFX_ROOT}/modules/libs/object/object/${INC_DIR})
+include_directories($ENV{IFX_ROOT}/modules/libs/common/math/${INC_DIR})
+include_directories($ENV{IFX_ROOT}/dependencies/glm/${INC_DIR})
+
+# OBJECT
 include_directories($ENV{IFX_ROOT}/modules/libs/graphics/model/${INC_DIR})
 include_directories($ENV{IFX_ROOT}/modules/libs/graphics/shaders/${INC_DIR})
 include_directories($ENV{IFX_ROOT}/modules/libs/common/math/${INC_DIR})
@@ -45,6 +50,7 @@ include_directories($ENV{IFX_ROOT}/modules/libs/common/resources/${INC_DIR})
 include_directories($ENV{IFX_ROOT}/dependencies/glm/${INC_DIR})
 include_directories($ENV{IFX_ROOT}/dependencies/SOIL/src)
 
+include_directories($ENV{IFX_ROOT}/${DEPS_DIR}/glfw-3.1.2/${INC_DIR})
 
 #---------------------------------
 # PROJECT

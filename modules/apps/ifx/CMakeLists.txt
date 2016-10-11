@@ -70,6 +70,12 @@ include_directories($ENV{IFX_ROOT}/modules/libs/common/math/${INC_DIR})
 add_subdirectory(../../libs/graphics/factory ./build/graphics/factory)
 include_directories($ENV{IFX_ROOT}/modules/libs/graphics/factory/${INC_DIR})
 
+add_subdirectory(../../libs/vr/ ./build/vr)
+include_directories($ENV{IFX_ROOT}/modules/libs/vr/${INC_DIR})
+
+add_subdirectory(../../libs/logic/game_loop ./build/logic/game_loop)
+include_directories($ENV{IFX_ROOT}/modules/libs/logic/game_loop/${INC_DIR})
+
 #----------------------------------
 # EXTERNAL
 #----------------------------------
@@ -96,12 +102,11 @@ include_directories(${GLEW_INCLUDE_DIRS})
 # LINK
 #---------------------------------
 
-
-
 target_link_libraries(${APP_NAME}
         factory_ifx model_loader_ifx model_ifx
         rendering_ifx shaders_ifx math_ifx
-        lighting_ifx object_ifx resources_ifx controls_ifx)
+        lighting_ifx object_ifx resources_ifx controls_ifx
+        vr_ifx game_loop_ifx)
 
 target_link_libraries(${APP_NAME}
         glfw SOIL assimp ${GLFW_LIBRARIES})
