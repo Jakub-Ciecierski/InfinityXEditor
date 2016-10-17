@@ -19,8 +19,11 @@ public:
 
     std::unique_ptr<Renderer> CreateRenderer();
     std::unique_ptr<FBORenderer> CreateFBORenderer(Window* window);
-
     ShadowMapping* CreateShadowMapping();
+
+    std::unique_ptr<RenderObject> CreateRoom();
+    std::unique_ptr<RenderObject> CreateSpring();
+    std::unique_ptr<RenderObject> CreateMassSpring();
 
     RenderObject* CreateAsteroidField();
     RenderObject* CreateAsteroid();

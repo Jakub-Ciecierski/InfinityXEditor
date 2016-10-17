@@ -4,6 +4,11 @@
 
 namespace ifx {
 
+Scene::Scene(std::unique_ptr<LightGroup> light_group,
+             std::unique_ptr<Camera> camera) :
+        light_group_(std::move(light_group)),
+        camera_(std::move(camera)) {}
+
 Scene::Scene(std::vector<std::unique_ptr<RenderObject>> render_objects,
              std::unique_ptr<LightGroup> light_group,
              std::unique_ptr<Camera> camera) :
@@ -12,6 +17,10 @@ Scene::Scene(std::vector<std::unique_ptr<RenderObject>> render_objects,
         camera_(std::move(camera)) {}
 
 Scene::~Scene(){}
+
+void Scene::AddRenderObject(std::unique_ptr<RenderObject> render_object){
+    render_objects_.push_back(std::move(render_object));
+}
 
 void Scene::ReloadProgams(){
     for(auto& render_object : render_objects_){

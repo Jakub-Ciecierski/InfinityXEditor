@@ -8,11 +8,21 @@ RenderObject::RenderObject(ObjectID id,
 
 RenderObject::~RenderObject(){}
 
+void RenderObject::SetBeforeRender(std::function<void()> before_render){
+    before_render_ = before_render;
+}
+void RenderObject::SetAfterRender(std::function<void()> after_render){
+    after_render_ = after_render;
+}
+
 void RenderObject::addProgram(std::shared_ptr<Program> program){
     programs_.push_back(program);
 }
 
 void RenderObject::render(const Program& program){
+    if(before_render_)
+        before_render_();
+
     program.use();
 
     // Model
@@ -21,4 +31,7 @@ void RenderObject::render(const Program& program){
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(ModelMatrix));
 
     model->draw(program);
+
+    if(after_render_)
+        after_render_();
 }

@@ -190,6 +190,20 @@ Texture TextureFactory::LoadContainerDiffuse() {
     return texture;
 }
 
+Texture TextureFactory::LoadPortalTexture() {
+    TextureLoader textureLoader;
+
+    ifx::Resources &resources = ifx::Resources::GetInstance();
+    string filepath = resources.GetResourcePath("portal/portal_wall.jpg",
+                                                ifx::ResourceType::TEXTURE);
+    GLuint id = textureLoader.loadFromFile(filepath.c_str());
+
+    Texture texture = textureLoader.contructTexture(id, GL_TEXTURE_2D);
+    texture.texType = TextureTypes::DIFFUSE;
+
+    return texture;
+}
+
 Texture TextureFactory::LoadContainerSpecular() {
     TextureLoader textureLoader;
 

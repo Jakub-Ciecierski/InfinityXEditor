@@ -15,6 +15,7 @@ public:
 
     std::unique_ptr<Scene> CreateScene(std::unique_ptr<Camera> camera);
 
+    std::unique_ptr<Scene> CreateEmptyScene(std::unique_ptr<Camera> camera);
     std::unique_ptr<Scene> CreateNanosuitGuy(std::unique_ptr<Camera> camera);
     std::unique_ptr<Scene> CreateAsteroidField(std::unique_ptr<Camera> camera);
 

@@ -65,7 +65,7 @@ void Renderer::initGLFWRenderContext(){
 
     int width = 1200;
     int height = 800;
-    window_ .reset(new Window(width, height, "Tessellation"));
+    window_ .reset(new Window(width, height, "InfinityX"));
 }
 
 void Renderer::initOpenGLContext(){

@@ -474,77 +474,168 @@ std::unique_ptr<Mesh> MeshFactory::LoadCube() {
     // Position, Normal, TexCoord
     vector <Vertex> vertices = {
             // Front
-            Vertex{vec3(1.0f, 1.0f, 0.0f),
+            Vertex{vec3(1.0f, 1.0f, -1.0f),
                    vec3(0.0f, 0.0f, -1.0f), vec2(1.0f, 1.0f)},
-            Vertex{vec3(1.0f, 0.0f, 0.0f),
+            Vertex{vec3(1.0f, -1.0f, -1.0f),
                    vec3(0.0f, 0.0f, -1.0f), vec2(1.0f, 0.0f)},
-            Vertex{vec3(0.0f, 0.0f, 0.0f),
+            Vertex{vec3(-1.0f, -1.0f, -1.0f),
                    vec3(0.0f, 0.0f, -1.0f), vec2(0.0f, 0.0f)},
-            Vertex{vec3(0.0f, 1.0f, 0.0f),
+            Vertex{vec3(-1.0f, 1.0f, -1.0f),
                    vec3(0.0f, 0.0f, -1.0f), vec2(0.0f, 1.0f)},
 
             // Back
             Vertex{vec3(1.0f, 1.0f, 1.0f),
                    vec3(0.0f, 0.0f, 1.0f), vec2(1.0f, 1.0f)},
-            Vertex{vec3(1.0f, 0.0f, 1.0f),
+            Vertex{vec3(1.0f, -1.0f, 1.0f),
                    vec3(0.0f, 0.0f, 1.0f), vec2(1.0f, 0.0f)},
-            Vertex{vec3(0.0f, 0.0f, 1.0f),
+            Vertex{vec3(-1.0f, -1.0f, 1.0f),
                    vec3(0.0f, 0.0f, 1.0f), vec2(0.0f, 0.0f)},
-            Vertex{vec3(0.0f, 1.0f, 1.0f),
+            Vertex{vec3(-1.0f, 1.0f, 1.0f),
                    vec3(0.0f, 0.0f, 1.0f), vec2(0.0f, 1.0f)},
 
             // Left
-            Vertex{vec3(0.0f, 1.0f, 1.0f),
+            Vertex{vec3(-1.0f, 1.0f, 1.0f),
                    vec3(-1.0f, 0.0f, 0.0f), vec2(1.0f, 1.0f)},
-            Vertex{vec3(0.0f, 0.0f, 1.0f),
+            Vertex{vec3(-1.0f, -1.0f, 1.0f),
                    vec3(-1.0f, 0.0f, 0.0f), vec2(1.0f, 0.0f)},
-            Vertex{vec3(0.0f, 0.0f, 0.0f),
+            Vertex{vec3(-1.0f, -1.0f, -1.0f),
                    vec3(-1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f)},
-            Vertex{vec3(0.0f, 1.0f, 0.0f),
+            Vertex{vec3(-1.0f, 1.0f, -1.0f),
                    vec3(-1.0f, 0.0f, 0.0f), vec2(0.0f, 1.0f)},
 
             // Right
             Vertex{vec3(1.0f, 1.0f, 1.0f),
                    vec3(1.0f, 0.0f, 0.0f), vec2(1.0f, 1.0f)},
-            Vertex{vec3(1.0f, 0.0f, 1.0f),
+            Vertex{vec3(1.0f, -1.0f, 1.0f),
                    vec3(1.0f, 0.0f, 0.0f), vec2(1.0f, 0.0f)},
-            Vertex{vec3(1.0f, 0.0f, 0.0f),
+            Vertex{vec3(1.0f, -1.0f, -1.0f),
                    vec3(1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f)},
-            Vertex{vec3(1.0f, 1.0f, 0.0f),
+            Vertex{vec3(1.0f, 1.0f, -1.0f),
                    vec3(1.0f, 0.0f, 0.0f), vec2(0.0f, 1.0f)},
 
             // Bottom
-            Vertex{vec3(1.0f, 0.0f, 1.0f),
+            Vertex{vec3(1.0f, -1.0f, 1.0f),
                    vec3(0.0f, -1.0f, 0.0f), vec2(1.0f, 1.0f)},
-            Vertex{vec3(1.0f, 0.0f, 0.0f),
+            Vertex{vec3(1.0f, -1.0f, -1.0f),
                    vec3(0.0f, -1.0f, 0.0f), vec2(1.0f, 0.0f)},
-            Vertex{vec3(0.0f, 0.0f, 0.0f),
+            Vertex{vec3(-1.0f, -1.0f, -1.0f),
                    vec3(0.0f, -1.0f, 0.0f), vec2(0.0f, 0.0f)},
-            Vertex{vec3(0.0f, 0.0f, 1.0f),
+            Vertex{vec3(-1.0f, -1.0f, 1.0f),
                    vec3(0.0f, -1.0f, 0.0f), vec2(0.0f, 1.0f)},
 
             // Top
             Vertex{vec3(1.0f, 1.0f, 1.0f),
                    vec3(0.0f, 1.0f, 0.0f), vec2(1.0f, 1.0f)},
-            Vertex{vec3(1.0f, 1.0f, 0.0f),
+            Vertex{vec3(1.0f, 1.0f, -1.0f),
                    vec3(0.0f, 1.0f, 0.0f), vec2(1.0f, 0.0f)},
-            Vertex{vec3(0.0f, 1.0f, 0.0f),
+            Vertex{vec3(-1.0f, 1.0f, -1.0f),
                    vec3(0.0f, 1.0f, 0.0f), vec2(0.0f, 0.0f)},
-            Vertex{vec3(0.0f, 1.0f, 1.0f),
+            Vertex{vec3(-1.0f, 1.0f, 1.0f),
                    vec3(0.0f, 1.0f, 0.0f), vec2(0.0f, 1.0f)},
     };
 
     vector <GLuint> indices = {
-            0, 1, 3, 1, 2, 3,            // front
-            7, 5, 4, 5, 6, 7,            // back
+            3, 1, 0, 3, 2, 1,            // front
+            4, 5, 7, 5, 6, 7,            // back
+
             8, 9, 11, 9, 10, 11,           // left
-            12, 13, 15, 13, 14, 15,        // right
+            15, 13, 12, 15, 14, 13,        // right
+
             16, 17, 19, 17, 18, 19,        // bottom
-            20, 21, 23, 21, 22, 23,        // top
+            23, 21, 20, 23, 22, 21,        // top
     };
     TextureFactory textureLoader;
     Texture textureDiffuse = textureLoader.LoadContainerDiffuse();
     Texture textureSpecular = textureLoader.LoadContainerSpecular();
+
+    std::vector <Texture> textures = {textureDiffuse, textureSpecular};
+
+    std::unique_ptr<Mesh> mesh(new Mesh(vertices, indices, textures,
+                                        GL_TRIANGLES));
+
+    Material material;
+    material.shininess = 32.0f;
+    mesh->setMaterial(material);
+
+    return mesh;
+}
+
+std::unique_ptr<Mesh> MeshFactory::LoadRoom() {
+    vector <Vertex> vertices = {
+            // Front
+            Vertex{vec3(1.0f, 1.0f, -1.0f),
+                   vec3(0.0f, 0.0f, -1.0f), vec2(1.0f, 1.0f)},
+            Vertex{vec3(1.0f, -1.0f, -1.0f),
+                   vec3(0.0f, 0.0f, -1.0f), vec2(1.0f, 0.0f)},
+            Vertex{vec3(-1.0f, -1.0f, -1.0f),
+                   vec3(0.0f, 0.0f, -1.0f), vec2(0.0f, 0.0f)},
+            Vertex{vec3(-1.0f, 1.0f, -1.0f),
+                   vec3(0.0f, 0.0f, -1.0f), vec2(0.0f, 1.0f)},
+
+            // Back
+            Vertex{vec3(1.0f, 1.0f, 1.0f),
+                   vec3(0.0f, 0.0f, 1.0f), vec2(1.0f, 1.0f)},
+            Vertex{vec3(1.0f, -1.0f, 1.0f),
+                   vec3(0.0f, 0.0f, 1.0f), vec2(1.0f, 0.0f)},
+            Vertex{vec3(-1.0f, -1.0f, 1.0f),
+                   vec3(0.0f, 0.0f, 1.0f), vec2(0.0f, 0.0f)},
+            Vertex{vec3(-1.0f, 1.0f, 1.0f),
+                   vec3(0.0f, 0.0f, 1.0f), vec2(0.0f, 1.0f)},
+
+            // Left
+            Vertex{vec3(-1.0f, 1.0f, 1.0f),
+                   vec3(-1.0f, 0.0f, 0.0f), vec2(1.0f, 1.0f)},
+            Vertex{vec3(-1.0f, -1.0f, 1.0f),
+                   vec3(-1.0f, 0.0f, 0.0f), vec2(1.0f, 0.0f)},
+            Vertex{vec3(-1.0f, -1.0f, -1.0f),
+                   vec3(-1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f)},
+            Vertex{vec3(-1.0f, 1.0f, -1.0f),
+                   vec3(-1.0f, 0.0f, 0.0f), vec2(0.0f, 1.0f)},
+
+            // Right
+            Vertex{vec3(1.0f, 1.0f, 1.0f),
+                   vec3(1.0f, 0.0f, 0.0f), vec2(1.0f, 1.0f)},
+            Vertex{vec3(1.0f, -1.0f, 1.0f),
+                   vec3(1.0f, 0.0f, 0.0f), vec2(1.0f, 0.0f)},
+            Vertex{vec3(1.0f, -1.0f, -1.0f),
+                   vec3(1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f)},
+            Vertex{vec3(1.0f, 1.0f, -1.0f),
+                   vec3(1.0f, 0.0f, 0.0f), vec2(0.0f, 1.0f)},
+
+            // Bottom
+            Vertex{vec3(1.0f, -1.0f, 1.0f),
+                   vec3(0.0f, -1.0f, 0.0f), vec2(1.0f, 1.0f)},
+            Vertex{vec3(1.0f, -1.0f, -1.0f),
+                   vec3(0.0f, -1.0f, 0.0f), vec2(1.0f, 0.0f)},
+            Vertex{vec3(-1.0f, -1.0f, -1.0f),
+                   vec3(0.0f, -1.0f, 0.0f), vec2(0.0f, 0.0f)},
+            Vertex{vec3(-1.0f, -1.0f, 1.0f),
+                   vec3(0.0f, -1.0f, 0.0f), vec2(0.0f, 1.0f)},
+
+            // Top
+            Vertex{vec3(1.0f, 1.0f, 1.0f),
+                   vec3(0.0f, 1.0f, 0.0f), vec2(1.0f, 1.0f)},
+            Vertex{vec3(1.0f, 1.0f, -1.0f),
+                   vec3(0.0f, 1.0f, 0.0f), vec2(1.0f, 0.0f)},
+            Vertex{vec3(-1.0f, 1.0f, -1.0f),
+                   vec3(0.0f, 1.0f, 0.0f), vec2(0.0f, 0.0f)},
+            Vertex{vec3(-1.0f, 1.0f, 1.0f),
+                   vec3(0.0f, 1.0f, 0.0f), vec2(0.0f, 1.0f)},
+    };
+
+    vector <GLuint> indices = {
+            3, 1, 0, 3, 2, 1,            // front
+            4, 5, 7, 5, 6, 7,            // back
+
+            8, 9, 11, 9, 10, 11,           // left
+            15, 13, 12, 15, 14, 13,        // right
+
+            16, 17, 19, 17, 18, 19,        // bottom
+            23, 21, 20, 23, 22, 21,        // top
+    };
+    TextureFactory textureLoader;
+    Texture textureDiffuse = textureLoader.LoadPortalTexture();
+    Texture textureSpecular = textureLoader.LoadPortalTexture();
 
     std::vector <Texture> textures = {textureDiffuse, textureSpecular};
 
@@ -594,72 +685,75 @@ std::unique_ptr<Mesh> MeshFactory::LoadFloor(){
 std::unique_ptr<Mesh> MeshFactory::LoadLamp() {
     vector <Vertex> vertices = {
             // Front
-            Vertex{vec3(1.0f, 1.0f, 0.0f),
+            Vertex{vec3(1.0f, 1.0f, -1.0f),
                    vec3(0.0f, 0.0f, -1.0f), vec2(1.0f, 1.0f)},
-            Vertex{vec3(1.0f, 0.0f, 0.0f),
+            Vertex{vec3(1.0f, -1.0f, -1.0f),
                    vec3(0.0f, 0.0f, -1.0f), vec2(1.0f, 0.0f)},
-            Vertex{vec3(0.0f, 0.0f, 0.0f),
+            Vertex{vec3(-1.0f, -1.0f, -1.0f),
                    vec3(0.0f, 0.0f, -1.0f), vec2(0.0f, 0.0f)},
-            Vertex{vec3(0.0f, 1.0f, 0.0f),
+            Vertex{vec3(-1.0f, 1.0f, -1.0f),
                    vec3(0.0f, 0.0f, -1.0f), vec2(0.0f, 1.0f)},
 
             // Back
             Vertex{vec3(1.0f, 1.0f, 1.0f),
                    vec3(0.0f, 0.0f, 1.0f), vec2(1.0f, 1.0f)},
-            Vertex{vec3(1.0f, 0.0f, 1.0f),
+            Vertex{vec3(1.0f, -1.0f, 1.0f),
                    vec3(0.0f, 0.0f, 1.0f), vec2(1.0f, 0.0f)},
-            Vertex{vec3(0.0f, 0.0f, 1.0f),
+            Vertex{vec3(-1.0f, -1.0f, 1.0f),
                    vec3(0.0f, 0.0f, 1.0f), vec2(0.0f, 0.0f)},
-            Vertex{vec3(0.0f, 1.0f, 1.0f),
+            Vertex{vec3(-1.0f, 1.0f, 1.0f),
                    vec3(0.0f, 0.0f, 1.0f), vec2(0.0f, 1.0f)},
 
             // Left
-            Vertex{vec3(0.0f, 1.0f, 1.0f),
+            Vertex{vec3(-1.0f, 1.0f, 1.0f),
                    vec3(-1.0f, 0.0f, 0.0f), vec2(1.0f, 1.0f)},
-            Vertex{vec3(0.0f, 0.0f, 1.0f),
+            Vertex{vec3(-1.0f, -1.0f, 1.0f),
                    vec3(-1.0f, 0.0f, 0.0f), vec2(1.0f, 0.0f)},
-            Vertex{vec3(0.0f, 0.0f, 0.0f),
+            Vertex{vec3(-1.0f, -1.0f, -1.0f),
                    vec3(-1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f)},
-            Vertex{vec3(0.0f, 1.0f, 0.0f),
+            Vertex{vec3(-1.0f, 1.0f, -1.0f),
                    vec3(-1.0f, 0.0f, 0.0f), vec2(0.0f, 1.0f)},
 
             // Right
             Vertex{vec3(1.0f, 1.0f, 1.0f),
                    vec3(1.0f, 0.0f, 0.0f), vec2(1.0f, 1.0f)},
-            Vertex{vec3(1.0f, 0.0f, 1.0f),
+            Vertex{vec3(1.0f, -1.0f, 1.0f),
                    vec3(1.0f, 0.0f, 0.0f), vec2(1.0f, 0.0f)},
-            Vertex{vec3(1.0f, 0.0f, 0.0f),
+            Vertex{vec3(1.0f, -1.0f, -1.0f),
                    vec3(1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f)},
-            Vertex{vec3(1.0f, 1.0f, 0.0f),
+            Vertex{vec3(1.0f, 1.0f, -1.0f),
                    vec3(1.0f, 0.0f, 0.0f), vec2(0.0f, 1.0f)},
 
             // Bottom
-            Vertex{vec3(1.0f, 0.0f, 1.0f),
+            Vertex{vec3(1.0f, -1.0f, 1.0f),
                    vec3(0.0f, -1.0f, 0.0f), vec2(1.0f, 1.0f)},
-            Vertex{vec3(1.0f, 0.0f, 0.0f),
+            Vertex{vec3(1.0f, -1.0f, -1.0f),
                    vec3(0.0f, -1.0f, 0.0f), vec2(1.0f, 0.0f)},
-            Vertex{vec3(0.0f, 0.0f, 0.0f),
+            Vertex{vec3(-1.0f, -1.0f, -1.0f),
                    vec3(0.0f, -1.0f, 0.0f), vec2(0.0f, 0.0f)},
-            Vertex{vec3(1.0f, 0.0f, 1.0f),
+            Vertex{vec3(-1.0f, -1.0f, 1.0f),
                    vec3(0.0f, -1.0f, 0.0f), vec2(0.0f, 1.0f)},
 
             // Top
             Vertex{vec3(1.0f, 1.0f, 1.0f),
                    vec3(0.0f, 1.0f, 0.0f), vec2(1.0f, 1.0f)},
-            Vertex{vec3(1.0f, 1.0f, 0.0f),
+            Vertex{vec3(1.0f, 1.0f, -1.0f),
                    vec3(0.0f, 1.0f, 0.0f), vec2(1.0f, 0.0f)},
-            Vertex{vec3(0.0f, 1.0f, 0.0f),
+            Vertex{vec3(-1.0f, 1.0f, -1.0f),
                    vec3(0.0f, 1.0f, 0.0f), vec2(0.0f, 0.0f)},
-            Vertex{vec3(0.0f, 1.0f, 1.0f),
+            Vertex{vec3(-1.0f, 1.0f, 1.0f),
                    vec3(0.0f, 1.0f, 0.0f), vec2(0.0f, 1.0f)},
     };
+
     vector <GLuint> indices = {
-            0, 1, 3, 1, 2, 3,            // front
-            7, 5, 4, 5, 6, 7,            // back
+            3, 1, 0, 3, 2, 1,            // front
+            4, 5, 7, 5, 6, 7,            // back
+
             8, 9, 11, 9, 10, 11,           // left
-            12, 13, 15, 13, 14, 15,        // right
+            15, 13, 12, 15, 14, 13,        // right
+
             16, 17, 19, 17, 18, 19,        // bottom
-            20, 21, 23, 21, 22, 23,        // top
+            23, 21, 20, 23, 22, 21,        // top
     };
     TextureFactory textureLoader;
 

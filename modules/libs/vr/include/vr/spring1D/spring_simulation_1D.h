@@ -48,7 +48,8 @@ struct Spring {
     double frequency;
     double phase_shift;
 
-    ShiftFunction shift_function;
+    ShiftFunction equilibrium_function = ShiftFunction::CONSTANT;
+    ShiftFunction external_field_function = ShiftFunction::CONSTANT;
 
     RenderObject* render_object;
 };
@@ -56,7 +57,7 @@ struct Spring {
 /**
  * The Parameters for the simulation.
  */
-struct Parameters{
+struct Spring1DParameters{
     MassObject initial_mass_object;
     Spring initial_spring;
 
@@ -67,7 +68,7 @@ struct Parameters{
 class SpringSimulation1D : public Simulation{
 public:
 
-    SpringSimulation1D(const Parameters& params);
+    SpringSimulation1D(const Spring1DParameters& params);
     ~SpringSimulation1D();
 
     void Update();
@@ -81,7 +82,7 @@ private:
     /**
      * Compute the shift function based on chosen function.
      */
-    double ComputeShiftFunction();
+    double ComputeShiftFunction(ShiftFunction shift_function);
     double ComputeConstantFunction();
     double ComputeJumpingFunction();
     double ComputeJumpingConstantFunction();
@@ -97,6 +98,7 @@ private:
     MassObject mass_object_;
     Spring spring_;
 
+    // In seconds.
     const double time_delta_;
     const double time_delta_sqr_;
 

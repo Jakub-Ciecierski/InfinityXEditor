@@ -10,9 +10,18 @@ SceneFactory::SceneFactory(){}
 SceneFactory::~SceneFactory(){}
 
 std::unique_ptr<Scene> SceneFactory::CreateScene(std::unique_ptr<Camera> camera){
-    //return CreateNanosuitGuy(std::move(camera));
-    return CreateShadowMappingTest(std::move(camera));
-    //return CreateAsteroidField(camera);
+    return CreateEmptyScene(std::move(camera));
+}
+
+std::unique_ptr<Scene> SceneFactory::CreateEmptyScene(
+        std::unique_ptr<Camera> camera){
+    std::unique_ptr<LightGroup> group_light(
+            LightingFactory().createGroupLight(camera.get()));
+
+    auto scene = std::unique_ptr<Scene>(new Scene(std::move(group_light),
+                                                  std::move(camera)));
+
+    return scene;
 }
 
 std::unique_ptr<Scene> SceneFactory::CreateNanosuitGuy(std::unique_ptr<Camera> camera){

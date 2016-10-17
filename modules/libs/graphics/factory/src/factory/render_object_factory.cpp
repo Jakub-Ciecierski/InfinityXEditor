@@ -50,6 +50,68 @@ ShadowMapping* RenderObjectFactory::CreateShadowMapping(){
     return new ShadowMapping(Dimensions{1024, 1024}, program);
 };
 
+std::unique_ptr<RenderObject> RenderObjectFactory::CreateRoom(){
+    std::shared_ptr<Program> program = ProgramFactory().LoadMainProgram();
+    std::shared_ptr<Model> room_model = ModelFactory::LoadRoomModel();
+
+    auto render_object
+            = std::unique_ptr<RenderObject>(new RenderObject(ObjectID(0),
+                                                             room_model));
+    render_object->addProgram(program);
+    float scaleFactor = 2.0f;
+    render_object->scale(glm::vec3(scaleFactor, scaleFactor, scaleFactor));
+
+    render_object->SetBeforeRender([](){
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
+    });
+    render_object->SetAfterRender([](){
+        glDisable(GL_CULL_FACE);
+    });
+
+    return render_object;
+}
+
+std::unique_ptr<RenderObject> RenderObjectFactory::CreateSpring(){
+    std::shared_ptr<Program> program = ProgramFactory().LoadMainProgram();
+
+    std::string local_path = "spring3/spring.stl";
+    auto model = ModelFactory::LoadModel(
+            Resources::GetInstance().GetResourcePath(local_path,
+                                                     ResourceType::MODEL));
+
+    auto render_object
+            = std::unique_ptr<RenderObject>(new RenderObject(ObjectID(0),
+                                                             model));
+    render_object->addProgram(program);
+    float scale_factor = 0.022f;
+    float scale_factor_y = 0.06f;
+    render_object->scale(glm::vec3(scale_factor, scale_factor_y, scale_factor));
+    render_object->moveTo(glm::vec3(0.0f, 0.4f, 0.0f));
+
+    return render_object;
+}
+
+std::unique_ptr<RenderObject> RenderObjectFactory::CreateMassSpring(){
+    std::shared_ptr<Program> program = ProgramFactory().LoadMainProgram();
+
+    std::string local_path = "weight/100t_weight.obj";
+    auto model = ModelFactory::LoadModel(
+            Resources::GetInstance().GetResourcePath(local_path,
+                                                     ResourceType::MODEL));
+
+    auto render_object
+            = std::unique_ptr<RenderObject>(new RenderObject(ObjectID(0),
+                                                             model));
+    render_object->addProgram(program);
+    float scale_factor = 0.025f;
+    render_object->scale(glm::vec3(scale_factor, scale_factor, scale_factor));
+    render_object->moveTo(glm::vec3(0.0f, 0.0f, 0.0f));
+    render_object->rotateTo(glm::vec3(0.0f, 90.0f, 0.0f));
+
+    return render_object;
+}
+
 RenderObject* RenderObjectFactory::CreateAsteroidField(){
     std::shared_ptr<Program> program = ProgramFactory().LoadInstancedProgram();
 
