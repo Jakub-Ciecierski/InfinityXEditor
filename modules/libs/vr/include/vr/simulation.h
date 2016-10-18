@@ -14,6 +14,10 @@ public:
 
     virtual void Update() = 0;
 
+    bool IsRunning();
+    bool SetRunning(bool value);
+protected:
+    bool running_;
 };
 }
 

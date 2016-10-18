@@ -11,6 +11,7 @@
 namespace ifx {
 
 class FBORenderer;
+class GUI;
 
 /**
  * Render to window directly or to texture.
@@ -46,6 +47,7 @@ public:
     void Render();
 
     void SetScene(std::unique_ptr<Scene> scene);
+    void SetGUI(std::unique_ptr<GUI> gui);
     void SetRenderingType(RenderingType type);
     void SetShadowsType(ShadowsType type);
     void SetFBORenderer(std::unique_ptr<FBORenderer> fbo_renderer);
@@ -62,6 +64,8 @@ private:
 
     std::unique_ptr<Window> window_;
     std::unique_ptr<Scene> scene_;
+    std::unique_ptr<GUI> gui_;
+
     RenderingType rendering_type_;
     ShadowsType shadow_type_;
 

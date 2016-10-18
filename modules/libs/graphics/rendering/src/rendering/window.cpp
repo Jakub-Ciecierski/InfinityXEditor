@@ -1,5 +1,4 @@
 #include "rendering/window.h"
-#include "GLFW/glfw3.h"
 
 #include <stdexcept>
 #include <controls/controls.h>
@@ -21,6 +20,13 @@ void Window::Terminate(){
 void Window::HandleEvents() {
     Controls& controls = Controls::GetInstance();
     const Keys& keys = controls.keyboard_keys();
+
+    if (keys[GLFW_KEY_F1]){
+        controls.SetControlMode(ControlMode::SCENE);
+    }
+    if (keys[GLFW_KEY_F2]){
+        controls.SetControlMode(ControlMode::GUI);
+    }
 
     if (keys[GLFW_KEY_ESCAPE]){
         glfwSetWindowShouldClose(glfwWindow, GL_TRUE);

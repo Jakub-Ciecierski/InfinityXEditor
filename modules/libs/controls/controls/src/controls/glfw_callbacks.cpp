@@ -1,6 +1,7 @@
 #include "controls/glfw_callbacks.h"
 
 #include <controls/controls.h>
+#include "gui/imgui/impl/imgui_impl_glfw_gl3.h"
 
 namespace ifx {
 
@@ -8,12 +9,19 @@ void key_callback(GLFWwindow *window, int key,
                   int scancode, int action, int mode) {
     Controls& controls = Controls::GetInstance();
 
+    if(controls.control_mode() == ControlMode::GUI) {
+        ImGui_ImplGlfwGL3_KeyCallback(window, key, scancode, action, mode);
+    }
     controls.OnKeyboardEvent(action, key);
+
 }
 
 void mouse_callback(GLFWwindow *window,
                     double x, double y) {
     Controls& controls = Controls::GetInstance();
+    if(controls.control_mode() == ControlMode::GUI) {
+        return;
+    }
 
     controls.OnMouseEvent(x, y);
 }
@@ -21,6 +29,11 @@ void mouse_callback(GLFWwindow *window,
 void mouse_button_callback(GLFWwindow *window,
                            int button, int action, int mods) {
     Controls& controls = Controls::GetInstance();
+
+    if(controls.control_mode() == ControlMode::GUI) {
+        ImGui_ImplGlfwGL3_MouseButtonCallback(window, button, action, mods);
+        return;
+    }
 
     double xpos, ypos;
     glfwGetCursorPos(window, &xpos, &ypos);
@@ -46,7 +59,20 @@ void mouse_button_callback(GLFWwindow *window,
 
 void mousescroll_callback(GLFWwindow *window,
                           double xoffset, double yoffset) {
+    Controls& controls = Controls::GetInstance();
 
+    if(controls.control_mode() == ControlMode::GUI) {
+        ImGui_ImplGlfwGL3_ScrollCallback(window, xoffset, yoffset);
+        return;
+    }
+}
+
+void char_callback(GLFWwindow* window, unsigned int c){
+    Controls& controls = Controls::GetInstance();
+    if(controls.control_mode() == ControlMode::GUI) {
+        ImGui_ImplGlfwGL3_CharCallback(window, c);
+        return;
+    }
 }
 
 }

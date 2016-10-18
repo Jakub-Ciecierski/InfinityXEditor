@@ -33,6 +33,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 #---------------------------------
 
 include_directories($ENV{IFX_ROOT}/dependencies/glfw-3.1.2/${INC_DIR})
+include_directories($ENV{IFX_ROOT}/modules/libs/gui/gui/${INC_DIR})
 
 #---------------------------------
 # PROJECT

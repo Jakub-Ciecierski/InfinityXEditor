@@ -17,5 +17,7 @@ void mouse_button_callback(GLFWwindow *window,
 void mousescroll_callback(GLFWwindow *window,
                           double xoffset, double yoffset);
 
+void char_callback(GLFWwindow* window, unsigned int c);
+
 }
 #endif //PROJECT_GLFW_CALLBACKS_H
