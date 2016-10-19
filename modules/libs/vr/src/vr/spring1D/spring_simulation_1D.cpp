@@ -60,7 +60,7 @@ double SpringSimulation1D::ComputeNextPosition(){
                     (2 * mass_object_.mass)) - 1)
               * mass_object_.previous_position;
     double b
-            = (spring_.damping_factor
+            = (spring_.spring_factor
               * (ComputeEquilibriumShift() - mass_object_.position)
               * time_delta_sqr_) / mass_object_.mass;
     double c =
