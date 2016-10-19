@@ -97,10 +97,11 @@ double SpringSimulation1D::ComputeConstantFunction(){
 }
 
 double SpringSimulation1D::ComputeJumpingFunction(){
-    if(current_update_time_ < 0)
-        return 0;
-    else
-        return spring_.amplitude;
+    float x = spring_.amplitude
+        * sin(spring_.frequency*current_update_time_ + spring_.phase_shift);
+    if (x < -1) return -1;
+    else if (x==0) return 0;
+    else return 1;
 }
 
 double SpringSimulation1D::ComputeJumpingConstantFunction(){
